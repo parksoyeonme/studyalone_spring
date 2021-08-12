@@ -31,6 +31,26 @@ public class BoardDAOImpl implements BoardDAO {
 		return session.selectList("board.list");
 
 	}
+
+	//게시물 조회
+	@Override
+	public BoardVO read(int bno) throws Exception {
+		return session.selectOne("board.read", bno);
+	}
+
+	//게시물 수정
+	@Override
+	public void update(BoardVO boardVO) throws Exception {
+		session.update("board.update", boardVO);
+		
+	}
+
+	//게시물 삭제
+	@Override
+	public void delete(int bno) throws Exception {
+		session.delete("board.delete", bno);
+		
+	}
 	
 	
 }

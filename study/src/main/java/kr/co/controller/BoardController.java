@@ -56,5 +56,49 @@ public class BoardController {
 		return "board/list";
 		
 	}
+	
+	//게시물 조회
+	@GetMapping("/readView")
+	public String read(BoardVO boardVO, Model model) throws Exception{
+		log.info("read");
+		
+		model.addAttribute("read", service.read(boardVO.getBno()));
+		
+		return "board/readView";
+		
+	}
+	
+	
+	// 게시판 수정뷰
+	@GetMapping("/updateView")
+	public String updateView(BoardVO boardVO, Model model) throws Exception{
+		log.info("updateView");
+		
+		model.addAttribute("update", service.read(boardVO.getBno()));
+		
+		return "board/updateView";
+	}
+		
+	//게시물 수정
+	@PostMapping("/update")
+	public String update(BoardVO boardVO) throws Exception{
+		log.info("update");
+		
+		service.update(boardVO);
+		
+		return "redirect:/board/list";
+		
+	}
+	
+	//게시물 삭제
+	@PostMapping("/delete")
+	public String delete(BoardVO boardVO) throws Exception{
+		log.info("delet");
+		
+		service.delete(boardVO.getBno());
+		
+		return "redirect:/board/list";
+	}
+	
 
 }
