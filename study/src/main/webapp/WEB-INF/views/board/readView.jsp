@@ -9,6 +9,7 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
+			
 			var formObj = $("form[name='readForm']");
 			
 			// 수정 
@@ -20,9 +21,16 @@
 			
 			// 삭제
 			$(".delete_btn").on("click", function(){
+				
+				//confirm 기능추가
+				var deleteYN = confirm("삭제하시겠습니가?");
+				if(deleteYN == true){
+					
 				formObj.attr("action", "/board/delete");
 				formObj.attr("method", "post");
 				formObj.submit();
+					
+				}
 			})
 			
 			// 취소
@@ -41,9 +49,9 @@
 			</header>
 			<hr />
 			 
-			<nav>
-			  홈 - 글 작성
-			</nav>
+			<div>
+				<%@include file="nav.jsp" %>
+			</div>
 			<hr />
 			
 			<section id="container">
