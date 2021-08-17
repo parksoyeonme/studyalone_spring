@@ -12,6 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.service.BoardService;
 import kr.co.service.BoardServiceImpl;
 import kr.co.vo.BoardVO;
+import kr.co.vo.Criteria;
+import kr.co.vo.PageMaker;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -47,11 +49,16 @@ public class BoardController {
 	//게시판 목록 조회
 	@GetMapping("/list")
 //	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
-	public String list(Model model) throws Exception{
+	public String list(Model model, Criteria cri) throws Exception{
 		log.info("list");
 		
-		model.addAttribute("list",service.list());
+		model.addAttribute("list",service.list(cri));
 		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.listCount());
+		
+		model.addAttribute("pageMaker", pageMaker);
 		
 		return "board/list";
 		

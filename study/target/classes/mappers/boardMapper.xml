@@ -18,6 +18,7 @@
    </insert>
    
    <!-- 게시판 목록 전체조회 -->
+   <!--  
    <select id="list" resultType="kr.co.vo.BoardVO">
 		SELECT   BNO
 			   , TITLE
@@ -26,6 +27,36 @@
 		  FROM MP_BOARD
 		  ORDER BY BNO DESC
 	</select>
+	-->
+	
+	<select id="listPage" resultType="kr.co.vo.BoardVO" parameterType="kr.co.vo.Criteria">
+		SELECT  BNO, 
+		        TITLE, 
+		        CONTENT,
+		        WRITER, 
+		        REGDATE
+		 FROM ( 
+		        SELECT BNO, 
+		               TITLE, 
+		               CONTENT, 
+		               WRITER, 
+		               REGDATE, 
+		               ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
+		         FROM MP_BOARD 
+		                       ) MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY BNO DESC
+	</select>
+	
+	<!-- 게시물 총갯수 -->
+	<select id="listCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(BNO)
+		  FROM MP_BOARD
+		 WHERE BNO > 0
+	]]>
+	</select>
+	
 	
 	<!-- 게시물 조회 -->
 	<select id="read" parameterType="int" resultType="kr.co.vo.BoardVO">
@@ -52,6 +83,7 @@
 		  FROM MP_BOARD
 		 WHERE BNO = #{bno}
 	</delete>
+	
 	
 	
 </mapper>
