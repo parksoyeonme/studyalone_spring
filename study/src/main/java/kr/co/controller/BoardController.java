@@ -68,10 +68,11 @@ public class BoardController {
 	
 	//게시물 조회
 	@GetMapping("/readView")
-	public String read(BoardVO boardVO, Model model) throws Exception{
+	public String read(BoardVO boardVO, @ModelAttribute("scri") SearchCriteria scri, Model model) throws Exception{
 		log.info("read");
 		
 		model.addAttribute("read", service.read(boardVO.getBno()));
+		model.addAttribute("scri", scri);
 		
 		return "board/readView";
 		
@@ -80,20 +81,27 @@ public class BoardController {
 	
 	// 게시판 수정뷰
 	@GetMapping("/updateView")
-	public String updateView(BoardVO boardVO, Model model) throws Exception{
+	public String updateView(BoardVO boardVO, @ModelAttribute("scri") SearchCriteria scri, Model model) throws Exception{
 		log.info("updateView");
 		
 		model.addAttribute("update", service.read(boardVO.getBno()));
+		model.addAttribute("scri", scri);
 		
 		return "board/updateView";
 	}
 		
 	//게시물 수정
 	@PostMapping("/update")
-	public String update(BoardVO boardVO) throws Exception{
+	public String update(BoardVO boardVO, @ModelAttribute("scri") SearchCriteria scri,
+			RedirectAttributes rttr) throws Exception{
 		log.info("update");
 		
 		service.update(boardVO);
+		
+		rttr.addAttribute("page", scri.getPage());
+		rttr.addAttribute("perPageNum", scri.getPerPageNum());
+		rttr.addAttribute("searchType", scri.getSearchType());
+		rttr.addAttribute("keyword", scri.getKeyword());
 		
 		return "redirect:/board/list";
 		
@@ -101,10 +109,16 @@ public class BoardController {
 	
 	//게시물 삭제
 	@PostMapping("/delete")
-	public String delete(BoardVO boardVO) throws Exception{
+	public String delete(BoardVO boardVO, @ModelAttribute("scri") SearchCriteria scri,
+			RedirectAttributes rttr) throws Exception{
 		log.info("delet");
 		
 		service.delete(boardVO.getBno());
+		
+		rttr.addAttribute("page", scri.getPage());
+		rttr.addAttribute("perPageNum", scri.getPerPageNum());
+		rttr.addAttribute("searchType", scri.getSearchType());
+		rttr.addAttribute("keyword", scri.getKeyword());
 		
 		return "redirect:/board/list";
 	}
