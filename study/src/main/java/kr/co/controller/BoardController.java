@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ import kr.co.service.BoardServiceImpl;
 import kr.co.vo.BoardVO;
 import kr.co.vo.Criteria;
 import kr.co.vo.PageMaker;
+import kr.co.vo.SearchCriteria;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -49,14 +51,14 @@ public class BoardController {
 	//게시판 목록 조회
 	@GetMapping("/list")
 //	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
-	public String list(Model model, Criteria cri) throws Exception{
+	public String list(Model model, @ModelAttribute("scri") SearchCriteria scri) throws Exception{
 		log.info("list");
 		
-		model.addAttribute("list",service.list(cri));
+		model.addAttribute("list",service.list(scri));
 		
 		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(service.listCount());
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(service.listCount(scri));
 		
 		model.addAttribute("pageMaker", pageMaker);
 		
