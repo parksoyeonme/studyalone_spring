@@ -19,5 +19,11 @@ public class ReplyDAOImpl implements ReplyDAO {
 	public List<ReplyVO> readReply(int bno) throws Exception {
 		return session.selectList("reply.readReply", bno);
 	}
+
+	//댓글작성
+	@Override
+	public void writeReply(ReplyVO replyvo) throws Exception {
+		session.insert("reply.writeReply", replyvo);
+	}
 	
 }
