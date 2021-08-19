@@ -149,5 +149,60 @@ public class BoardController {
 		return "redirect:/board/readView";
 	}
 	
+	//댓글수정GET
+	@GetMapping("/replyUpdateView")
+	public String replyUpdateView(ReplyVO vo, SearchCriteria scri, Model model) throws Exception {
+		log.info("reply Write");
+		
+		model.addAttribute("replyUpdate", replyService.selectReply(vo.getRno()));
+		model.addAttribute("scri", scri);
+		
+		return "board/replyUpdateView";
+	}
+	
+	//댓글 수정 POST
+	@PostMapping("replyUpdate")
+	public String replyUpdate(ReplyVO vo, SearchCriteria scri, RedirectAttributes rttr) throws Exception {
+		log.info("reply Write");
+		
+		replyService.updateReply(vo);
+		
+		rttr.addAttribute("bno", vo.getBno());
+		rttr.addAttribute("page", scri.getPage());
+		rttr.addAttribute("perPageNum", scri.getPerPageNum());
+		rttr.addAttribute("searchType", scri.getSearchType());
+		rttr.addAttribute("keyword", scri.getKeyword());
+		
+		return "redirect:/board/readView";
+	}
+	
+	//댓글삭제 GET
+	@GetMapping("replyDeleteView")
+	public String replyDeleteView(ReplyVO vo, SearchCriteria scri, Model model) throws Exception {
+		log.info("reply Write");
+		
+		model.addAttribute("replyDelete", replyService.selectReply(vo.getRno()));
+		model.addAttribute("scri", scri);
+		
+
+		return "board/replyDeleteView";
+	}
+	
+	//댓글삭제 POST
+	@PostMapping("replyDelete")
+	public String replyDelete(ReplyVO vo, SearchCriteria scri, RedirectAttributes rttr) throws Exception {
+		log.info("reply Write");
+		
+		replyService.deleteReply(vo);
+		
+		rttr.addAttribute("bno", vo.getBno());
+		rttr.addAttribute("page", scri.getPage());
+		rttr.addAttribute("perPageNum", scri.getPerPageNum());
+		rttr.addAttribute("searchType", scri.getSearchType());
+		rttr.addAttribute("keyword", scri.getKeyword());
+		
+		return "redirect:/board/readView";
+	}
+	
 
 }

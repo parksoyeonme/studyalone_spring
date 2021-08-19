@@ -25,5 +25,28 @@ public class ReplyDAOImpl implements ReplyDAO {
 	public void writeReply(ReplyVO replyvo) throws Exception {
 		session.insert("reply.writeReply", replyvo);
 	}
+
+	//댓글수정
+	@Override
+	public void updateReply(ReplyVO replyvo) throws Exception {
+		session.update("reply.updateReply", replyvo);
+		
+	}
+
+	//댓글삭제
+	@Override
+	public void deleteReply(ReplyVO replyvo) throws Exception {
+		session.delete("reply.deleteReply", replyvo);
+		
+	}
+
+	//선택한 댓글조회
+	@Override
+	public ReplyVO selectReply(int bno) throws Exception {
+		return session.selectOne("reply.selectReply", bno);
+	}
+
+	
+	
 	
 }
