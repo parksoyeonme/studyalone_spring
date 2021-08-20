@@ -35,7 +35,7 @@ public class MemberController {
 		
 		memberService.register(memberVo);
 		
-		return null;
+		return "redirect:/";
 	}
 	
 	//로그인

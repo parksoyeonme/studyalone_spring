@@ -14,12 +14,7 @@
 	</head>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			// 취소
-			$(".cencle").on("click", function(){
-				
-				location.href = "/login";
-						    
-			})
+			
 		
 			$("#submit").on("click", function(){
 				if($("#userId").val()==""){
@@ -42,10 +37,17 @@
 				
 			
 		})
+		
+	
+		// 취소
+		function cancel(){
+			history.go(-1);
+			
+		}
 	</script>
 	<body>
 		<section id="container">
-			<form action="/member/register" method="post">
+			<form action="/member/register" method="post" name="registerForm">
 				<div class="form-group has-feedback">
 					<label class="control-label" for="userId">아이디</label>
 					<input class="form-control" type="text" id="userId" name="userId" />
@@ -60,7 +62,7 @@
 				</div>
 				<div class="form-group has-feedback">
 					<button class="btn btn-success" type="submit" id="submit">회원가입</button>
-					<button class="cencle btn btn-danger" type="button">취소</button>
+					<button class="cencle btn btn-danger" type="button" onclick="cancel();">취소</button>
 				</div>
 			</form>
 		</section>

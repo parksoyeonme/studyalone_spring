@@ -20,6 +20,10 @@
 			location.href="member/logout";
 		})
 		
+		$("#registerBtn").on("click", function(){
+			location.href="member/register";
+		})
+		
 	})
 </script>
 <body>
@@ -35,7 +39,7 @@
 			</div>
 			<div>
 				<button type="submit">로그인</button>
-				<button type="button">회원가입</button>
+				<button id="registerBtn" type="button">회원가입</button>
 			</div>
 		</c:if>
 		<c:if test="${member != null }">
