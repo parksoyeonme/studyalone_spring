@@ -19,7 +19,7 @@
    
    <!-- 게시판 목록 전체조회 -->
    <!--  
-   <select id="list" resultType="kr.co.vo.BoardVO">
+   <select id="list" resultType="kr.co.vo.board.BoardVO">
 		SELECT   BNO
 			   , TITLE
 			   , WRITER
@@ -50,7 +50,7 @@
 	</select>
 	-->
 	
-	<select id="listPage" resultType="kr.co.vo.BoardVO" parameterType="kr.co.vo.SearchCriteria">
+	<select id="listPage" resultType="kr.co.vo.board.BoardVO" parameterType="kr.co.vo.utils.SearchCriteria">
 		SELECT  BNO, 
 		        TITLE, 
 		        CONTENT,
@@ -81,7 +81,7 @@
 	]]>
 	</select>
 	-->
-	<select id="listCount" parameterType="kr.co.vo.SearchCriteria" resultType="int">
+	<select id="listCount" parameterType="kr.co.vo.utils.SearchCriteria" resultType="int">
 		SELECT COUNT(BNO)
 		   FROM MP_BOARD
 		   WHERE 1=1
@@ -99,7 +99,7 @@
 	</sql>
 	
 	<!-- 게시물 조회 -->
-	<select id="read" parameterType="int" resultType="kr.co.vo.BoardVO">
+	<select id="read" parameterType="int" resultType="kr.co.vo.board.BoardVO">
 		SELECT	BNO
 			  , TITLE
 			  , CONTENT
@@ -110,7 +110,7 @@
 	</select>
 	
 	<!-- 게시물 수정  -->
-	 <update id="update" parameterType="kr.co.vo.BoardVO">
+	 <update id="update" parameterType="kr.co.vo.board.BoardVO">
 		UPDATE MP_BOARD
 		   SET TITLE    =   #{title},
 		   	   CONTENT  =   #{content}
