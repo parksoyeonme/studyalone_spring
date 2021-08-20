@@ -23,6 +23,12 @@ public class MemberDAOImpl implements MemberDAO {
 	public MemberVO login(MemberVO memberVo) throws Exception {
 		return session.selectOne("member.login", memberVo);
 	}
+
+	@Override
+	public void memberUpdate(MemberVO memberVo) throws Exception {
+		session.update("member.memberUpdate", memberVo);
+		
+	}
 	
 	
 }

@@ -65,4 +65,21 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	//회원정보 수정화면
+	@GetMapping("/memberUpdateView")
+	public String registerUpdateView() throws Exception{
+		
+		return "member/memberUpdateView";
+	}
+	
+	//회원정보 수정
+	@PostMapping("/memberUpdate")
+	public String registerUpdate(MemberVO memberVo, HttpSession session) throws Exception{
+		
+		memberService.memberUpdate(memberVo);
+		
+		session.invalidate();
+		
+		return "redirect:/";
+	}
 }
