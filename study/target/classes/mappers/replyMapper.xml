@@ -6,8 +6,7 @@
 
 	<!-- 댓글 조회 -->
 	<select id="readReply" resultType="kr.co.vo.reply.ReplyVO">
-    	SELECT
-    		  RNO, CONTENT, WRITER, REGDATE
+    	SELECT RNO, CONTENT, WRITER, REGDATE
     	 FROM MP_REPLY
     	WHERE BNO = #{bno}
 	</select>

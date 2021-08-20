@@ -17,6 +17,12 @@ public class MemberDAOImpl implements MemberDAO {
 	public void register(MemberVO memberVo) throws Exception {
 		session.insert("member.register", memberVo);
 	}
+
+	//로그인
+	@Override
+	public MemberVO login(MemberVO memberVo) throws Exception {
+		return session.selectOne("member.login", memberVo);
+	}
 	
 	
 }
