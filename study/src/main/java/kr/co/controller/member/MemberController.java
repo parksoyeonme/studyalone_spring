@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.service.member.MemberService;
@@ -28,12 +29,32 @@ public class MemberController {
 		log.info("get register");
 	}
 	
+	//회원가입 아이디 중복 체크
+	@ResponseBody
+	@PostMapping("/idChk")
+	public int idChk(MemberVO memberVo) throws Exception {
+		int result = memberService.idChk(memberVo);
+		return result;
+	}
+	
 	//회원가입 post
 	@PostMapping("/register")
 	public String postRegister(MemberVO memberVo) throws Exception {
 		log.info("post register");
+		int result = memberService.idChk(memberVo);
+		try {
+			if(result == 1) {
+				return "/member/register";
+			}else if(result == 0) {
+				memberService.register(memberVo);
+			}
+			// 요기에서~ 입력된 아이디가 존재한다면 -> 다시 회원가입 페이지로 돌아가기 
+			// 존재하지 않는다면 -> register
+		} catch (Exception e) {
+			throw new RuntimeException();
+		}
 		
-		memberService.register(memberVo);
+		
 		
 		return "redirect:/";
 	}
@@ -114,4 +135,15 @@ public class MemberController {
 		return "redirect:/";
 		
 	}
+	
+	//패스워드 체크
+	@ResponseBody
+	@PostMapping("/passChk")
+	public int passChk(MemberVO memberVo) throws Exception {
+		int result = memberService.passChk(memberVo);
+		return result;
+	}
+	
+	
+	
 }

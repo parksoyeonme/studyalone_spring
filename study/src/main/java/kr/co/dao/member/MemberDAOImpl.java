@@ -33,8 +33,19 @@ public class MemberDAOImpl implements MemberDAO {
 
 	//회원 탈퇴
 	@Override
-	public void memberDelete(MemberVO memberVo) {
+	public void memberDelete(MemberVO memberVo) throws Exception{
 		session.delete("member.memberDelete", memberVo);
+	}
+
+	//패스워드 체크
+	@Override
+	public int passChk(MemberVO memberVo) throws Exception{
+		return session.selectOne("member.passChk", memberVo);
+	}
+
+	@Override
+	public int idChk(MemberVO memberVo) {
+		return session.selectOne("member.idChk", memberVo);
 	}
 	
 	
