@@ -24,10 +24,17 @@ public class MemberDAOImpl implements MemberDAO {
 		return session.selectOne("member.login", memberVo);
 	}
 
+	//회원정보 수정
 	@Override
 	public void memberUpdate(MemberVO memberVo) throws Exception {
 		session.update("member.memberUpdate", memberVo);
 		
+	}
+
+	//회원 탈퇴
+	@Override
+	public void memberDelete(MemberVO memberVo) {
+		session.delete("member.memberDelete", memberVo);
 	}
 	
 	

@@ -82,4 +82,36 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
+	
+	//회원 탈퇴 get
+	@GetMapping("/memberDeleteView")
+	public String memberDeleteViewe() throws Exception{
+		return "member/memberDeleteView";
+		
+	}
+	
+	//회원탈퇴 Post
+	@PostMapping("/memberDelete")
+	public String memberDelete(MemberVO memberVo, HttpSession session,
+			RedirectAttributes rttr) throws Exception{
+		
+		//세션에 있는 member를 가져와 member변수에 넣어준다
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		
+		//세션에 있는 비빌번호
+		String sessionPass = member.getUserPass();
+		//vo에서 들어오는 비밀번호
+		String voPass = memberVo.getUserPass();
+		
+		//session에 들어에있는 비밀번호랑 vo에 들어있는 비밀번호를 비교하여
+		//일치할떄에만 회원탈퇴
+		if(!(sessionPass.equals(voPass))) {
+			rttr.addFlashAttribute("msg", false);
+			return "redirect:/member/memberDeleteView";
+		}
+		memberService.memberDelete(memberVo);
+		session.invalidate();
+		return "redirect:/";
+		
+	}
 }

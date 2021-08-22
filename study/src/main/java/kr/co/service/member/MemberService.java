@@ -13,4 +13,7 @@ public interface MemberService {
 	//회원정보수정
 	public void memberUpdate(MemberVO memberVo) throws Exception;
 
+	//회원탈퇴
+	public void memberDelete(MemberVO memberVo);
+
 }
