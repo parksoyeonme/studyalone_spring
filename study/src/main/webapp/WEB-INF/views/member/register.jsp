@@ -14,7 +14,12 @@
 	</head>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			
+			// 취소
+			$(".cancle").on("click", function(){
+					
+					location.href = "/";
+							    
+				})
 		
 			$("#submit").on("click", function(){
 				if($("#userId").val()==""){
@@ -62,11 +67,7 @@
 		}
 		
 	
-		// 취소
-		function cancel(){
-			history.go(-1);
-			
-		}
+		
 	</script>
 	<body>
 		<section id="container">
@@ -88,7 +89,7 @@
 			</form>
 				<div class="form-group has-feedback">
 					<button class="btn btn-success" type="button" id="submit">회원가입</button>
-					<button class="cencle btn btn-danger" type="button">취소</button>
+					<button class="cancle btn btn-danger" type="button">취소</button>
 				</div>
 		</section>
 		
