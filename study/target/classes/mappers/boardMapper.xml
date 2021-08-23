@@ -58,13 +58,15 @@
 		        TITLE, 
 		        CONTENT,
 		        WRITER, 
-		        REGDATE
+		        REGDATE,
+		        HIT
 		 FROM ( 
 		        SELECT BNO, 
 		               TITLE, 
 		               CONTENT, 
 		               WRITER, 
-		               REGDATE, 
+		               REGDATE,
+		               HIT, 
 		               ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
 		         FROM MP_BOARD
 		         WHERE 1=1 
@@ -151,6 +153,7 @@
 		  FROM MP_FILE
 		 WHERE BNO = #{BNO}
 		   AND DEL_GB = 'N'
+    	 ORDER BY FILE_NO ASC
 	</select>
 	
 	<!-- 첨부파일 다운 -->
@@ -161,4 +164,18 @@
 		FROM MP_FILE
 		WHERE FILE_NO = #{FILE_NO}
 	</select>
+	
+	<!-- DEL_GB를 Y 실제파일삭제x -->
+	<update id="updateFile" parameterType="hashMap">
+    	UPDATE MP_FILE SET
+    	DEL_GB = 'Y'
+    	WHERE FILE_NO = #{FILE_NO}
+    </update>
+    
+     <!-- 게시판 조회수 -->
+    <update id="boardHit" parameterType="int">
+    	UPDATE MP_BOARD SET
+    	HIT = HIT+1
+    	WHERE BNO = #{bno}
+    </update>
 </mapper>

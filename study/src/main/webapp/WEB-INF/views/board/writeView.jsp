@@ -6,8 +6,9 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 		<!-- 부가적인 테마 -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-		
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	 	
+	 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	 	
 	 	<title>게시판</title>
 	</head>
 	<script type="text/javascript">
@@ -21,10 +22,8 @@
 				formObj.attr("method", "post");
 				formObj.submit();
 			});
+			fn_addFile();
 		})
-		
-		//벨리데이션 체크
-		//class=chk의 i번쨰가 공백이거나 null 이면 alert로 i번째의 타이틀을 출력
 		function fn_valiChk(){
 			var regForm = $("form[name='writeForm'] .chk").length;
 			for(var i = 0; i<regForm; i++){
@@ -33,6 +32,17 @@
 					return true;
 				}
 			}
+		}
+		function fn_addFile(){
+			var fileIndex = 1;
+			//$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"<button type='button' style='float:right;' id='fileAddBtn'>"+"추가"+"</button></div>");
+			$(".fileAdd_btn").on("click", function(){
+				$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"</button>"+"<button type='button' style='float:right;' id='fileDelBtn'>"+"삭제"+"</button></div>");
+			});
+			$(document).on("click","#fileDelBtn", function(){
+				$(this).parent().remove();
+				
+			});
 		}
 	</script>
 	<body>
@@ -67,14 +77,16 @@
 									<td>
 										<label for="writer">작성자</label><input type="text" id="writer" name="writer" class="chk" title="작성자를 입력하세요." value="${member.userId}" />
 									</td>
+								</tr>
 								<tr>
 								<tr>
-									<td>
-										<input type="file" name="file">
+									<td id="fileIndex">
 									</td>
+								</tr>
 								<tr>
 									<td>						
 										<button class="write_btn" type="submit">작성</button>	
+										<button class="fileAdd_btn" type="button">파일추가</button>	
 									</td>
 								</tr>	
 							</c:if>

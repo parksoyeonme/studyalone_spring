@@ -29,7 +29,10 @@ public interface BoardService {
 	public BoardVO read(int bno) throws Exception;
 	
 	//게시물 수정
-	public void update(BoardVO boardVO) throws Exception;
+	public void update(BoardVO boardVO, 
+						String[] files,
+						String[] fileNames, 
+						MultipartHttpServletRequest mpRequest) throws Exception;
 	
 	//게시물 삭제
 	public void delete(int bno) throws Exception;
