@@ -24,6 +24,9 @@
          <property name="configLocation" value="classpath:/mybatis-config.xml"></property>
          <property name="mapperLocations" value="classpath*:mappers/**/*Mapper.xml" />
     </bean>
+    <!-- #6.3. SqlSessionTemplate 마이바티스 스프링 연동모듈의 핵심기능. -->
+	<!-- SqlSessionTemplate : SqlSession 인터페이스를 구현클래스-->
+	<!-- 여러 dao에서 공유하므로 메모리관리에 있어 최적화된 테크닉. -->
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
         <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
     </bean>

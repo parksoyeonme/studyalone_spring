@@ -52,7 +52,7 @@ public class BoardController {
 //		String msg = result > 0 ? "게시글 등록 성공!" : "게시글 등록 실패";
 //		redirectAttr.addFlashAttribute("msg", msg);
 		
-		return "redirect:/";
+		return "board/list";
 	}
 	
 	//게시판 목록 조회
