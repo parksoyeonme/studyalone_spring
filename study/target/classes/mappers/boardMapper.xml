@@ -5,17 +5,20 @@
 <mapper namespace="board">
 
     <!-- 게시판 글 작성 -->
-   <insert id="insert">
-   INSERT INTO MP_BOARD(    BNO 
-   					      , TITLE 
-   					      , CONTENT 
-   					      , WRITER  )
-                 VALUES(    MP_BOARD_SEQ.NEXTVAL 
-                 		  , #{title}
-                 		  , #{content}
-                 		  , #{writer}  )
-  
-   </insert>
+	<insert id="insert" parameterType="kr.co.vo.board.BoardVO" useGeneratedKeys="true" keyProperty="bno">
+	    <selectKey keyProperty="bno" resultType="int" order="BEFORE">
+	    	SELECT MP_BOARD_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO MP_BOARD(    BNO 
+	   					       , TITLE 
+	   					       , CONTENT 
+	   					       , WRITER  )
+	                  VALUES(    #{bno}
+	                 		   , #{title}
+	                 		   , #{content}
+	                 		   , #{writer}  )
+   
+    </insert>
    
    <!-- 게시판 목록 전체조회 -->
    <!--  
@@ -124,6 +127,20 @@
 		 WHERE BNO = #{bno}
 	</delete>
 	
-	
+	<insert id="insertFile" parameterType="hashMap">
+		INSERT INTO MP_FILE(
+			FILE_NO,
+			BNO,
+			ORG_FILE_NAME,
+			STORED_FILE_NAME,
+			FILE_SIZE
+		)VALUES(
+			SEQ_MP_FILE_NO.NEXTVAL,
+			#{BNO},
+			#{ORG_FILE_NAME},
+			#{STORED_FILE_NAME},
+			#{FILE_SIZE}
+		)
+    </insert>
 	
 </mapper>

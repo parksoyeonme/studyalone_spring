@@ -1,6 +1,12 @@
 package kr.co.controller.board;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.service.board.BoardService;
@@ -33,6 +42,9 @@ public class BoardController {
 	@Autowired
 	private ReplyService replyService;
 	
+	@Autowired
+	private ServletContext servletContext;
+	
 	// 게시판 글 작성 화면
 	@GetMapping("/writeView")
 	public void writeView() throws Exception{
@@ -41,16 +53,10 @@ public class BoardController {
 	}
 	
 	// 게시판 글 작성
-	@PostMapping("/write")
-	public String write(BoardVO boardVO, RedirectAttributes redirectAttr) throws Exception{
+	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	public String write(BoardVO boardVO, MultipartHttpServletRequest mpRequest) throws Exception{
 		log.info("write");
-		
-		service.write(boardVO);
-		
-		
-//		int result = service.write(boardVO);
-//		String msg = result > 0 ? "게시글 등록 성공!" : "게시글 등록 실패";
-//		redirectAttr.addFlashAttribute("msg", msg);
+		service.write(boardVO, mpRequest);
 		
 		return "redirect:/board/list";
 	}

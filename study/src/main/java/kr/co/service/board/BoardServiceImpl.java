@@ -1,12 +1,17 @@
 package kr.co.service.board;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import kr.co.dao.board.BoardDAO;
+import kr.co.util.FileUtils;
 import kr.co.vo.board.BoardVO;
 import kr.co.vo.utils.Criteria;
 import kr.co.vo.utils.SearchCriteria;
@@ -17,14 +22,29 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class BoardServiceImpl implements BoardService {
 
+	@Resource(name="fileUtils")
+	private FileUtils fileUtils;
+	
 	@Autowired
 	private BoardDAO dao;
 	
+	
+	
 	//게시물 작성
+//	@Override
+//	public void write(BoardVO boardVO) throws Exception {
+//		dao.write(boardVO);
+//	}
+	//게시물작성 + 첨부파일
 	@Override
-	public void write(BoardVO boardVO) throws Exception {
+	public void write(BoardVO boardVO, MultipartHttpServletRequest mpRequest) throws Exception {
 		dao.write(boardVO);
-
+		
+		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(boardVO, mpRequest);
+		int size = list.size();
+		for(int i=0; i<size; i++){ 
+			dao.insertFile(list.get(i)); 
+		}
 	}
 
 	// 게시물 목록 조회
@@ -65,8 +85,6 @@ public class BoardServiceImpl implements BoardService {
 		dao.delete(bno);
 	}
 
-	
-	
-	
+
 	
 }

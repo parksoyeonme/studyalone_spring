@@ -1,6 +1,7 @@
 package kr.co.dao.board;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -68,6 +69,12 @@ public class BoardDAOImpl implements BoardDAO {
 	public void delete(int bno) throws Exception {
 		session.delete("board.delete", bno);
 		
+	}
+	
+	//첨부파일 업로드
+	@Override
+	public void insertFile(Map<String, Object> map) throws Exception {
+		session.insert("board.insertFile", map);
 	}
 
 	

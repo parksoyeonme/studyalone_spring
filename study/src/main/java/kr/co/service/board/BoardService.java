@@ -2,6 +2,8 @@ package kr.co.service.board;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import kr.co.vo.board.BoardVO;
 import kr.co.vo.utils.Criteria;
 import kr.co.vo.utils.SearchCriteria;
@@ -9,7 +11,9 @@ import kr.co.vo.utils.SearchCriteria;
 public interface BoardService {
 
 	// 게시글 작성
-	public void write(BoardVO boardVO) throws Exception;
+//	public void write(BoardVO boardVO) throws Exception;
+	//게시글 작성 + 첨부파일
+	public void write(BoardVO boardVO, MultipartHttpServletRequest mpRequest) throws Exception;
 
 	// 게시물 목록 조회
 //	public List<BoardVO> list(Criteria cri) throws Exception;
@@ -28,6 +32,8 @@ public interface BoardService {
 	
 	//게시물 삭제
 	public void delete(int bno) throws Exception;
+
+	
 }
 
 
