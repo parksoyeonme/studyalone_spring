@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="partner"> <!-- parameterType은 생략가능, 생략됨 -->
+
+	<select id="selectPartnerSearchList" resultType="com.dowell.edu.vo.common.PartnerVO" parameterType="String">
+		select prt_cd, prt_nm,
+			case when prt_ss_cd='10' then '정상'
+			when prt_ss_cd='10' then '거래정지'
+			else '해지'
+			end as prt_ss_cd
+		from MA_PRT_MT
+		where prt_nm like '%' || #{prt_nm} || '%' or
+			prt_cd like '%' || #{prt_nm} || '%' 
+		
+		
+	</select>
+
+</mapper>
