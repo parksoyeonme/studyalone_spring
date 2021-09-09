@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dowell.edu.service.customer.CustomerService;
+import com.dowell.edu.vo.common.CodeDetailVO;
 import com.dowell.edu.vo.customer.CustomerHistoryVO;
 import com.dowell.edu.vo.customer.CustomerVO;
 
@@ -37,9 +38,15 @@ public class CustomerController {
 	
 	//고객조회 view
 	@RequestMapping(value="/customerList")
-	public ModelAndView customerList(ModelAndView mv) throws Exception{
+	public ModelAndView customerList(CodeDetailVO codeDetailVo, ModelAndView mv) throws Exception{
 		
-
+		
+		List<CodeDetailVO> custSsCd = customerService.selectcustSsCd(codeDetailVo);
+		
+		System.out.println("####리스트나오라ㅏ###########" + custSsCd);
+		
+		mv.addObject("custSsCd", custSsCd);
+		
 		mv.setViewName("/customer/customerList");
 		
 		return mv;
@@ -66,39 +73,40 @@ public class CustomerController {
 	//고객이력 view
 	@RequestMapping(value="/customerHistory")
 	public ModelAndView customerHistory(ModelAndView mv,
-			@RequestParam String cust_no,
-			@RequestParam String cust_nm) throws Exception{
+										@RequestParam String cust_no,
+										@RequestParam String cust_nm) throws Exception{
 		
 		mv.addObject("cust_no", cust_no);
 		mv.addObject("cust_nm", cust_nm);
-		System.out.println("######성공?" + cust_no + cust_nm);
 
 		mv.setViewName("/customer/customerHistory");
 		
 		return mv;
 	}
 	
+	
 	//고객조회 팝업
 	   @ResponseBody
 	   @RequestMapping(value="/customerInquiryList", method = { RequestMethod.POST, RequestMethod.GET },
 			   produces ="application/text; charset=utf8")
-	   public String customerInquiryList(Model model,@RequestParam(value="cust_nm", required=false) String cust_nm,@RequestParam(value="mbl_no", required=false) String mbl_no) throws Exception{
-		   log.info("cust_nm = {}" , cust_nm);
-		   log.info("mbl_no = {}" , mbl_no);
-		  
+	   public String customerInquiryList(Model model,@RequestParam(value="cust_nm", required=false) String cust_nm,
+			   										@RequestParam(value="mbl_no", required=false) String mbl_no) throws Exception{
+		 
 		   Map<String, Object> param= new HashMap<>();
 
-	      param.put("cust_nm",cust_nm);
-	      param.put("mbl_no",mbl_no);
+		      param.put("cust_nm",cust_nm);
+		      param.put("mbl_no",mbl_no);
 	      
 	      List<CustomerVO> list = customerService.selectcustSearchList(param);
-	      log.info("list = {} ", list);
+	    
 	      model.addAttribute("list" , list);
+	      
 	      JSONObject obj = new JSONObject();
 	      obj.put("list", list);
+	      
 	      String resp = obj.toString();
 	      
-	      return resp;
+	      	return resp;
 	      
 	   }
 	   
@@ -106,13 +114,12 @@ public class CustomerController {
 	   @ResponseBody
 	   @RequestMapping(value="/custAllSearchList", method = { RequestMethod.POST, RequestMethod.GET },
 			   produces ="application/text; charset=utf8")
-	   public String custAllSearchList(Model model, @RequestParam String jn_prt_cd,
-			   @RequestParam String cust_ss_cd,
-			   @RequestParam String cust_no,
-			   @RequestParam String fromDate,
-			   @RequestParam String toDate
-			   
-			   ) throws Exception{
+	   public String custAllSearchList(@RequestParam String jn_prt_cd,
+									   @RequestParam String cust_ss_cd,
+									   @RequestParam String cust_no,
+									   @RequestParam String fromDate,
+									   @RequestParam String toDate,
+									   Model model			) throws Exception{
 	      
 		   Map<String, Object> param= new HashMap<>();
 	
@@ -122,26 +129,22 @@ public class CustomerController {
 		      param.put("fromDate",fromDate);
 		      param.put("toDate",toDate);
 		      
-		      List<CustomerVO> list = customerService.selectcustAllSearchList(param);
-		      log.info("list = {} ", list);
-		      JSONObject obj = new JSONObject();
-		      obj.put("list", list);
-		      String resp = obj.toString();
+	      List<CustomerVO> list = customerService.selectcustAllSearchList(param);
+	     
+	      JSONObject obj = new JSONObject();
+	      obj.put("list", list);
+	      
+	      String resp = obj.toString();
 		      
-		      return resp;
+		     return resp;
 	      
 	   }
 	   
-	   //고객조회 팝업
+	   //고객조회 히스토리팝업
 	   	@ResponseBody
 		@RequestMapping(value="/custHistoryList", method = { RequestMethod.POST, RequestMethod.GET },
 				   produces ="application/text; charset=utf8")
-		public String custHistoryList(ModelAndView mv,
-											@RequestParam String cust_no
-											) throws Exception{
-			
-			System.out.println("######성공?" + cust_no);
-			
+		public String custHistoryList(@RequestParam String cust_no) throws Exception{
 			
 			
 			Map<String, Object> param= new HashMap<>();
@@ -150,13 +153,12 @@ public class CustomerController {
 				
 				List<CustomerHistoryVO> list = customerService.selectcustHistoryList(param);
 				
-				log.info("list = {} ", list);
+				
 			      JSONObject obj = new JSONObject();
 			      obj.put("list", list);
+			      
 			      String resp = obj.toString();
-			      
-			      
-			      System.out.println("######????????" + list);
+	
 			      return resp;
 			
 		}

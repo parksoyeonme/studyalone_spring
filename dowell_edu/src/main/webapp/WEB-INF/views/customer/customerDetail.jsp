@@ -3,27 +3,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>고객정보조회</title>
-    <!--달력 jquery-->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
-    <style>
-        .container {
-            border: 2px solid silver;
-            background: rgb(173, 190, 238);
-            width: 900px;
-            height: 60px;
-            margin-left: 20px;
-        }
-        .required:before {
-            content: " *";
-            color: red;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고객정보조회</title>
+<!--달력 jquery-->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
+
 </head>
+<style>
+.container {
+    border: 2px solid silver;
+    background: rgb(173, 190, 238);
+    width: 900px;
+    height: 60px;
+    margin-left: 20px;
+}
+.required:before {
+    content: " *";
+    color: red;
+}
+</style>
+
    <body>
        <h2 style="margin-left: 21px;">고객정보조회</h2>
        <section>
@@ -153,20 +155,20 @@
            </form>
        </section>
    </body>
-   <script>
-      $("#datepicker1, #datepicker2").datepicker({
-      showOn:"button"
-      , buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"
-  		});
-      
-       function openCustom()
-       {
-           // window.name = "부모창 이름"; 
-           window.name = "CustomPopForm";
-           var custInquiryUrl = "${pageContext.request.contextPath}/customer/customerInquiry"
-           // window.open("open할 window", "자식창 이름", "팝업창 옵션");
-           window.open(custInquiryUrl,
-                   "childForm", "width=570, height=350, resizable = no, scrollbars = no");    
-       }
-   </script>
+<script>
+	  $("#datepicker1, #datepicker2").datepicker({
+	  showOn:"button"
+	  , buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"
+	});
+	  
+	   function openCustom()
+	   {
+	       // window.name = "부모창 이름"; 
+	       window.name = "CustomPopForm";
+	       var custInquiryUrl = "${pageContext.request.contextPath}/customer/customerInquiry"
+	       // window.open("open할 window", "자식창 이름", "팝업창 옵션");
+	       window.open(custInquiryUrl,
+	               "childForm", "width=570, height=350, resizable = no, scrollbars = no");    
+	   }
+</script>
 </html>

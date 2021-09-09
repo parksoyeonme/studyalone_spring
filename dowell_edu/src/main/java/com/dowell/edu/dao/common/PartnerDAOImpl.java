@@ -15,10 +15,9 @@ public class PartnerDAOImpl implements PartnerDAO {
 	@Autowired
 	private SqlSession sqlsSession;
 
-	
+	//매장팝업조회
 	@Override
 	public List<PartnerVO> selectPartnerSearchList(Map<String, Object> param) {
-		// TODO Auto-generated method stub
 		return sqlsSession.selectList("partner.selectPartnerSearchList", param);
 	}
 }

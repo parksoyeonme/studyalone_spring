@@ -20,15 +20,10 @@ public class PartnerServiceImpl implements PartnerService {
 	@Autowired
 	private PartnerDAO partnerDao;
 
+	//매장팝업조회
 	@Override
 	public List<PartnerVO> selectPartnerSearchList(Map<String, Object> param) {
-		// TODO Auto-generated method stub
 		return partnerDao.selectPartnerSearchList(param);
 	}
 
-//	@Override
-//	public List<PartnerVO> selectPartnerSearchList(String prt_nm) {
-//		// TODO Auto-generated method stub
-//		return partnerDao.selectPartnerSearchList(prt_nm);
-//	}
 }

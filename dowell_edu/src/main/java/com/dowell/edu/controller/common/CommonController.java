@@ -46,18 +46,15 @@ public class CommonController {
 			   produces ="application/text; charset=utf8")
 	public String partnerInquiryList(@RequestParam(value="prt_nm",required=false) String prt_nm) throws Exception{
 		
-		log.info("prt_nm = {}", prt_nm);
 		 Map<String, Object> param= new HashMap<>();
 		 param.put("prt_nm",prt_nm);
-		
-		 System.out.println("####나와######" +prt_nm);
-		 
+	
 		List<PartnerVO> list = partnerService.selectPartnerSearchList(param);
-		log.info("list = {} ", list);
-		
+
 		 JSONObject obj = new JSONObject();
-	      obj.put("list", list);
-	      String resp = obj.toString();
+	     obj.put("list", list);
+	     
+	     String resp = obj.toString();
 		
 		return resp;
 		

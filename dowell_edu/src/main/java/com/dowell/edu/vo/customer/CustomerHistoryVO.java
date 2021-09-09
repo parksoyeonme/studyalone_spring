@@ -39,14 +39,16 @@ public class CustomerHistoryVO {
 	private Date fst_reg_dt;
 	private String fst_user_id;
 	private Date lst_upd_dt;
-	private String lst_upd_id;
-	//private List<CodeMaterVO> codeMaterVO;
-	//private List<CodeDetailVO> codeDetailVO;
+	private String lst_upd_id
+	; 
 	private String chg_bf_cd_nm;
+	
 	private String code_nm;
 	private String code_cd;
+	
 	private String prt_cd;
 	private String prt_nm;
+	
 	private String lst_upd_dt_time;
 	
 

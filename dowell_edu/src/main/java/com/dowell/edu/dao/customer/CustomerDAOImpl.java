@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dowell.edu.vo.common.CodeDetailVO;
 import com.dowell.edu.vo.customer.CustomerHistoryVO;
 import com.dowell.edu.vo.customer.CustomerVO;
 
@@ -33,6 +34,14 @@ public class CustomerDAOImpl implements CustomerDAO {
 	public List<CustomerHistoryVO> selectcustHistoryList(Map<String, Object> param) throws Exception{
 		return sqlsSession.selectList("customer.selectcustHistoryList", param);
 	}
+
+	@Override
+	public List<CodeDetailVO> selectcustSsCd(CodeDetailVO codeDetailVo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlsSession.selectList("customer.selectcustSsCd", codeDetailVo);
+	}
+
+
 
 
 }

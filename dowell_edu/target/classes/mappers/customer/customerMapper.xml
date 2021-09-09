@@ -22,87 +22,116 @@
    			<collection property="partnerVO" resultMap="PartnerVO"/>
 	</resultMap>
 	
+	<resultMap type="com.dowell.edu.vo.customer.CustomerHistoryVO" id="CustomerHistoryVO">
+    	<result column="cust_no" property="cust_no"/>
+    	<result column="chg_dt" property="chg_dt"/>
+    	<result column="chg_seq" property="chg_seq"/>
+    	<result column="chg_cd" property="chg_cd"/>
+    	<result column="chg_bf_cnt" property="chg_bf_cnt"/>
+    	<result column="chg_aft_cnt" property="chg_aft_cnt"/>
+    	<result column="lst_upd_id" property="lst_upd_id"/>
+    	<result column="lst_upd_dt" property="lst_upd_dt"/>
+    	<result column="chg_bf_cd_nm" property="chg_bf_cd_nm"/>
+    	<result column="chg_aft_cd_nm" property="chg_aft_cd_nm"/>
+    	<result column="code_nm" property="code_nm"/>
+    	<result column="code_cd" property="code_cd"/>
+    	<result column="prt_nm" property="prt_nm"/>
+    	<result column="prt_cd" property="prt_cd"/>
+    	<result column="lst_upd_dt_time" property="lst_upd_dt_time"/>
+	</resultMap>
 	
 	
    <!-- 고객조회(팝업) -->
    <select id="selectcustSearchList" resultType="com.dowell.edu.vo.customer.CustomerVO" parameterType="Map">
-	    select cust_no,cust_nm, mbl_no,
-	    		   case when cust_ss_cd ='10' then '정상'
-	    			when cust_ss_cd ='80' then '중지'
-	    			else '해지'
-	    			end as cust_ss_cd
-	    from CS_CUST01_MT
-	    where 1=1
-	    <if test="mbl_no.equals('')">
-	        and cust_nm like '%' || #{cust_nm} || '%'
-	    </if>
-	    <if test="cust_nm.equals('')">
-	        and mbl_no like '%' || #{mbl_no} || '%'
-	    </if>
-	    <if test="!cust_nm.equals('') and !mbl_no.equals('')">
-	        and mbl_no like '%' || #{mbl_no} || '%'
-	        and cust_nm like '%' || #{cust_nm} || '%'
-	    </if>
+	   SELECT
+			 csmt.cust_no 															--고객번호
+		    ,csmt.cust_nm 															--고객명
+		    ,regexp_replace(csmt.mbl_no, '(.{3})(.+)(.{4})', '\1-\2-\3') AS mbl_no 	--휴대폰번호
+		    ,CASE
+		        WHEN csmt.cust_ss_cd = '10' THEN cddt.dtl_cd_nm    					--고객상태코드 정상
+		        WHEN csmt.cust_ss_cd = '80' THEN cddt.dtl_cd_nm 					--고객상태코드 중지
+		        ELSE cddt.dtl_cd_nm 												--고객상태코드 해지
+		    END AS cust_ss_cd 														
+		FROM cs_cust01_mt csmt 														--고객관리table
+		        left join ma_code_dt cddt 											--코드상세table
+		            on csmt.cust_ss_cd = cddt.dtl_cd
+		WHERE
+		    1 = 1
+		    	and cddt.code_cd = 'CUST_SS_CD' 									--고객명,휴대폰번호 존재시 기본값
+		    	and mbl_no like '%' || #{mbl_no} || '%'
+			    and cust_nm like '%' || #{cust_nm} || '%'
+		    	
+			    <if test="mbl_no.equals('')">										--휴대폰번호없을시 이름조회
+			        and cust_nm like '%' || #{cust_nm} || '%'
+			    </if>
+			    <if test="cust_nm.equals('')"> 									 	--고객명없을시 휴대폰번호조회
+			        and mbl_no like '%' || #{mbl_no} || '%'							
+			    </if>
+			   
 	</select>
 	
 	<!-- 고객리스트 -->
 	<select id="selectcustAllSearchList" resultMap="CustomerVO">
-	    select csmt.cust_no,
-	    		csmt.cust_nm as cust_nm_real
-	    		, <![CDATA[
-	    		case when length(csmt.cust_nm) = 3 then SUBSTR(csmt.cust_nm,1,1) || LPAD('*',LENGTH(csmt.cust_nm)-2,'*') || SUBSTR(csmt.cust_nm, LENGTH(csmt.cust_nm), 1)
-	    			when length(csmt.cust_nm) > 3 then SUBSTR(csmt.cust_nm,1,2) || LPAD('*',LENGTH(csmt.cust_nm)-2,'*') || SUBSTR(csmt.cust_nm, LENGTH(csmt.cust_nm), 1)
-					else SUBSTR(csmt.cust_nm,1,1) || LPAD('*',LENGTH(csmt.cust_nm)-2,'*')
-					  end cust_nm 
-					  ]]>
-   		        ,REGEXP_REPLACE(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\1-\2-\3'), '-(.*)-', '-'||LPAD('*',LENGTH(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\2')), '*')||'-') mbl_no
-   		        ,case when csmt.cust_ss_cd ='10' then '정상'
-   		        	  when csmt.cust_ss_cd ='80' then '중지'
-   		        	  when csmt.cust_ss_cd ='90' then '해지'
-   		        	  else '전체'
-   		        	end as cust_ss_cd
-   		        ,to_char(to_date(csmt.fst_js_dt,'YYMMDD'),'YYYY-MM-DD') fst_js_dt
-   		        ,PRTMT.prt_nm
-   		        ,csmt.lst_upd_id
-   		        ,To_CHAR(csmt.lst_upd_dt, 'YYYY-MM-DD HH24MISS') as lst_upd_dt_time
-   			from cs_cust01_mt csmt join MA_PRT_MT PRTMT
-   				on csmt.jn_prt_cd = prtmt.prt_cd
-	    <choose>
-   	        <when test="jn_prt_cd.equals('') and cust_no.equals('')">
-          		where 
-     				fst_js_dt between to_date(#{fromDate},'YYYY-MM-DD')
-     						and to_date(#{toDate},'YYYY-MM-DD')
-				       <if test="cust_ss_cd gte 10">
-				       		and csmt.cust_ss_cd = #{cust_ss_cd}
-				       </if>
-	        </when>
-	        <when test="jn_prt_cd.equals('') and !cust_no.equals('')">
-	            where 
-       				cust_no = #{cust_no}
-      				<if test="cust_ss_cd gte 10">
-			      		and csmt.cust_ss_cd = #{cust_ss_cd}
-			      	</if>
-       				and fst_js_dt between to_date(#{fromDate},'YYYY-MM-DD')
-       				and to_date(#{toDate},'YYYY-MM-DD')
-	        </when>
-	        <when test="cust_no.equals('') and !jn_prt_cd.equals('')">
-	            where jn_prt_cd = #{jn_prt_cd}
-       				<if test="cust_ss_cd gte 10">
-				     	and csmt.cust_ss_cd = #{cust_ss_cd}
-				    </if>
-       				and fst_js_dt between to_date(#{fromDate},'YYYY-MM-DD')
-       				and to_date(#{toDate},'YYYY-MM-DD')
-	        </when>
-	
-	        <otherwise>
-	            where jn_prt_cd = #{jn_prt_cd}
-   					<if test="cust_ss_cd gte 10">
-				     	and csmt.cust_ss_cd = #{cust_ss_cd}
-				    </if>
-   					and fst_js_dt between to_date(#{fromDate},'YYYY-MM-DD')
-   					and to_date(#{toDate},'YYYY-MM-DD')
-	        </otherwise>
-	    </choose>
+	    SELECT
+			    csmt.cust_no
+			    ,csmt.cust_nm AS cust_nm_real
+			    ,CASE
+			        WHEN length(csmt.cust_nm) = 3 THEN
+			            substr(csmt.cust_nm, 1, 1)
+			            || lpad('*', length(csmt.cust_nm) - 2, '*')
+			            || substr(csmt.cust_nm, length(csmt.cust_nm), 1)
+			        WHEN length(csmt.cust_nm) > 3 THEN
+			            substr(csmt.cust_nm, 1, 2)
+			            || lpad('*', length(csmt.cust_nm) - 2, '*')
+			            || substr(csmt.cust_nm, length(csmt.cust_nm), 1)
+			        ELSE
+			            substr(csmt.cust_nm, 1, 1)
+			            || lpad('*', length(csmt.cust_nm) - 2, '*')
+			    END cust_nm
+			    ,REGEXP_REPLACE(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\1-\2-\3'), '-(.*)-', '-'||LPAD('*',LENGTH(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\2')), '*')||'-') mbl_no
+			   		        
+			   ,CASE
+			        WHEN csmt.cust_ss_cd = '10' THEN cddt.dtl_cd_nm    
+			        WHEN csmt.cust_ss_cd = '80' THEN cddt.dtl_cd_nm
+			        ELSE cddt.dtl_cd_nm 
+			    END AS cust_ss_cd
+			    
+			    ,to_char(to_date(csmt.fst_js_dt, 'YYMMDD'), 'YYYY-MM-DD') fst_js_dt
+			    ,prtmt.prt_nm
+			    ,csmt.lst_upd_id
+			    ,to_char(csmt.lst_upd_dt, 'YYYY-MM-DD HH24MISS') AS lst_upd_dt_time
+		FROM
+			    cs_cust01_mt   csmt
+			    left JOIN ma_prt_mt prtmt ON csmt.jn_prt_cd = prtmt.prt_cd
+			    left join ma_code_dt cddt on csmt.cust_ss_cd = cddt.dtl_cd
+			    
+   		where 
+   			1 = 1
+   				and cddt.code_cd='CUST_SS_CD'
+   				and fst_js_dt between to_date(#{fromDate},'YYYY-MM-DD')
+       								and to_date(#{toDate},'YYYY-MM-DD')
+       								
+       			     			
+       			
+				 <if test="cust_ss_cd != ''">
+			       		and csmt.cust_ss_cd = #{cust_ss_cd}
+			       		
+			     </if>
+		
+		        <if test="jn_prt_cd.equals('') and !cust_no.equals('')">
+		            and cust_no = #{cust_no}
+		            
+		        </if>
+		        <if test="cust_no.equals('') and !jn_prt_cd.equals('')">
+		            and jn_prt_cd = #{jn_prt_cd}
+		            
+		        </if>
+		        <if test="!cust_no.equals('') and !jn_prt_cd.equals('')">
+		        	and cust_no = #{cust_no}
+		        	and jn_prt_cd = #{jn_prt_cd}
+		        </if>
+			
+
 	</select>
 	
 	
@@ -184,45 +213,28 @@
 		            To_CHAR(csht.lst_upd_dt, 'YYYY-MM-DD HH24MISS') as lst_upd_dt_time
 		        FROM
 		            sd_cust01_ht csht
-		            LEFT JOIN ma_code_dt cddt ON csht.chg_cd = cddt.code_cd
-		            LEFT JOIN all_col_comments allcom ON csht.chg_cd = allcom.column_name
-		            LEFT JOIN ma_prt_mt prtmt ON csht.chg_bf_cnt = prtmt.prt_cd
+		            LEFT  JOIN ma_code_dt cddt ON csht.chg_cd = cddt.code_cd
+		            			and csht.chg_bf_cnt = cddt.dtl_cd
+		            LEFT  JOIN all_col_comments   allcom ON csht.chg_cd = allcom.column_name
+		           	 			and allcom.column_name = cddt.code_cd and TABLE_NAME = 'CS_CUST01_MT'
+		            LEFT  JOIN ma_prt_mt prtmt ON csht.chg_bf_cnt = prtmt.prt_cd
+		            			and prtmt.prt_ss_cd = cddt.dtl_cd
 		     ) aa
 				where aa.cust_no = #{cust_no}
 				order by chg_dt asc ,chg_seq asc
 					
 	</select>
 	
-	<resultMap type="com.dowell.edu.vo.customer.CustomerHistoryVO" id="CustomerHistoryVO">
-    	<result column="cust_no" property="cust_no"/>
-    	<result column="chg_dt" property="chg_dt"/>
-    	<result column="chg_seq" property="chg_seq"/>
-    	<result column="chg_cd" property="chg_cd"/>
-    	<result column="chg_bf_cnt" property="chg_bf_cnt"/>
-    	<result column="chg_aft_cnt" property="chg_aft_cnt"/>
-    	<result column="lst_upd_id" property="lst_upd_id"/>
-    	<result column="lst_upd_dt" property="lst_upd_dt"/>
-    	<result column="chg_bf_cd_nm" property="chg_bf_cd_nm"/>
-    	<result column="chg_aft_cd_nm" property="chg_aft_cd_nm"/>
-    	<result column="code_nm" property="code_nm"/>
-    	<result column="code_cd" property="code_cd"/>
-    	<result column="prt_nm" property="prt_nm"/>
-    	<result column="prt_cd" property="prt_cd"/>
-    	<result column="lst_upd_dt_time" property="lst_upd_dt_time"/>
-	</resultMap>
+	<select id="selectcustSsCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
+		SELECT
+		    code_cd,
+		    dtl_cd,
+		    dtl_cd_nm
+		FROM
+	    	ma_code_dt
+		WHERE
+   			code_cd = 'CUST_SS_CD'
 	
-	<!--
-	<resultMap type="com.dowell.edu.vo.common.CodeMaterVO" id="CodeMaterVO">
-    	<result column="code_cd" property="code_cd"/>
-    	<result column="code_nm" property="code_nm"/>
-   
-	</resultMap>
-	
-	<resultMap type="com.dowell.edu.vo.common.CodeDetailVO" id="CodeDetailVO">
-    	<result column="code_cd" property="code_cd"/>
-    	<result column="dtl_cd" property="dtl_cd"/>
-    	<result column="dtl_cd_nm" property="dtl_cd_nm"/>
-   
-	</resultMap>
-	  -->
+	</select>
+
 </mapper>

@@ -12,9 +12,9 @@
 </head>
 <style>
 .body{
-width: 750px;
-height: 300px;
-border: 2px solid red;
+	width: 750px;
+	height: 300px;
+	border: 2px solid red;
 }
 
 .infocontainer {
@@ -82,7 +82,7 @@ border: 2px solid red;
     width: 700px;
     height: 50px;
     margin-left: 20px;
-    margin-top: 129px;
+   	margin-top: 72px;
 }
 .closeDev .closeBtn{
     float: right;
@@ -92,62 +92,7 @@ border: 2px solid red;
 }
     
 </style>
-<script>
 
-custHistory();
-
-console.log(${cust_no});
-
-function custHistory(){
-	   var cust_no = ${cust_no};
-	   
-	   
-		console.log("cust_no" + cust_no);
-
-		
-		$.ajax({
-			   url: "<c:url value='/customer/custHistoryList' />",
-				 type: 'POST',
-				 dataType: "json",
-		         data : {
-		       	
-		        	"cust_no" : cust_no
-		        	
-		         },
-		         success : function(data){
-		        	 var tbody = $('#historyListTBody');
-						tbody.empty();
-						console.log(data);
-						
-						var tbodyHtml = '';
-						 if (data.list.length == 0) {
-							
-						 }else{
-			        	 for(var i =0; i < data.list.length; i++){
-			        		 console.log(i);
-
-			        		 tbodyHtml += ' <tr>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].chg_dt + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].code_nm + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].chg_bf_cnt + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].chg_aft_cnt + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].lst_upd_id + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].lst_upd_dt_time + '</td>';
-			        		 tbodyHtml += ' </tr>';
-			        	 }
-						 }
-			        	 tbody.append(tbodyHtml);
-		         },
-
-			         error : function(){
-			             alert("에러납니다");
-				        }
-		   	});
-		
-		}
-		
-		
-</script>
 <body>
     <section>
         <div class="container">
@@ -171,10 +116,8 @@ function custHistory(){
                        </tr>
                    </thead>
                    <tbody id="historyListTBody">
-                      
                    </tbody>
                </table>
-
            </div>
            <div class="closeDev">
                <input class="closeBtn" type="button" value="닫기" onclick="window.close()">
@@ -183,5 +126,50 @@ function custHistory(){
     </section>
 </body>
 <script>
+
+	custHistory();
+	
+	function custHistory(){
+		
+	   var cust_no = ${cust_no};
+		
+		$.ajax({
+			   url: "<c:url value='/customer/custHistoryList' />",
+				 type: 'POST',
+				 dataType: "json",
+		         data : {
+		       	
+		        	"cust_no" : cust_no
+		        	
+		         },
+		         success : function(data){
+		        	 var tbody = $('#historyListTBody');
+						tbody.empty();
+
+						var tbodyHtml = '';
+						 if (data.list.length == 0) {
+							
+						 }else{
+				        	 for(var i =0; i < data.list.length; i++){
+
+				        		 tbodyHtml += ' <tr>';
+				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].chg_dt + '</td>';
+				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].code_nm + '</td>';
+				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].chg_bf_cnt + '</td>';
+				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].chg_aft_cnt + '</td>';
+				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].lst_upd_id + '</td>';
+				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].lst_upd_dt_time + '</td>';
+				        		 tbodyHtml += ' </tr>';
+				        	 }
+						 }
+			        	 tbody.append(tbodyHtml);
+		         },
+		         error(xhr, status, err){
+	    			  console.log(xhr, status, err);
+				  }
+		   	});
+		
+		}
+
 </script>
 </html>

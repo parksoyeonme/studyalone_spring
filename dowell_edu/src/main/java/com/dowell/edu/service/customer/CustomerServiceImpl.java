@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dowell.edu.dao.customer.CustomerDAO;
+import com.dowell.edu.vo.common.CodeDetailVO;
 import com.dowell.edu.vo.customer.CustomerHistoryVO;
 import com.dowell.edu.vo.customer.CustomerVO;
 
@@ -38,7 +39,14 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<CustomerHistoryVO> selectcustHistoryList(Map<String, Object> param) throws Exception {
 		return customerDao.selectcustHistoryList(param);
-	}	
+	}
 
+
+	@Override
+	public List<CodeDetailVO> selectcustSsCd(CodeDetailVO codeDetailVo) throws Exception {
+		// TODO Auto-generated method stub
+		return customerDao.selectcustSsCd(codeDetailVo);
+	}
+	
 	
 }
