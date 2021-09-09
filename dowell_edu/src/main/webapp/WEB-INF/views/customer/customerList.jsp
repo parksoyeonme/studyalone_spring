@@ -164,7 +164,7 @@
 					
 					</table>
 				</div>
-		        <button id="newCust" onclick="newCust();" tabindex="10">신규등록</button>
+		        <button id="newCust" onclick="custRegister();" tabindex="10">신규등록</button>
 		        <div style="width:100%; height:500px; overflow:auto">
 		            <table class="tg" id="tableForm">
 		                <thead>
@@ -349,6 +349,15 @@
 			
 		})
 		
+		//신규등록팝업
+		function custRegister(){
+			 window.name = "newCustPopForm";
+			 var custInquiryUrl = "${pageContext.request.contextPath}/customer/customerRegister"
+			 
+			 window.open(custInquiryUrl,
+		         "childNewCustomPopForm", "width=815, height=800, resizable = no, scrollbars = no");
+
+		}
 	  	
 </script>   
 </html>

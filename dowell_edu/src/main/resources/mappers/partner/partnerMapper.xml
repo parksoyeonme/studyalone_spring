@@ -28,7 +28,8 @@
 		FROM   ma_prt_mt prtmt  					--거래처관리 table
 		       LEFT JOIN ma_code_dt cddt 			--코드상세table
 		              ON prtmt.prt_ss_cd = cddt.dtl_cd
-		WHERE  cddt.code_cd = 'PRT_SS_CD' 
+		WHERE  cddt.code_cd = 'PRT_SS_CD'
+				and prt_dt_cd = '2'  				--거래처구분코드(2매장)
 		
 			<if test="prt_nm != ''">
 				and prt_nm like '%' || #{prt_nm} || '%' --prt_nm

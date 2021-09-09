@@ -71,7 +71,6 @@
     background-color: #cfcdcd;
 }
     
-}
 .tg .tg-0lax {
     border-color: inherit;
     text-align: center;
@@ -83,13 +82,13 @@
     height: 50px;
     margin-left: 20px;
    	margin-top: 72px;
+   	background: #ecdcdc;
 }
 .closeDev .closeBtn{
     float: right;
     width: 100px;
     height: 29px;
     margin-top: 11px;
-    margin-top: 72px;
 }
     
 </style>

@@ -146,6 +146,13 @@ public class CustomerController {
 			return mv;
 		}
 	   	
-	   
+	 //신규고객등록 view
+		@RequestMapping(value="/customerRegister")
+		public ModelAndView customerRegister(ModelAndView mv) throws Exception{
+			
+			mv.setViewName("/customer/customerRegister");
+			
+			return mv;
+		}
 	
 }
