@@ -13,10 +13,15 @@
 <title>고객팝업</title>
 </head>
 <style>
+.body{
+	width: 750px;
+	height: 300px;
+	border: 2px solid red;
+}
 .container {
     border: 2px solid silver;
     background: rgb(173, 190, 238);
-    width: 700px;
+    width: 615px;
     height: 60px;
     margin-left: 20px;
 }
@@ -45,6 +50,7 @@
     overflow: hidden;
     padding: 10px 5px;
     word-break: normal;
+    background-color: #cfcdcd;
 }
 .tg .tg-0lax {
 	text-align: center;

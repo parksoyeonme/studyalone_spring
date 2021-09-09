@@ -37,6 +37,7 @@
     	<result column="code_cd" property="code_cd"/>
     	<result column="prt_nm" property="prt_nm"/>
     	<result column="prt_cd" property="prt_cd"/>
+    	<result column="cust_nm" property="cust_nm"/>
     	<result column="lst_upd_dt_time" property="lst_upd_dt_time"/>
 	</resultMap>
 	
@@ -52,9 +53,9 @@
 		        WHEN csmt.cust_ss_cd = '80' THEN cddt.dtl_cd_nm 					--고객상태코드 중지
 		        ELSE cddt.dtl_cd_nm 												--고객상태코드 해지
 		    END AS cust_ss_cd 														
-		FROM cs_cust01_mt csmt 														--고객관리table
-		        left join ma_code_dt cddt 											--코드상세table
-		            on csmt.cust_ss_cd = cddt.dtl_cd
+		FROM cs_cust01_mt csmt 														--고객관리(cs_cust01_mt)table
+		        left join ma_code_dt cddt 											--코드상세(ma_code_dt)table
+		            on csmt.cust_ss_cd = cddt.dtl_cd 								--고객관리테이블의 고객상태코드(cust_ss_cd) 동일 코드상세의 세부코드(dtl_cd)
 		WHERE
 		    1 = 1
 		    	and cddt.code_cd = 'CUST_SS_CD' 									--고객명,휴대폰번호 존재시 기본값
@@ -73,60 +74,59 @@
 	<!-- 고객리스트 -->
 	<select id="selectcustAllSearchList" resultMap="CustomerVO">
 	    SELECT
-			    csmt.cust_no
-			    ,csmt.cust_nm AS cust_nm_real
+			    csmt.cust_no 													<!--  고객번호 -->
+			    ,csmt.cust_nm AS cust_nm_real 									<!-- 마스킹되지않은 고객원본이름  -->
 			    ,CASE
-			        WHEN length(csmt.cust_nm) = 3 THEN
+			        WHEN length(csmt.cust_nm) = 3 THEN 							<!--고객이름이 3자인 경우 이*연  -->
 			            substr(csmt.cust_nm, 1, 1)
 			            || lpad('*', length(csmt.cust_nm) - 2, '*')
 			            || substr(csmt.cust_nm, length(csmt.cust_nm), 1)
-			        WHEN length(csmt.cust_nm) > 3 THEN
+			        WHEN length(csmt.cust_nm) > 3 THEN 							<!-- 고객이름이 3자리초과 남궁*우, 선우*  -->
 			            substr(csmt.cust_nm, 1, 2)
 			            || lpad('*', length(csmt.cust_nm) - 2, '*')
 			            || substr(csmt.cust_nm, length(csmt.cust_nm), 1)
 			        ELSE
-			            substr(csmt.cust_nm, 1, 1)
+			            substr(csmt.cust_nm, 1, 1)								<!-- 고객이름 외자 김* -->
 			            || lpad('*', length(csmt.cust_nm) - 2, '*')
 			    END cust_nm
-			    ,REGEXP_REPLACE(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\1-\2-\3'), '-(.*)-', '-'||LPAD('*',LENGTH(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\2')), '*')||'-') mbl_no
+			    ,REGEXP_REPLACE(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\1-\2-\3'), '-(.*)-', '-'
+			    ||LPAD('*',LENGTH(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\2')), '*')
+			    ||'-') mbl_no 												<!-- 휴대폰번호 가운데 3,4 자리 마스킹 -->
 			   		        
 			   ,CASE
-			        WHEN csmt.cust_ss_cd = '10' THEN cddt.dtl_cd_nm    
-			        WHEN csmt.cust_ss_cd = '80' THEN cddt.dtl_cd_nm
-			        ELSE cddt.dtl_cd_nm 
+			        WHEN csmt.cust_ss_cd = '10' THEN cddt.dtl_cd_nm  			<!-- 고객상태코드(cust_ss_cd) 10 일경우 정상 -->
+			        WHEN csmt.cust_ss_cd = '80' THEN cddt.dtl_cd_nm 			<!-- 고객상태코드(cust_ss_cd) 80 일경우 중지 -->
+			        ELSE cddt.dtl_cd_nm  										<!-- 해지 -->
 			    END AS cust_ss_cd
 			    
-			    ,to_char(to_date(csmt.fst_js_dt, 'YYMMDD'), 'YYYY-MM-DD') fst_js_dt
-			    ,prtmt.prt_nm
-			    ,csmt.lst_upd_id
-			    ,to_char(csmt.lst_upd_dt, 'YYYY-MM-DD HH24MISS') AS lst_upd_dt_time
+			    ,to_char(to_date(csmt.fst_js_dt, 'YYMMDD'), 'YYYY-MM-DD') fst_js_dt  	<!-- 가입날짜(fst_js_dt) 날짜변환 2021-01-01  -->
+			    ,prtmt.prt_nm 															<!-- 매장명 -->
+			    ,csmt.lst_upd_id 														<!-- 수정자ID -->
+			    ,to_char(csmt.lst_upd_dt, 'YYYY-MM-DD HH24MISS') AS lst_upd_dt_time 	<!-- 최종수정일자  -->
 		FROM
-			    cs_cust01_mt   csmt
-			    left JOIN ma_prt_mt prtmt ON csmt.jn_prt_cd = prtmt.prt_cd
-			    left join ma_code_dt cddt on csmt.cust_ss_cd = cddt.dtl_cd
+			    cs_cust01_mt   csmt 													<!-- 고객관리(cs_cust01_mt),거래처관리(ma_prt_mt),코드상세(ma_code_dt) -->
+			    left JOIN ma_prt_mt prtmt ON csmt.jn_prt_cd = prtmt.prt_cd 				<!-- 고객관리테이블의 가입매장코드(jn_prt_cd) 동일 거래처관리테이블의 거래처코드(prt_cd) -->
+			    left join ma_code_dt cddt on csmt.cust_ss_cd = cddt.dtl_cd 				<!-- 고객관리테이블의 고객상태코드(cust_ss_cd) 동일 코드상세테이블의 세부코드(dtl_cd)-->
 			    
    		where 
    			1 = 1
-   				and cddt.code_cd='CUST_SS_CD'
-   				and fst_js_dt between to_date(#{fromDate},'YYYY-MM-DD')
+   				and cddt.code_cd='CUST_SS_CD' 											<!-- 검색기본조건: 고객상태, 가입날짜  -->
+   				and fst_js_dt between to_date(#{fromDate},'YYYY-MM-DD') 				<!-- 가입날짜(fst_js_dt)는 fromDate 날짜와 사이에 toDate날짜 사이에 위치 --> 
        								and to_date(#{toDate},'YYYY-MM-DD')
-       								
-       			     			
        			
-				 <if test="cust_ss_cd != ''">
-			       		and csmt.cust_ss_cd = #{cust_ss_cd}
-			       		
+				 <if test="cust_ss_cd != ''"> 											<!-- 고객상태가 있을경우(정상,중지,해지) -->
+	       			and csmt.cust_ss_cd = #{cust_ss_cd}
 			     </if>
 		
-		        <if test="jn_prt_cd.equals('') and !cust_no.equals('')">
+		        <if test="jn_prt_cd.equals('') and !cust_no.equals('')">			<!-- 고객번호(cust_no) 존재, 매장코드(jn_prt_cd.equals) 없는경우 -->
 		            and cust_no = #{cust_no}
-		            
 		        </if>
-		        <if test="cust_no.equals('') and !jn_prt_cd.equals('')">
+		        
+		        <if test="cust_no.equals('') and !jn_prt_cd.equals('')"> 				<!-- 매장코드 존재, 고객번호가 없는경우  -->
 		            and jn_prt_cd = #{jn_prt_cd}
-		            
 		        </if>
-		        <if test="!cust_no.equals('') and !jn_prt_cd.equals('')">
+		        
+		        <if test="!cust_no.equals('') and !jn_prt_cd.equals('')"> 				<!--  매장코드, 고객번호 둘다 존재 --> 
 		        	and cust_no = #{cust_no}
 		        	and jn_prt_cd = #{jn_prt_cd}
 		        </if>
@@ -135,106 +135,121 @@
 	</select>
 	
 	
-	<!--고객이력(팝업)  -->
-	<select id="selectcustHistoryList" resultMap="CustomerHistoryVO" resultType="com.dowell.edu.vo.customer.CustomerHistoryVO" parameterType="Map">
-		SELECT 
-			chg_seq,
-		    chg_dt,
-		    code_nm,
-		    nvl(chg_bf_cd_nm, chg_bf_cnt) AS chg_bf_cnt,
-		    nvl(chg_aft_cd_nm, chg_aft_cnt) AS chg_aft_cnt,
-		    lst_upd_id,
-		    lst_upd_dt_time
+
+	
+	<!-- 고객조회의 고객상태 -->
+	<select id="selectcustSsCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
+		SELECT
+		   	 code_cd  				--공통코드
+		    ,dtl_cd 				--세부코드
+		    ,dtl_cd_nm 				--세부코드명
+		FROM
+	    	ma_code_dt 				--코드상세
+		WHERE
+   			code_cd = 'CUST_SS_CD'
+	
+	</select>
+	
+	
+	<!-- 고객히스토리(cust_no,cust_nm)  -->
+	<select id="custHistoryList" resultMap="CustomerHistoryVO" resultType="com.dowell.edu.vo.customer.CustomerHistoryVO" parameterType="Map">
+	SELECT
+			    chg_seq 											-- 일련번호
+			    ,chg_dt										-- 이력변경일자
+			    ,code_nm											--변경항목
+			    ,nvl(chg_bf_cd_nm, chg_bf_cnt) AS chg_bf_cnt		 -- 변경전
+			    ,nvl(chg_aft_cd_nm, chg_aft_cnt) AS chg_aft_cnt	 	-- 변경후
+			    ,lst_upd_id										-- 마지막 수정자
+			    ,lst_upd_dt_time 									-- 마지막 수정날짜
 		FROM
 		    (
 		        SELECT
-		        	 csht.chg_seq,
-		            csht.cust_no,
-		            to_char(to_date(csht.chg_dt, 'YYMMDD'), 'YYYY-MM-DD') chg_dt,
-		            (
-		                SELECT
-		                    allcom.comments
-		                FROM
-		                    all_col_comments allcom
-		                WHERE
-		                    table_name = 'CS_CUST01_MT'
-		                    AND csht.chg_cd = allcom.column_name
-		            ) AS code_nm,
-		            (
-		                SELECT
+		            csht.chg_seq
+		            ,csht.cust_no
+		            ,to_char(to_date(csht.chg_dt, 'YYMMDD'), 'YYYY-MM-DD') chg_dt -- 변경날자 20210101 변환 
+		            ,CASE
+		                WHEN csht.chg_cd = 'MBL_NO'    THEN 				--이력테이블의 변경코드가 mbl_no일떄 휴대폰번호로 변경
+		                    '휴대폰번호'
+		                WHEN csht.chg_cd = 'JN_PRT_CD' THEN 				--이력테이블의 변경코드가 jnt_prt_cd일떄 매장로 변경
+		                    '매장'
+		                WHEN csht.chg_cd = 'CUST_NM'   THEN 				--이력테이블의 변경코드가 cust_nm일떄 고객명으로 변경
+		                    '고객명'
+		                ELSE
+		                    cdmt.code_nm
+		            END AS code_nm
+		            ,( 														 
+		                SELECT 												-- 변경전 코드
 		                    cddt.dtl_cd_nm
 		                FROM
 		                    ma_code_dt cddt
 		                WHERE
 		                    cddt.dtl_cd = csht.chg_bf_cnt
 		                    AND cddt.code_cd = csht.chg_cd
-		            ) AS chg_bf_cd_nm,
-		            
-		            CASE
-		                WHEN csht.chg_cd = 'MBL_NO'    THEN
+		            ) AS chg_bf_cd_nm
+		            ,CASE
+		                WHEN csht.chg_cd = 'MBL_NO'    THEN 					-- 변경코드(chg_cd)가 mbl_no 일시 000-0000-000
 		                    regexp_replace(csht.chg_bf_cnt, '(.{3})(.+)(.{4})', '\1-\2-\3')
-		                WHEN csht.chg_cd = 'JN_PRT_CD' THEN
+		                WHEN csht.chg_cd = 'JN_PRT_CD' THEN 					
 		                    (
 		                        SELECT
-		                            prtmt.prt_nm
+		                            prtmt.prt_nm 								--변경코드(chg_cd)가 kn_prt_cd일시 매장명
 		                        FROM
 		                            ma_prt_mt prtmt
 		                        WHERE
 		                            csht.chg_bf_cnt = prtmt.prt_cd
 		                    )
-		                ELSE csht.chg_bf_cnt
-		            END as chg_bf_cnt,
-		            (
+		                ELSE
+		                    csht.chg_bf_cnt
+		            END AS chg_bf_cnt
+		            ,(
 		                SELECT
-		                    cddt.dtl_cd_nm
+		                    cddt.dtl_cd_nm 										-- 변경후 코드
 		                FROM
 		                    ma_code_dt cddt
 		                WHERE
 		                    cddt.dtl_cd = csht.chg_aft_cnt
 		                    AND cddt.code_cd = csht.chg_cd
-		            ) AS chg_aft_cd_nm,
-		            
-		            CASE
-		                WHEN csht.chg_cd = 'MBL_NO' THEN 
-		                		regexp_replace(csht.chg_aft_cnt, '(.{3})(.+)(.{4})', '\1-\2-\3')
+		            ) AS chg_aft_cd_nm
+		            ,CASE
+		                WHEN csht.chg_cd = 'MBL_NO'    THEN
+		                    regexp_replace(csht.chg_aft_cnt, '(.{3})(.+)(.{4})', '\1-\2-\3') 	-- 변경코드(chg_cd)가 mbl_no 일시 000-0000-000
 		                WHEN csht.chg_cd = 'JN_PRT_CD' THEN
 		                    (
 		                        SELECT
-		                            prtmt.prt_nm
+		                            prtmt.prt_nm 										--변경코드(chg_cd)가 kn_prt_cd일시 매장명
 		                        FROM
 		                            ma_prt_mt prtmt
 		                        WHERE
 		                            csht.chg_aft_cnt = prtmt.prt_cd
 		                    )
-		                ELSE csht.chg_aft_cnt
-		            END as chg_aft_cnt,
-		            
-		            csht.lst_upd_id,
-		            To_CHAR(csht.lst_upd_dt, 'YYYY-MM-DD HH24MISS') as lst_upd_dt_time
+		                ELSE
+		                    csht.chg_aft_cnt
+		            END AS chg_aft_cnt
+		            ,csht.lst_upd_id 														-- 마지막 수정자
+		            ,to_char(csht.lst_upd_dt, 'YYYY-MM-DD HH24MISS') AS lst_upd_dt_time 	-- 마지막 수정일자
 		        FROM
-		            sd_cust01_ht csht
-		            LEFT  JOIN ma_code_dt cddt ON csht.chg_cd = cddt.code_cd
-		            			and csht.chg_bf_cnt = cddt.dtl_cd
-		            LEFT  JOIN all_col_comments   allcom ON csht.chg_cd = allcom.column_name
-		           	 			and allcom.column_name = cddt.code_cd and TABLE_NAME = 'CS_CUST01_MT'
-		            LEFT  JOIN ma_prt_mt prtmt ON csht.chg_bf_cnt = prtmt.prt_cd
-		            			and prtmt.prt_ss_cd = cddt.dtl_cd
-		     ) aa
-				where aa.cust_no = #{cust_no}
-				order by chg_dt asc ,chg_seq asc
-					
-	</select>
-	
-	<select id="selectcustSsCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
-		SELECT
-		    code_cd,
-		    dtl_cd,
-		    dtl_cd_nm
-		FROM
-	    	ma_code_dt
-		WHERE
-   			code_cd = 'CUST_SS_CD'
+		            sd_cust01_ht   csht
+		            LEFT JOIN ma_code_dt     cddt ON csht.chg_cd = cddt.code_cd 		-- 고객이력(sd_cust01_ht) 변경코드(chg_cd) 동일 코드상세(ma_code_dt) 공통코드(code_cd) 
+		                                         AND csht.chg_bf_cnt = cddt.dtl_cd 		-- 고객이력(sd_cust01_ht의 변경전내용(chg_bf_cnt) 동일 코드상세(ma_code_dt)의 세부코드(dtl_cd)
+		            LEFT JOIN ma_code_mt     cdmt ON cdmt.code_cd = cddt.code_cd 		-- 코드마스터의 공통코드(code_cd) 동일 코드상세의 공통코드(code_cd) 
+		            LEFT JOIN ma_prt_mt      prtmt ON csht.chg_bf_cnt = prtmt.prt_cd 	--- 고객이력의 변경전이력(chg_bf_cnt) 동일 거래처관리의 거래처코드(prt_cd) 
+		                                         AND prtmt.prt_ss_cd = cddt.dtl_cd 		-- 거래처관리의 거래처상태코드(prt_ss_cd) 동일 코드상세의 세부코드(dtl_cd)
+		            LEFT JOIN cs_cust01_mt   csmt ON csmt.poc_cd = cddt.dtl_cd 			-- 고객관리의 매장코드(poc_cd) 동일 코드상세의 세부코드(dtl_cd)  
+		                                           AND csmt.sex_cd = cddt.dtl_cd 		-- 고객관리의 셩별코드(sex_cd) 동일 코드상세의 세부코드(dtl_cd)
+		    ) aa
+		         WHERE aa.cust_no = #{cust_no}
+         ORDER BY chg_dt asc ,chg_seq asc
 	
 	</select>
 
+
+	<select id="custInfoHistoryList" resultType="com.dowell.edu.vo.customer.CustomerVO">
+		SELECT
+		   	 CUST_NO
+		    ,CUST_NM
+		FROM
+		    CS_CUST01_MT
+		WHERE
+		    CUST_NO = #{cust_no}
+	</select>
 </mapper>

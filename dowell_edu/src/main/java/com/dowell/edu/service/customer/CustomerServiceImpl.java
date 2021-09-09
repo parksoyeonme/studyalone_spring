@@ -41,11 +41,24 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.selectcustHistoryList(param);
 	}
 
-
+	//고객상태조회(cust_ss_cd)
 	@Override
 	public List<CodeDetailVO> selectcustSsCd(CodeDetailVO codeDetailVo) throws Exception {
 		// TODO Auto-generated method stub
 		return customerDao.selectcustSsCd(codeDetailVo);
+	}
+
+	//고객히스토리리스트(팝업)
+	@Override
+	public List<CodeDetailVO> custHistoryList(String cust_no) {
+		// TODO Auto-generated method stub
+		return customerDao.custHistoryList(cust_no);
+	}
+
+	//고객히스토리(cust_no,cust_nm)
+	@Override
+	public List<CustomerVO> custInfoHistoryList(String cust_no) {
+		return customerDao.custInfoHistoryList(cust_no);
 	}
 	
 	

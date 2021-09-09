@@ -44,6 +44,7 @@
     overflow: hidden;
     padding: 10px 5px;
     word-break: normal;
+    background-color: #cfcdcd;
 }
 .tg .tg-0lax {
     text-align: center;
@@ -96,7 +97,7 @@ margin-left: 38%;
                 <input type="button" id="searchBtn" value="" onclick="partnerSearch()"/>
             </div>
             <div style="margin-left: 25px; margin-top: 15px; height: 359px; overflow:auto;">
-                <table class="tg">
+                <table class="tg" style="width: 100%;">
 	                <thead>
 	                    <tr>
 		                    <th class="tg-0lax">선택</th>

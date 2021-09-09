@@ -18,7 +18,14 @@ public interface CustomerService {
 	//고객이력(팝업)
 	List<CustomerHistoryVO> selectcustHistoryList(Map<String, Object> param) throws Exception;
 
+	//고객상태조회(cust_ss_cd)
 	List<CodeDetailVO> selectcustSsCd(CodeDetailVO codeDetailVo) throws Exception;
+
+	//고객히스토리리스트(팝업)
+	List<CodeDetailVO> custHistoryList(String cust_no);
+
+	//고객히스토리(cust_no,cust_nm)
+	List<CustomerVO> custInfoHistoryList(String cust_no);
 
 	
 

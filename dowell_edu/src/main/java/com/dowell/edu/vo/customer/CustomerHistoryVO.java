@@ -49,6 +49,8 @@ public class CustomerHistoryVO {
 	private String prt_cd;
 	private String prt_nm;
 	
+	private String cust_nm;
+	
 	private String lst_upd_dt_time;
 	
 

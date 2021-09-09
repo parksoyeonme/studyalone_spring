@@ -35,10 +35,25 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return sqlsSession.selectList("customer.selectcustHistoryList", param);
 	}
 
+	//고객상태조회(cust_ss_cd)
 	@Override
 	public List<CodeDetailVO> selectcustSsCd(CodeDetailVO codeDetailVo) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlsSession.selectList("customer.selectcustSsCd", codeDetailVo);
+	}
+
+	//고객히스토리리스트(팝업)
+	@Override
+	public List<CodeDetailVO> custHistoryList(String cust_no) {
+		// TODO Auto-generated method stub
+		return sqlsSession.selectList("customer.custHistoryList", cust_no);
+	}
+
+	//고객히스토리(cust_no,cust_nm)
+	@Override
+	public List<CustomerVO> custInfoHistoryList(String cust_no) {
+		// TODO Auto-generated method stub
+		return sqlsSession.selectList("customer.custInfoHistoryList", cust_no);
 	}
 
 

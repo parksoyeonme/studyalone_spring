@@ -89,6 +89,7 @@
     width: 100px;
     height: 29px;
     margin-top: 11px;
+    margin-top: 72px;
 }
     
 </style>
@@ -99,11 +100,13 @@
             <div class="infocontainer">
                 <div id="infoDev">
                     <span>고객</span>
-                    <div class ="historyNo" name="cust_no" id="cust_no">${cust_no}</div>
-                    <div class ="historyNm" name="cust_nm" id="cust_nm">${cust_nm}</div>
+                    <c:forEach var="infohistory" items="${infohistory}">
+                    <div class ="historyNo" name="cust_no" id="cust_no">${infohistory.cust_no}</div>
+                    <div class ="historyNm" name="cust_nm" id="cust_nm">${infohistory.cust_nm}</div>
+                    </c:forEach>
                 </div>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 15px; width:100%; height:386px; overflow:auto">
                <table class="tg">
                    <thead>
                        <tr>
@@ -116,60 +119,28 @@
                        </tr>
                    </thead>
                    <tbody id="historyListTBody">
+                   <c:forEach var="history" items="${history}">
+                    <tr>
+                           <td class="tg-0lax">${history.chg_dt}</td>
+                           <td class="tg-0lax">${history.code_nm}</td>
+                           <td class="tg-0lax">${history.chg_bf_cnt}</td>
+                           <td class="tg-0lax">${history.chg_aft_cnt}</td>
+                           <td class="tg-0lax">${history.lst_upd_id}</td>
+                           <td class="tg-0lax">${history.lst_upd_dt_time}</td>
+                       </tr>
+                       </c:forEach>
                    </tbody>
                </table>
            </div>
-           <div class="closeDev">
-               <input class="closeBtn" type="button" value="닫기" onclick="window.close()">
-            </div>
         </div>
     </section>
+    <footer>
+		<div class="closeDev">
+		    <input class="closeBtn" type="button" value="닫기" onclick="window.close()">
+		</div>
+    </footer>
 </body>
 <script>
-
-	custHistory();
-	
-	function custHistory(){
-		
-	   var cust_no = ${cust_no};
-		
-		$.ajax({
-			   url: "<c:url value='/customer/custHistoryList' />",
-				 type: 'POST',
-				 dataType: "json",
-		         data : {
-		       	
-		        	"cust_no" : cust_no
-		        	
-		         },
-		         success : function(data){
-		        	 var tbody = $('#historyListTBody');
-						tbody.empty();
-
-						var tbodyHtml = '';
-						 if (data.list.length == 0) {
-							
-						 }else{
-				        	 for(var i =0; i < data.list.length; i++){
-
-				        		 tbodyHtml += ' <tr>';
-				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].chg_dt + '</td>';
-				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].code_nm + '</td>';
-				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].chg_bf_cnt + '</td>';
-				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].chg_aft_cnt + '</td>';
-				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].lst_upd_id + '</td>';
-				        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].lst_upd_dt_time + '</td>';
-				        		 tbodyHtml += ' </tr>';
-				        	 }
-						 }
-			        	 tbody.append(tbodyHtml);
-		         },
-		         error(xhr, status, err){
-	    			  console.log(xhr, status, err);
-				  }
-		   	});
-		
-		}
 
 </script>
 </html>

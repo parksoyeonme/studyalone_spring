@@ -40,13 +40,10 @@ public class CustomerController {
 	@RequestMapping(value="/customerList")
 	public ModelAndView customerList(CodeDetailVO codeDetailVo, ModelAndView mv) throws Exception{
 		
-		
+		//고객상태조회(cust_ss_cd)
 		List<CodeDetailVO> custSsCd = customerService.selectcustSsCd(codeDetailVo);
 		
-		System.out.println("####리스트나오라ㅏ###########" + custSsCd);
-		
 		mv.addObject("custSsCd", custSsCd);
-		
 		mv.setViewName("/customer/customerList");
 		
 		return mv;
@@ -70,21 +67,7 @@ public class CustomerController {
 		return mv;
 	}
 
-	//고객이력 view
-	@RequestMapping(value="/customerHistory")
-	public ModelAndView customerHistory(ModelAndView mv,
-										@RequestParam String cust_no,
-										@RequestParam String cust_nm) throws Exception{
-		
-		mv.addObject("cust_no", cust_no);
-		mv.addObject("cust_nm", cust_nm);
 
-		mv.setViewName("/customer/customerHistory");
-		
-		return mv;
-	}
-	
-	
 	//고객조회 팝업
 	   @ResponseBody
 	   @RequestMapping(value="/customerInquiryList", method = { RequestMethod.POST, RequestMethod.GET },
@@ -99,8 +82,8 @@ public class CustomerController {
 	      
 	      List<CustomerVO> list = customerService.selectcustSearchList(param);
 	    
-	      model.addAttribute("list" , list);
-	      
+	      model.addAttribute("allList" , list);
+
 	      JSONObject obj = new JSONObject();
 	      obj.put("list", list);
 	      
@@ -121,6 +104,8 @@ public class CustomerController {
 									   @RequestParam String toDate,
 									   Model model			) throws Exception{
 	      
+		   
+		   
 		   Map<String, Object> param= new HashMap<>();
 	
 		      param.put("jn_prt_cd",jn_prt_cd);
@@ -140,27 +125,27 @@ public class CustomerController {
 	      
 	   }
 	   
-	   //고객조회 히스토리팝업
-	   	@ResponseBody
-		@RequestMapping(value="/custHistoryList", method = { RequestMethod.POST, RequestMethod.GET },
-				   produces ="application/text; charset=utf8")
-		public String custHistoryList(@RequestParam String cust_no) throws Exception{
+
+	   
+	 //고객조회 히스토리팝업
+	   @RequestMapping(value="/customerHistory", method = { RequestMethod.POST, RequestMethod.GET },
+			   produces ="application/text; charset=utf8")
+		public ModelAndView custHistory(@RequestParam(value="cust_no", required=false) String cust_no
+										, ModelAndView mv) throws Exception{
 			
+		   //고객히스토리리스트(팝업)
+			List<CodeDetailVO> custHistory = customerService.custHistoryList(cust_no);
 			
-			Map<String, Object> param= new HashMap<>();
-				param.put("cust_no", cust_no);
+			//고객히스토리(cust_no,cust_nm)
+			List<CustomerVO> custinfoHistory = customerService.custInfoHistoryList(cust_no);
 			
-				
-				List<CustomerHistoryVO> list = customerService.selectcustHistoryList(param);
-				
-				
-			      JSONObject obj = new JSONObject();
-			      obj.put("list", list);
-			      
-			      String resp = obj.toString();
-	
-			      return resp;
+			mv.addObject("history", custHistory);
+			mv.addObject("infohistory", custinfoHistory);
+			mv.setViewName("/customer/customerHistory");
 			
+			return mv;
 		}
+	   	
+	   
 	
 }

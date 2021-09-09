@@ -61,6 +61,7 @@
     overflow: hidden;
     padding: 10px 5px;
     word-break: normal;
+    background-color: #cfcdcd;
 }
 .tg .tg-0pky {
     border-color: inherit;
@@ -168,8 +169,8 @@
 		            <table class="tg" id="tableForm">
 		                <thead>
 		                    <tr>
-		                        <th class="tg-0pky">고객번호</th>
-		                        <th class="tg-0pky">고객이름</th>
+		                        <th class="tg-0pky" style="width: 204px;">고객번호</th>
+		                        <th class="tg-0pky" style="width: 132px;">고객이름</th>
 		                        <th class="tg-0pky">휴대폰번호</th>
 		                        <th class="tg-0pky">고객상태</th>
 		                        <th class="tg-0pky" >가입일자</th>
@@ -187,12 +188,10 @@
 	</body>
 	
 <script>
-
-	var i = 0;
+	
 	
 	//제이쿼리 달력  
 	$(function() {
-
        //시작일.
        $('#fromDate').datepicker({
            showOn: "both",                   
@@ -208,7 +207,6 @@
                     $( "#toDate" ).val(selectedDate);
                 }
             }
-
 	     });
 	
        
@@ -226,7 +224,6 @@
                      $("#fromDate" ).val(selectedDate);
                  }
              }
-
          
          	});
          
@@ -234,8 +231,9 @@
           $('#fromDate').datepicker('setDate', '-7D');
           $('#toDate').datepicker('setDate', 'today');
 	       
+          
+          
      });
-
   
   
 		//전체조회
@@ -273,10 +271,8 @@
 			        		 console.log(i);
 		
 			        		 tbodyHtml += ' <tr>';
-			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;"><div style="float: left;">' + data.list[i].cust_no + '</div></p><input type="button" style="width: 71px;" value="변경이력" onclick="custHistory(' + i + ')" tabindex="11"></td>';
-			        		 tbodyHtml += '<input type="hidden" id="cust_no_history' + i +'" value="'+ data.list[i].cust_no+'">';
-			        		 tbodyHtml += '<input type="hidden" id="cust_nm_history" value="'+ data.list[i].cust_nm+'">';
-			        		 tbodyHtml += '<input type="hidden" id="cust_nm_real' + i + '" value="'+ data.list[i].cust_nm_real+'">'
+			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;"><div style="float: left;">' + data.list[i].cust_no + '</div><input type="button" style="width: 71px; margin-left: 20px;" value="변경이력" onclick="custHistory('+ data.list[i].cust_no +')" tabindex="11"></td>';
+			        	
 			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;"><div style="float: left;">' + data.list[i].cust_nm + '</div><input type="button" style="width: 64px; margin-left: 8px;" value="상세" tabindex="12"></input></td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].mbl_no + '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].cust_ss_cd + '</td>';
@@ -317,26 +313,21 @@
 			 var custInquiryUrl = "${pageContext.request.contextPath}/customer/customerInquiry"
 			 
 			 window.open(custInquiryUrl,
-		         "childCustomPopForm", "width=780, height=650, resizable = no, scrollbars = no");
+		         "childCustomPopForm", "width=700, height=650, resizable = no, scrollbars = no");
 		
 		}
 	  	
 	  
+
 		//고객변경이력버튼
-	  	function custHistory(i){
-	
+	  	function custHistory(cust_no){
+			
+			var cust_no = cust_no;
 	  		
-		   var cust_no_history = $("#cust_no_history" + i).val();  
-		   var cust_nm_real = $("#cust_nm_real" + i).val();
-	
-		   	i = i + 1;
-		   
 		  	 window.name = "HistoryPopForm";
-		     
-		  	 var custHistoryUrl = "${pageContext.request.contextPath}/customer/customerHistory?cust_no=" + cust_no_history + "&cust_nm=" + cust_nm_real;
-		     
+		  	 var custHistoryUrl = "${pageContext.request.contextPath}/customer/customerHistory?cust_no=" + cust_no;
 		  	 window.open(custHistoryUrl,
-		              "childForm", "width=780, height=550, resizable = no, scrollbars = no");
+		              "childForm", "width=780, height=702, resizable = no, scrollbars = no");
 	
 		}
 		
@@ -344,6 +335,20 @@
 	  	function refreshPage(){
 	  	    window.location.reload();
 	  	} 
-
+		
+		//고객번호 keyup
+		$("#customSearchInputNo").keyup(function(){
+			$("#customSearchInputName").val($(this).val());
+			$("#customSearchInputName").removeAttr("disabled");
+			
+		})
+		//매장 keyup
+		$("#partnerSearchInputName").keyup(function(){
+			$("#partnerSearchInputCd").val($(this).val());
+			$("#partnerSearchInputCd").removeAttr("disabled");
+			
+		})
+		
+	  	
 </script>   
 </html>
