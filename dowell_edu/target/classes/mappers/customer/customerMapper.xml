@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="customer">
-   
+<mapper namespace="customer">   
+
    <resultMap type="com.dowell.edu.vo.common.PartnerVO" id="PartnerVO">
     	<result column="prt_nm" property="prt_nm"/>
    
@@ -267,12 +267,72 @@
 		   	 								 	<!-- 코드상세 테이블의 공통코드(code_cd) 중 'poc_cd'직업코드 -->
 	</select>
 	
+	<!-- 이메일체크 -->
 	 <select id="emailCheck" resultType="com.dowell.edu.vo.customer.CustomerVO">
 		select *
 		from cs_cust01_mt
 		where email = #{email}
 	
 	</select> 
+	
+		<insert id="insertcust" parameterType="Map">
+		INSERT INTO cs_cust01_mt 
+					(
+				         CUST_NO   					<!-- 고객번호 -->
+				        ,CUST_NM 					<!-- 고객명 -->
+				        ,SEX_CD 					<!-- 성별코드 -->
+				        ,SCAL_YN 					<!-- 양음력구분 -->
+				        ,BRDY_DT 					<!-- 생년월일 -->
+				        ,MRRG_DT 					<!-- 결혼기념일 -->
+				        ,POC_CD 					<!-- 직업코드 -->
+				        ,MBL_NO 					<!-- 휴대폰번호 -->
+				        ,PSMT_GRC_CD 				<!-- 우편물수령코드 -->
+				        ,EMAIL 						<!-- 이메일주소 -->
+				        ,ZIP_CD 					<!-- 우편번호코드 -->
+				        ,ADDR 						<!-- 주소 -->
+				        ,ADDR_DTL 					<!-- 상세주소 -->
+				        ,CUST_SS_CD 				<!-- 고객상태코드 -->
+				        ,JN_PRT_CD 					<!-- 가입매장코드 -->
+				        ,EMAIL_RCV_YN 				<!-- 이메일수신동의여부 -->
+				        ,SMS_RCV_YN 				<!-- SMS수신동의여부 -->
+				        ,TM_RCV_YN 					<!-- TM수신동의여부 -->
+				        ,DM_RCV_YN 					<!-- DM수신동의여부 -->
+				        ,FST_JS_DT 					<!-- 최초가입일자 -->
+				        ,JS_DT 						<!-- 가입일자 -->
+				        ,FST_REG_DT 				<!-- 최초등록일자 -->
+				        ,FST_USER_ID 				<!-- 최초등록자 -->
+				        ,LST_UPD_DT 				<!-- 최종수정일자 -->
+				        ,LST_UPD_ID 				<!-- 최종수정자 -->
+	 					
+				    )
+			VALUES (
+				 		cs_cust01_mt_seq.NEXTVAL 							<!-- 고객번호 : cs_cust01_mt_seq : +1씩증가 -->
+						,#{cust_nm} 															<!-- 고객명 -->
+						,#{sex_cd} 																<!-- 성병코드 M:남자, F:여자 -->
+						,#{scal_yn} 															<!-- 양음력구분 0:양력, 1:음력-->
+						,to_char(TO_DATE('1997-02-15', 'YYYY-MM-DD'), 'YYYYMMDD') 	<!-- 생년월일 : 20210910 -->
+						,to_char(TO_DATE('2021-01-02', 'YYYY-MM-DD'), 'YYYYMMDD') 	<!-- 결혼기념일 : 20210910 -->
+						,#{poc_cd} 																<!-- 직업코드 -->
+						,#{mbl_no} 																<!-- 핸드폰번호 : 01011112222 -->
+						,#{psmt_grc_cd} 														<!-- 우편물수령코드 H:자택, O: 직장 -->
+						,#{email} 																<!-- 이메일주소 : aaa@gmail.com -->
+						,#{zip_cd} 																<!-- 우편번호코드 -->
+						,#{addr} 																<!-- 주소 -->
+						,#{addr_dtl} 															<!-- 상세주소 -->
+						,DEFAULT 															<!-- 고객상태코드 10 :정상, 80:중지, 90:해지-->
+						,#{jn_prt_cd} 															<!-- 가입매장코드 -->
+						,#{email_rcv_yn} 														<!-- 이메일수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의-->
+						,#{sms_rcv_yn} 															<!-- SMS수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
+						,#{tm_rcv_yn} 															<!-- TM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
+						,#{dm_rcv_yn} 															<!-- DM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
+						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD') 		<!-- 최초가입일자 -->
+						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')			<!-- 가입일자 -->															<!-- 해지일자 -->
+						,SYSDATE 																<!-- 최조등록일자#{fst_rdg_dt} -->
+						,#{session_id} 														<!-- 최초등록자 --> 
+						,SYSDATE 													<!-- 최종수정일자#{lst_upd_dt} -->
+						,#{session_id} 															<!-- 최종수정자 --> 
+					)
+	</insert>
 	
 	<!-- <select id="emailCheck" resultType="com.dowell.edu.vo.customer.CustomerVO">
 	 SELECT

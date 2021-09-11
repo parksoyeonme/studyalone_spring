@@ -1,8 +1,20 @@
+<%@page import="com.dowell.edu.vo.member.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+ //Object obj = session.getAttribute("LOGIN");
+MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 정보를 받아온다.
+ 
+ if(member == null){
+  System.out.println("로그인 안한 사용자");
+ }else{
+  System.out.println("로그인한 사용자");
+ }
+%>  
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -147,19 +159,20 @@
 		                                <td class="tg-0lax">
 		                                    <span class="required" style="margin-right: 41px; padding-right: 10px;" >고객명</span>
 		                                    <input type="text" id="cust_nm" name="cust_nm" maxlength="6" value="" required>
+		                                     <input type="hidden" name="session_id" value="${member.user_id}">
 		                                </td>
 		                                <td class="tg-0lax">
 		                                    <span class="required" style="margin-right: 41px;">직업코드</span>
 		                                   
 		                                    <select id="poc_cd" name="poc_cd"> 
-		                                        <option value="${codeCd[0].dtl_cd}">${codeCd[0].dtl_cd_nm}</option> 
-		                                        <option value="${codeCd[1].dtl_cd}">${codeCd[1].dtl_cd_nm}</option> 
-		                                        <option value="${codeCd[2].dtl_cd}">${codeCd[2].dtl_cd_nm}</option>
-		                                        <option value="${codeCd[3].dtl_cd}">${codeCd[3].dtl_cd_nm}</option>
+		                                        <option value="${codeCd[2].dtl_cd}">${codeCd[2].dtl_cd_nm}</option> 
+		                                        <option value="${codeCd[3].dtl_cd}">${codeCd[3].dtl_cd_nm}</option> 
 		                                        <option value="${codeCd[4].dtl_cd}">${codeCd[4].dtl_cd_nm}</option>
 		                                        <option value="${codeCd[5].dtl_cd}">${codeCd[5].dtl_cd_nm}</option>
 		                                        <option value="${codeCd[6].dtl_cd}">${codeCd[6].dtl_cd_nm}</option>
 		                                        <option value="${codeCd[7].dtl_cd}">${codeCd[7].dtl_cd_nm}</option>
+		                                        <option value="${codeCd[8].dtl_cd}">${codeCd[8].dtl_cd_nm}</option>
+		                                        <option value="${codeCd[9].dtl_cd}">${codeCd[9].dtl_cd_nm}</option>
 		                                     </select>
 		                                </td>
 		                            </tr>
@@ -170,8 +183,8 @@
 		                                </td>
 		                                <td class="tg-0lax">
 		                                    <span style="margin-right: -7px; padding-right: 21px;">성별</span>
-		                                     <input type="radio" name="sex_cd" value="${codeCd[8].dtl_cd}" id="sexF" checked>여성
-		                                     <input type="radio" name="sex_cd" value="${codeCd[9].dtl_cd}" id="sexM"> 남성 
+		                                     <input type="radio" name="sex_cd" value="${codeCd[0].dtl_cd}" id="sexF" checked>여성
+		                                     <input type="radio" name="sex_cd" value="${codeCd[1].dtl_cd}" id="sexM"> 남성 
 		                                </td>
 		                            </tr>
 		                            <tr>
@@ -191,8 +204,8 @@
 		                            <tr>
 		                                <td class="tg-0lax">
 		                                    <span class="required" >우편물수령</span>
-		                                    <input type="radio" name="post_grc_cd" style="margin-left: 43px;" value="H" checked required>자택
-		                                    <input type="radio" name="post_grc_cd" style="margin-left: 36px;" value="O" required> 직장
+		                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 43px;" value="H" checked required>자택
+		                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 36px;" value="O" required> 직장
 		                                </td>
 		                                <td class="tg-0lax">
 		                                    <p style="padding-left: 49px; float:left; margin-top: 1px;">이메일</p>
@@ -204,13 +217,13 @@
 		                            <tr>
 		                                <td class="tg-0lax" colspan='2'>
 		                                    <p style="float:left; margin-top: 6px; margin-left: 51px;">주소</p>
-		                                   <input type="hidden" name="addr" id="addr">
-		                                    <input type="text" id="addr_first" name="addr_first" style="width: 75px; margin-left: 25px;">
+		                                   
+		                                    <input type="text" id="zip_cd" name="zip_cd" style="width: 75px; margin-left: 25px;">
 		                                    <button type="button" style="width: 33px;">
 		                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
 		                                    </button>
-		                                    <input type="text" id="addr_middle" name="addr_middle" style="width: 256px;">
-		                                    <input type="text" id="addr_end" name="addr_end" placeholder="직접입력">
+		                                    <input type="text" id="addr" name="addr" style="width: 256px;">
+		                                    <input type="text" id="addr_dtl" name="addr_dtl" placeholder="직접입력">
 		                                    
 		                                </td>
 		                           	 </tr>
@@ -225,7 +238,7 @@
 		                                    <button type="button" style="width: 33px;" onclick="prtBtn()">
 		                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
 		                                    </button>
-		                                    <input type="text" style="width: 78px;" id="partnerSearchInputName" name="partnerSearchInputName">
+		                                    <input type="text" style="width: 78px;" id="partnerSearchInputName" name="jn_prt_cd">
 		                                </td>
 		                            </tr>
 	
@@ -248,7 +261,11 @@
 		                                </td>
 									  </tr>
 									  <tr>
-									    <td class="tg-0lax"></td>
+									    <td class="tg-0lax">
+									    	<span class="required">TM수신동의</span>
+		                                    <input type="radio" name="tm_rcv_yn" value="Y" required>예
+		                                    <input type="radio" name="tm_rcv_yn" value="N"  required> 아니오
+									    </td>
 		                                <td class="tg-0lax">
 		                                    <span class="required">DM수신동의</span>
 		                                    <input type="radio" name="dm_rcv_yn" value="Y">예
@@ -258,7 +275,7 @@
 									</tbody>
 								</table>
 							</div>
-		                    <input type="submit" class="submitBtn" id="goNewRegBtn" value="등록">
+		                    <input type="submit" class="submitBtn" id="goNewRegBtn"  value="등록">
 		                </form>
 	                    <!-- <input type="submit" class="submitBtn" id="goNewRegBtn" onclick="goNewRegBtn()" value="등록"> -->
                 	</div>
@@ -276,7 +293,6 @@
     </body>
     <script>
     
-    	
     //제이쿼리 달력
         
         $(function(){
@@ -286,7 +302,8 @@
 	            buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif", 
 	            dateFormat: "yy-mm-dd",             
 	            changeMonth: true,
-	            changeYear: true
+	            changeYear: true,
+	            yearRange: 'c-100:c+50',
 
         
         	});
@@ -297,7 +314,8 @@
 	            buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif", 
 	            dateFormat: "yy-mm-dd",             
 	            changeMonth: true,
-	            changeYear: true
+	            changeYear: true,
+	            yearRange: 'c-100:c+50',
 	
 	        
 	        });

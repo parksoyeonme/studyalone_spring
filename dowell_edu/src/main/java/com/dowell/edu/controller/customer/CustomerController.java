@@ -177,7 +177,7 @@ public class CustomerController {
 	   @ResponseBody
 	   @RequestMapping(value="/custRegister", method = { RequestMethod.POST, RequestMethod.GET },
 			   produces ="application/text; charset=utf8")
-	   public String custRegister(@RequestParam("cust_nm") String cust_nm
+	   public ModelAndView custRegister(@RequestParam("cust_nm") String cust_nm
 								 ,@RequestParam("poc_cd") String poc_cd
 								 ,@RequestParam("brdy_dt") String brdy_dt
 								 ,@RequestParam("sex_cd") String sex_cd
@@ -185,21 +185,28 @@ public class CustomerController {
 								 ,@RequestParam("mbl_no_middle") String mbl_no_middle
 								 ,@RequestParam("mbl_no_end") String mbl_no_end
 								 ,@RequestParam("scal_yn") String scal_yn
-								 ,@RequestParam("post_grc_cd") String post_grc_cd
+								 ,@RequestParam("psmt_grc_cd") String psmt_grc_cd
 								 ,@RequestParam("email_first") String email_first
 								 ,@RequestParam("email_end") String email_end
-								 ,@RequestParam("addr_first") String addr_first
-								 ,@RequestParam("addr_middle") String addr_middle
-								 ,@RequestParam("addr_end") String addr_end
+								 ,@RequestParam("zip_cd") String zip_cd
+								 ,@RequestParam("addr") String addr
+								 ,@RequestParam("addr_dtl") String addr_dtl
 								 ,@RequestParam("mrrg_dt") String mrrg_dt
+								 ,@RequestParam("jn_prt_cd") String jn_prt_cd
 								 ,@RequestParam("email_rcv_yn") String email_rcv_yn
 								 ,@RequestParam("sms_rcv_yn") String sms_rcv_yn
 								 ,@RequestParam("dm_rcv_yn") String dm_rcv_yn
-								 ,Model model) throws Exception{
+								 ,@RequestParam("tm_rcv_yn") String tm_rcv_yn
+								 ,@RequestParam("session_id") String session_id
+								 ,ModelAndView mv
+								 ,HttpSession session
+								 ,HttpServletRequest request
+								 ,RedirectAttributes redirectAttr) throws Exception{
 	      
+		   
 		
 		   String mbl_no = mbl_no_first + mbl_no_middle + mbl_no_end;
-		   String addr = addr_first + ' ' + addr_middle +','+ addr_end;
+		 
 		   
 		   String email ="";
 		   
@@ -218,23 +225,34 @@ public class CustomerController {
 		      param.put("sex_cd",sex_cd);
 		      param.put("mbl_no",mbl_no);
 		      param.put("scal_yn",scal_yn);
-		      param.put("post_grc_cd",post_grc_cd);
+		      param.put("psmt_grc_cd",psmt_grc_cd);
 		      param.put("addr",addr);
+		      param.put("addr_dtl",addr_dtl);
 		      param.put("email",email);
 		      param.put("mrrg_dt",mrrg_dt);
 		      param.put("email_rcv_yn",email_rcv_yn);
 		      param.put("sms_rcv_yn",sms_rcv_yn);
 		      param.put("dm_rcv_yn",dm_rcv_yn);
+		      param.put("tm_rcv_yn",tm_rcv_yn);
+		      param.put("session_id",session_id);
+		      param.put("zip_cd",zip_cd);
+		      param.put("jn_prt_cd",jn_prt_cd);
 		      
 		      log.info("############################################"+param);
-		      int result = customerService.insertcust(param);
-	     
-	      JSONObject obj = new JSONObject();
-	      
-	      
-	      String resp = obj.toString();
-		      
-		     return resp;
+		      try {
+		    	  int result = customerService.insertcust(param);
+		    	 
+		      }catch(Exception e) {
+					//1.로깅작업
+					log.error(e.getMessage(),e);
+					//2.다시spring container에 던질것.
+					throw e;
+		    
+		      }
+	    
+		      mv.setViewName("/customer/customerList");
+				
+			return mv;
 	      
 	   }
 	   
