@@ -243,13 +243,46 @@
 	</select>
 
 
+	<!-- 히스토리팝업창 타이틀 고객명,고객이름 -->
 	<select id="custInfoHistoryList" resultType="com.dowell.edu.vo.customer.CustomerVO">
 		SELECT
-		   	 CUST_NO
-		    ,CUST_NM
+		   	 CUST_NO 				<!-- 고객넘버 -->
+		    ,CUST_NM 				<!-- 고객이름 -->
 		FROM
-		    CS_CUST01_MT
+		    CS_CUST01_MT 			<!-- 고객관리 테이블 -->
 		WHERE
-		    CUST_NO = #{cust_no}
+		    CUST_NO = #{cust_no}  	
 	</select>
+	
+	<!-- 신규고객팝업 성별구분 M,F -->
+	<select id="selectcodeCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
+		SELECT
+ 			 code_cd 					<!-- 공통코드 -->
+   			 ,dtl_cd 					<!-- 세부코드 -->
+		   	 ,dtl_cd_nm 				<!-- 세부코드명 -->
+		FROM
+		   	 ma_code_dt 				<!-- 코드상세 테이블 -->
+		WHERE
+		   	 code_cd in('SEX_CD','POC_CD') 		<!-- 코드상세 테이블의 공통코드(code_cd) 중 'sex_cd'성별코드 -->
+		   	 								 	<!-- 코드상세 테이블의 공통코드(code_cd) 중 'poc_cd'직업코드 -->
+	</select>
+	
+	 <select id="emailCheck" resultType="com.dowell.edu.vo.customer.CustomerVO">
+		select *
+		from cs_cust01_mt
+		where email = #{email}
+	
+	</select> 
+	
+	<!-- <select id="emailCheck" resultType="com.dowell.edu.vo.customer.CustomerVO">
+	 SELECT
+		    user_no
+		    , email
+		    
+		    FROM
+		    cs_cust01_mt
+     WHERE
+		    email= #{email}
+	</select> -->
+	
 </mapper>

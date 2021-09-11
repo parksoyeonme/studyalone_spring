@@ -7,12 +7,17 @@ import com.dowell.edu.vo.common.CodeDetailVO;
 import com.dowell.edu.vo.common.CodeMaterVO;
 import com.dowell.edu.vo.common.PartnerVO;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class CustomerHistoryVO {
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.dowell.edu.vo.common.CodeDetailVO;
 import com.dowell.edu.vo.customer.CustomerHistoryVO;
 import com.dowell.edu.vo.customer.CustomerVO;
+import com.dowell.edu.vo.member.MemberVO;
 
 public interface CustomerDAO {
 
@@ -26,6 +27,19 @@ public interface CustomerDAO {
 	
 	//고객히스토리(cust_no,cust_nm)
 	List<CustomerVO> custInfoHistoryList(String cust_no);
+
+	//신규고객등록(sex_cd,poc_cd)
+	List<CodeDetailVO> selectcodeCd(CodeDetailVO codeDetailVo);
+
+	//신규등록
+	int insertcust(Map<String, Object> param);
+
+	//이메일체크
+	CustomerVO emailCheck(CustomerVO customerVo);
+
+	CustomerVO emailCheck(Map<String, Object> param);
+
+	
 
 	
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.dowell.edu.vo.common.CodeDetailVO;
 import com.dowell.edu.vo.customer.CustomerHistoryVO;
 import com.dowell.edu.vo.customer.CustomerVO;
+import com.dowell.edu.vo.member.MemberVO;
 
 public interface CustomerService {
 
@@ -22,11 +23,20 @@ public interface CustomerService {
 	List<CodeDetailVO> selectcustSsCd(CodeDetailVO codeDetailVo) throws Exception;
 
 	//고객히스토리리스트(팝업)
-	List<CodeDetailVO> custHistoryList(String cust_no);
+	List<CodeDetailVO> custHistoryList(String cust_no) throws Exception;
 
 	//고객히스토리(cust_no,cust_nm)
-	List<CustomerVO> custInfoHistoryList(String cust_no);
+	List<CustomerVO> custInfoHistoryList(String cust_no) throws Exception;
 
-	
+	//신규고객등록(sex_cd,poc_Cd)
+	List<CodeDetailVO> selectcodeCd(CodeDetailVO codeDetailVo) throws Exception;
+
+	//신규등록
+	int insertcust(Map<String, Object> param) throws Exception;
+
+	//이메일체크
+	CustomerVO emailCheck(CustomerVO customerVo) throws Exception;
+
+	CustomerVO emailCheck(Map<String, Object> param);
 
 }

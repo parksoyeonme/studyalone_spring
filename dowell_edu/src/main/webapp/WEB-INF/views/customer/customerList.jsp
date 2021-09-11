@@ -165,7 +165,7 @@
 					</table>
 				</div>
 		        <button id="newCust" onclick="custRegister();" tabindex="10">신규등록</button>
-		        <div style="width:100%; height:500px; overflow:auto">
+		        <div style="width:100%; height:701px; overflow:auto">
 		            <table class="tg" id="tableForm">
 		                <thead>
 		                    <tr>

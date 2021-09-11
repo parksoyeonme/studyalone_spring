@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member"> <!-- parameterType은 생략가능, 생략됨 -->
+
+	<!-- 로그인 -->
+	<select id="loginUser" resultType="com.dowell.edu.vo.member.MemberVO">
+		SELECT
+		   	 user_id, 					<!-- 사용자Id -->
+		   	 use_pwd, 					<!-- 비밀번호 -->
+		   	 user_nm 					<!-- 사용자 명 -->
+		FROM
+		   	 ma_user_mt 				<!-- 사용자 table -->
+		WHERE
+		   	 user_id = #{user_id} 		<!-- 사용자id =  입력id -->
+		   	 AND use_pwd = #{use_pwd} 	<!-- 사용자pwd = 입력pwd -->
+	</select>
+
+</mapper>

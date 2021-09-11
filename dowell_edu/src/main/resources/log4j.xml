@@ -70,11 +70,11 @@
 	</logger>
 	
    <!-- Application Loggers -->
-   <logger name="com.kh.spring">
+   <logger name="com.dowell.edu">
       <level value="debug" />
    </logger>
    
-   <logger name="com.kh.spring.common.aop" additivity="false">
+   <logger name="com.dowell.edu.common.aop" additivity="false">
    		<level value="info" />
    		<appender-ref ref="loginLogger"/>
    </logger>

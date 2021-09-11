@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.dowell.edu.vo.common.CodeDetailVO;
 import com.dowell.edu.vo.customer.CustomerHistoryVO;
 import com.dowell.edu.vo.customer.CustomerVO;
+import com.dowell.edu.vo.member.MemberVO;
 
 @Repository
 public class CustomerDAOImpl implements CustomerDAO {
@@ -56,7 +57,27 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return sqlsSession.selectList("customer.custInfoHistoryList", cust_no);
 	}
 
+	//신규고객등록(sex_cd,poc_cd)
+	@Override
+	public List<CodeDetailVO> selectcodeCd(CodeDetailVO codeDetailVo) {
+		return sqlsSession.selectList("customer.selectcodeCd", codeDetailVo);
+	}
 
+	//신규등록
+	@Override
+	public int insertcust(Map<String, Object> param) {
+		return sqlsSession.insert("customer.insertcust", param);
+	}
 
+	@Override
+	public CustomerVO emailCheck(CustomerVO customerVo) {
+		return sqlsSession.selectOne("customer.emailCheck", customerVo);
+	}
+
+	@Override
+	public CustomerVO emailCheck(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return sqlsSession.selectOne("customer.emailCheck", param);
+	}
 
 }

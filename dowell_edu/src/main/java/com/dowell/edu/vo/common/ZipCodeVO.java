@@ -9,22 +9,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CodeDetailVO {
+@ToString
+public class ZipCodeVO {
 
-	private String code_cd;
-	private String dtl_cd;
-	private String dtl_cd_nm;
-	private String use_yn;
-	private String use_st_dt;
-	private String use_ed_dt;
-	private int srt_seq;
+	private String zip_no;
+	private String cnp_nm;
+	private String sgg_nm;
+	private String emd_nm;
 	private Date fst_reg_dt;
-	private String fst_user_dt;
+	private String fst_user_id;
 	private Date lst_upd_dt;
 	private String lst_upd_id;
-	
 }

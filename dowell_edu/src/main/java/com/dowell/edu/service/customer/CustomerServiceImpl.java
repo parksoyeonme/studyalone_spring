@@ -11,6 +11,7 @@ import com.dowell.edu.dao.customer.CustomerDAO;
 import com.dowell.edu.vo.common.CodeDetailVO;
 import com.dowell.edu.vo.customer.CustomerHistoryVO;
 import com.dowell.edu.vo.customer.CustomerVO;
+import com.dowell.edu.vo.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,6 +61,34 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<CustomerVO> custInfoHistoryList(String cust_no) {
 		return customerDao.custInfoHistoryList(cust_no);
 	}
+
 	
+	//신규고객등록(sex_cd,poc_Cd)
+	@Override
+	public List<CodeDetailVO> selectcodeCd(CodeDetailVO codeDetailVo) {
+		return customerDao.selectcodeCd(codeDetailVo);
+	}
+
+	//신규등록
+
+	@Override
+	public int insertcust(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return customerDao.insertcust(param);
+	}
+
+	//이메일체크
+	@Override
+	public CustomerVO emailCheck(CustomerVO customerVo) throws Exception {
+		// TODO Auto-generated method stub
+		return customerDao.emailCheck(customerVo);
+	}
+
+	@Override
+	public CustomerVO emailCheck(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return customerDao.emailCheck(param);
+	}
+
 	
 }
