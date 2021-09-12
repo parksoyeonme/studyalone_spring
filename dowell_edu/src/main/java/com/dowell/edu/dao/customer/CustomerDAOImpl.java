@@ -45,39 +45,41 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	//고객히스토리리스트(팝업)
 	@Override
-	public List<CodeDetailVO> custHistoryList(String cust_no) {
+	public List<CodeDetailVO> custHistoryList(String cust_no) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlsSession.selectList("customer.custHistoryList", cust_no);
 	}
 
 	//고객히스토리(cust_no,cust_nm)
 	@Override
-	public List<CustomerVO> custInfoHistoryList(String cust_no) {
+	public List<CustomerVO> custInfoHistoryList(String cust_no) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlsSession.selectList("customer.custInfoHistoryList", cust_no);
 	}
 
 	//신규고객등록(sex_cd,poc_cd)
 	@Override
-	public List<CodeDetailVO> selectcodeCd(CodeDetailVO codeDetailVo) {
+	public List<CodeDetailVO> selectcodeCd(CodeDetailVO codeDetailVo) throws Exception {
 		return sqlsSession.selectList("customer.selectcodeCd", codeDetailVo);
 	}
 
 	//신규등록
 	@Override
-	public int insertcust(Map<String, Object> param) {
+	public int insertcust(Map<String, Object> param) throws Exception {
 		return sqlsSession.insert("customer.insertcust", param);
 	}
 
+	//이메일 중복체크
 	@Override
-	public CustomerVO emailCheck(CustomerVO customerVo) {
-		return sqlsSession.selectOne("customer.emailCheck", customerVo);
-	}
-
-	@Override
-	public CustomerVO emailCheck(Map<String, Object> param) {
+	public CustomerVO emailCheck(Map<String, Object> param) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlsSession.selectOne("customer.emailCheck", param);
+	}
+
+	//휴대폰 중복체크
+	@Override
+	public CustomerVO mblCheck(Map<String, Object> param) throws Exception {
+		return sqlsSession.selectOne("customer.mblCheck", param);
 	}
 
 }

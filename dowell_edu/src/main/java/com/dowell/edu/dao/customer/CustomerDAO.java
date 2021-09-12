@@ -23,21 +23,22 @@ public interface CustomerDAO {
 	List<CodeDetailVO> selectcustSsCd(CodeDetailVO codeDetailVo) throws Exception;
 	
 	//고객히스토리리스트(팝업)
-	List<CodeDetailVO> custHistoryList(String cust_no);
+	List<CodeDetailVO> custHistoryList(String cust_no) throws Exception;
 	
 	//고객히스토리(cust_no,cust_nm)
-	List<CustomerVO> custInfoHistoryList(String cust_no);
+	List<CustomerVO> custInfoHistoryList(String cust_no) throws Exception;
 
 	//신규고객등록(sex_cd,poc_cd)
-	List<CodeDetailVO> selectcodeCd(CodeDetailVO codeDetailVo);
+	List<CodeDetailVO> selectcodeCd(CodeDetailVO codeDetailVo) throws Exception;
 
 	//신규등록
-	int insertcust(Map<String, Object> param);
+	int insertcust(Map<String, Object> param) throws Exception;
 
-	//이메일체크
-	CustomerVO emailCheck(CustomerVO customerVo);
+	//이메일 중복체크
+	CustomerVO emailCheck(Map<String, Object> param) throws Exception;
 
-	CustomerVO emailCheck(Map<String, Object> param);
+	//휴대폰 중복체크
+	CustomerVO mblCheck(Map<String, Object> param) throws Exception;
 
 	
 

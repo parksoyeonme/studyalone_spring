@@ -14,7 +14,12 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
   System.out.println("로그인한 사용자");
  }
 %>  
-
+<%-- RedirectAttribute.addFlashAttribute의 저장된 속성값 사용(1회용) --%>
+<c:if test="${not empty msg}">
+<script>
+alert("${msg}");
+</script>   
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +50,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 .infoTool{
     margin-top: 13px;
     width: 785px; 
-    height:292px;
+    height:319px;
     border: 1px solid #b7afaf;
    
 }
@@ -95,12 +100,12 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
     border: 1px solid rgb(179, 171, 171);
     background-color: rgb(228 219 219);
     width: 783px;
-    height: 56px;
+    height: 63px;
 
-    margin-top: 222px;
+    margin-top: 239px;
 }
 .submitBtn{
-    margin-top: 91px;
+    margin-top: 112px;
     width: 90px;
     height: 41px;
     float: right;
@@ -153,129 +158,133 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
               
                 	<div class="infoTool">
 	                	<form id="registerFrm" name="registerFrm" action="/customer/custRegister" method="post">
+		                    <c:if test="${member.user_id != null}">
 		                    <table class="tg">
 		                        <tbody>
-		                            <tr>
-		                                <td class="tg-0lax">
-		                                    <span class="required" style="margin-right: 41px; padding-right: 10px;" >고객명</span>
-		                                    <input type="text" id="cust_nm" name="cust_nm" maxlength="6" value="" required>
-		                                     <input type="hidden" name="session_id" value="${member.user_id}">
-		                                </td>
-		                                <td class="tg-0lax">
-		                                    <span class="required" style="margin-right: 41px;">직업코드</span>
-		                                   
-		                                    <select id="poc_cd" name="poc_cd"> 
-		                                        <option value="${codeCd[2].dtl_cd}">${codeCd[2].dtl_cd_nm}</option> 
-		                                        <option value="${codeCd[3].dtl_cd}">${codeCd[3].dtl_cd_nm}</option> 
-		                                        <option value="${codeCd[4].dtl_cd}">${codeCd[4].dtl_cd_nm}</option>
-		                                        <option value="${codeCd[5].dtl_cd}">${codeCd[5].dtl_cd_nm}</option>
-		                                        <option value="${codeCd[6].dtl_cd}">${codeCd[6].dtl_cd_nm}</option>
-		                                        <option value="${codeCd[7].dtl_cd}">${codeCd[7].dtl_cd_nm}</option>
-		                                        <option value="${codeCd[8].dtl_cd}">${codeCd[8].dtl_cd_nm}</option>
-		                                        <option value="${codeCd[9].dtl_cd}">${codeCd[9].dtl_cd_nm}</option>
-		                                     </select>
-		                                </td>
-		                            </tr>
-		                            <tr>
-		                                <td class="tg-0lax">
-		                                    <span class="required" style="margin-right: -26px; padding-right: 11px; ">생년월일</span>
-		                                    <input type="text" id="brdy_dt" name="brdy_dt" required>
-		                                </td>
-		                                <td class="tg-0lax">
-		                                    <span style="margin-right: -7px; padding-right: 21px;">성별</span>
-		                                     <input type="radio" name="sex_cd" value="${codeCd[0].dtl_cd}" id="sexF" checked>여성
-		                                     <input type="radio" name="sex_cd" value="${codeCd[1].dtl_cd}" id="sexM"> 남성 
-		                                </td>
-		                            </tr>
-		                            <tr>
-		                                <td class="tg-0lax">
-		                                    <span class="required" style="padding-left: 30px; margin-right: 12px;">휴대폰번호</span>
-		                                        <input type="hidden" name="mbl_no" id="mbl_no">
-		                                        <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 9px;" required>
-		                                        <input type="text" name="mbl_no_middle" id="mbl_no_middle" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
-		                                        <input type="text" name="mbl_no_end" id="mbl_no_end" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
-		                                </td>
-		                                <td class="tg-0lax">
-		                                    <span style="margin-right: -7px; padding-right: 21px;">생일</span>
-		                                    <input type="radio" name="scal_yn" value="0" style="margin-left: 61px;" checked>양력
-		                                    <input type="radio" name="scal_yn" value="1" style="margin-left: 27px;"> 음력
-		                                </td>
-		                            </tr>
-		                            <tr>
-		                                <td class="tg-0lax">
-		                                    <span class="required" >우편물수령</span>
-		                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 43px;" value="H" checked required>자택
-		                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 36px;" value="O" required> 직장
-		                                </td>
-		                                <td class="tg-0lax">
-		                                    <p style="padding-left: 49px; float:left; margin-top: 1px;">이메일</p>
-		                                    <input type="text" id="email_first" name="email_first" style="margin-left: 51px; width: 45px;">@ 
-		                                    <input type="text" id="email_end" name="email_end" style="width: 112px;">
-		                                    <span id = "emailcheck"></span>
-		                                </td>
-		                            </tr>
-		                            <tr>
-		                                <td class="tg-0lax" colspan='2'>
-		                                    <p style="float:left; margin-top: 6px; margin-left: 51px;">주소</p>
-		                                   
-		                                    <input type="text" id="zip_cd" name="zip_cd" style="width: 75px; margin-left: 25px;">
-		                                    <button type="button" style="width: 33px;">
-		                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
-		                                    </button>
-		                                    <input type="text" id="addr" name="addr" style="width: 256px;">
-		                                    <input type="text" id="addr_dtl" name="addr_dtl" placeholder="직접입력">
-		                                    
-		                                </td>
-		                           	 </tr>
-		                            <tr>
-		                                <td class="tg-0lax">
-		                                    <span style="margin-right: -26px;">결혼기념일</span>
-		                                    <input type="text" id="mrrg_dt" name="mrrg_dt">
-		                                 </td>
-		                                <td class="tg-0lax">
-		                                    <p style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
-		                                    <input type="text" style="width: 56px; margin-left: 53px;" id="partnerSearchInputCd" name="partnerSearchInputCd">
-		                                    <button type="button" style="width: 33px;" onclick="prtBtn()">
-		                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
-		                                    </button>
-		                                    <input type="text" style="width: 78px;" id="partnerSearchInputName" name="jn_prt_cd">
-		                                </td>
-		                            </tr>
-	
-		                        </tbody>
-		                    </table>
-		                    <p class="topTitle">수신동의</p>
-		                    <div style="border: 1px solid #b7afaf; height: 79px;">
-			                    <table class="tg">
-									<tbody>
-									  <tr>
-									    <td class="tg-0lax">
-		                                    <span class="required">이메일수신동의</span>
-		                                    <input type="radio" name="email_rcv_yn" value="Y" required>예
-		                                    <input type="radio" name="email_rcv_yn" value="N"  required> 아니오
-		                                </td>
-		                                <td class="tg-0lax">
-		                                    <span class="required">SMS수신동의</span>
-		                                    <input type="radio" name="sms_rcv_yn"  value="Y" >예
-		                                    <input type="radio" name="sms_rcv_yn" value="N" > 아니요
-		                                </td>
-									  </tr>
-									  <tr>
-									    <td class="tg-0lax">
-									    	<span class="required">TM수신동의</span>
-		                                    <input type="radio" name="tm_rcv_yn" value="Y" required>예
-		                                    <input type="radio" name="tm_rcv_yn" value="N"  required> 아니오
-									    </td>
-		                                <td class="tg-0lax">
-		                                    <span class="required">DM수신동의</span>
-		                                    <input type="radio" name="dm_rcv_yn" value="Y">예
-		                                    <input type="radio" name="dm_rcv_yn" value="N" > 아니요
-		                                </td>
-									  </tr>
-									</tbody>
-								</table>
-							</div>
-		                    <input type="submit" class="submitBtn" id="goNewRegBtn"  value="등록">
+			                        
+			                            <tr>
+			                                <td class="tg-0lax">
+			                                    <span class="required" style="margin-right: 41px; padding-right: 10px;" >고객명</span>
+			                                    <input type="text" id="cust_nm" name="cust_nm" maxlength="6" value="" required>
+			                                     <input type="hidden" name="session_id" value="${member.user_id}">
+			                                </td>
+			                                <td class="tg-0lax">
+			                                    <span class="required" style="margin-right: 41px;">직업코드</span>
+			                                   
+			                                    <select id="poc_cd" name="poc_cd"> 
+			                                    	<c:forEach var="codeCd" items="${codeCd}" begin="2" end="9">
+
+			                                        <option value="${codeCd.dtl_cd}">${codeCd.dtl_cd_nm}</option> 
+			                                     	</c:forEach>
+			                                     </select>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td class="tg-0lax">
+			                                    <span class="required" style="margin-right: -26px; padding-right: 11px; ">생년월일</span>
+			                                    <input type="text" id="brdy_dt" name="brdy_dt" required>
+			                                </td>
+			                                <td class="tg-0lax">
+			                                    <span style="margin-right: -7px; padding-right: 21px;">성별</span>
+			                                    <input type="radio" name="sex_cd" value="${codeCd[0].dtl_cd}" id="sexF" checked>여성
+			                                    <input type="radio" name="sex_cd" value="${codeCd[1].dtl_cd}" id="sexM"> 남성 
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td class="tg-0lax">
+			                                    <span class="required" style="padding-left: 30px; margin-right: 12px;">휴대폰번호</span>
+			                                        <input type="hidden" name="mbl_no" id="mbl_no">
+			                                        <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 9px;" required>
+			                                        <input type="text" name="mbl_no_middle" id="mbl_no_middle" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
+			                                        <input type="text" name="mbl_no_end" id="mbl_no_end" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
+			                                        <br/><span id = "mblcheck" style="margin-left: 121px;"></span>
+			                                </td>
+			                                <td class="tg-0lax">
+			                                    <span style="margin-right: -7px; padding-right: 21px;">생일</span>
+			                                    <input type="radio" name="scal_yn" value="0" style="margin-left: 61px;" checked>양력
+			                                    <input type="radio" name="scal_yn" value="1" style="margin-left: 27px;"> 음력
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td class="tg-0lax">
+			                                    <span class="required" >우편물수령</span>
+			                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 43px;" value="H" checked required>자택
+			                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 36px;" value="O" required> 직장
+			                                </td>
+			                                <td class="tg-0lax">
+			                                    <p style="padding-left: 49px; float:left; margin-top: 1px;">이메일</p>
+			                                    <input type="text" id="email_first" name="email_first" style="margin-left: 51px; width: 45px;">@ 
+			                                    <input type="text" id="email_end" name="email_end" style="width: 112px;">
+			                                    <br/><p id = "emailcheck" style="margin-top: 2px; height: 1px;"></p>
+			                                </td>
+			                            </tr>
+			                            <tr>
+			                                <td class="tg-0lax" colspan='2'>
+			                                    <p style="float:left; margin-top: 6px; margin-left: 51px;">주소</p>
+			                                   
+			                                    <input type="text" id="zip_cd" name="zip_cd" style="width: 75px; margin-left: 25px;">
+			                                    <button type="button" style="width: 33px;">
+			                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
+			                                    </button>
+			                                    <input type="text" id="addr" name="addr" style="width: 256px;">
+			                                    <input type="text" id="addr_dtl" name="addr_dtl" placeholder="직접입력">
+			                                    
+			                                </td>
+			                           	 </tr>
+			                            <tr>
+			                                <td class="tg-0lax">
+			                                    <span style="margin-right: -26px;">결혼기념일</span>
+			                                    <input type="text" id="mrrg_dt" name="mrrg_dt">
+			                                 </td>
+			                                <td class="tg-0lax">
+			                                    <p style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
+			                                    <input type="text" style="width: 56px; margin-left: 53px;" id="partnerSearchInputCd" name="partnerSearchInputCd">
+			                                    <button type="button" style="width: 33px;" onclick="prtBtn()">
+			                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
+			                                    </button>
+			                                    <input type="text" style="width: 78px;" id="partnerSearchInputName" name="jn_prt_cd">
+			                                </td>
+			                            </tr>
+		
+			                        </tbody>
+			                    </table>
+			                    <p class="topTitle">수신동의</p>
+			                    <div style="border: 1px solid #b7afaf; height: 79px;">
+				                    <table class="tg">
+										<tbody>
+										  <tr>
+										    <td class="tg-0lax">
+			                                    <span class="required">이메일수신동의</span>
+			                                    <input type="radio" name="email_rcv_yn" value="Y" required>예
+			                                    <input type="radio" name="email_rcv_yn" value="N"  required> 아니오
+			                                </td>
+			                                <td class="tg-0lax">
+			                                    <span class="required">SMS수신동의</span>
+			                                    <input type="radio" name="sms_rcv_yn"  value="Y" >예
+			                                    <input type="radio" name="sms_rcv_yn" value="N" > 아니요
+			                                </td>
+										  </tr>
+										  <tr>
+										    <td class="tg-0lax">
+										    	<span class="required">TM수신동의</span>
+			                                    <input type="radio" name="tm_rcv_yn" value="Y" required>예
+			                                    <input type="radio" name="tm_rcv_yn" value="N"  required> 아니오
+										    </td>
+			                                <td class="tg-0lax">
+			                                    <span class="required">DM수신동의</span>
+			                                    <input type="radio" name="dm_rcv_yn" value="Y">예
+			                                    <input type="radio" name="dm_rcv_yn" value="N" > 아니요
+			                                </td>
+										  </tr>
+										 
+										</tbody>
+									</table>
+								</div>
+		                    	<input type="submit" class="submitBtn" id="goNewRegBtn"  value="등록">
+		                	</c:if>
+							<c:if test="${member.user_id == null}">
+								<p>로그인 후에 작성하실 수 있습니다.</p>
+							</c:if>
 		                </form>
 	                    <!-- <input type="submit" class="submitBtn" id="goNewRegBtn" onclick="goNewRegBtn()" value="등록"> -->
                 	</div>
@@ -323,7 +332,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
         });
         
         
-        
+        //매장팝업
         function prtBtn(){
         	
  	       window.name = "storePopForm";
@@ -360,12 +369,12 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		}  */
 		 
 		
-        
+        //이메일 중복체크 - keyup이벤트
 		$(function(){
     		$("#email_first, #email_end").on('keyup',emailcheck);
     }) 
     
-    
+    //이메일중복체크
     function emailcheck(){
 	    var email_first = $("#email_first").val();
 	    var email_end = $("#email_end").val();
@@ -373,16 +382,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	    console.log(email_first);
 	    console.log(email_end);
 	 
-	    if(email_first == ""  && email_end == ""){
-	    	$('#emailcheck').html("")
-	    	return;
-	    }else if(email_first != ""  && email_end == ""){
-	    	$('#emailcheck').html("")
-	    	return;
-	    }else if(email_first == ""  && email_end != ""){
-	    	$('#emailcheck').html("")
-	    	return;
+ 		if(!(email_first != ""  && email_end != "")){
 	    	
+	    	$('#emailcheck').html("")
+	    	return;
+	    
 	    }
 	    	
 	    
@@ -407,6 +411,54 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	    })	
 	} 
 		
+	 //이메일 중복체크 - keyup이벤트
+	$(function(){
+   		$("#mbl_no_first, #mbl_no_middle, #mbl_no_end").on('keyup',mblcheck);
+    }) 
+    
+    //이메일중복체크
+    function mblcheck(){
+	    var mbl_no_first = $("#mbl_no_first").val();
+	    var mbl_no_middle = $("#mbl_no_middle").val();
+	    var mbl_no_end = $("#mbl_no_end").val();
+	    
+	    console.log(mbl_no_first);
+	    console.log(mbl_no_middle);
+	    console.log(mbl_no_end);
+	 
+ 		if(!(mbl_no_first != ""  && mbl_no_middle != "" && mbl_no_end != "")){
+	    	
+	    	$('#mblcheck').html("")
+	    	return;
+	    
+	    }
+	    	
+	    
+	    $.ajax({
+	        method : 'POST',
+	        url : '/customer/mblCheck',
+	        data : {
+	        	"mbl_no_first" : mbl_no_first,
+	        	"mbl_no_middle" : mbl_no_middle,
+	        	"mbl_no_end" : mbl_no_end
+	    	},
+	        success : function(resp){
+	            if(resp=='fail'){
+	                $('#mblcheck').css('color','red')
+	                $('#mblcheck').html("존재하는 휴대폰번호입니다.")
+	                flag=false;
+	  
+	            }else{
+	                $('#mblcheck').css('color','blue')
+	                $('#mblcheck').html("사용할 수 있는 휴대폰번호입니다.")
+	                flag=true;
+	            }
+	          }
+	    })	
+	} 
+		 
+		 
+		
 		/* 숫자만 되도록 */
 		function SetNum(obj) {
 		 
@@ -420,21 +472,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		 
 		}
 		
-		<!--한글만입력 -->
-		 function SetName(obj) {
-			 
-			 if ((event.keyCode < 12592) || (event.keyCode > 12687)) {
-
-				 return false;
-			 }
-			
-			 val=obj.value;
-			 re=/^[가-힣]+$/;
-			 obj.value=val.replace("");
-			 
-			} 
 		 
-		 <!-- -->
+		 <!--고객명 한글만입력 -->
 		 $(function(){
 		       $("#cust_nm").keyup(function (event) {
 		            regexp = /[a-z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;

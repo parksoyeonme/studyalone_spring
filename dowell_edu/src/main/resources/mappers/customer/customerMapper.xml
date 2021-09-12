@@ -269,13 +269,16 @@
 	
 	<!-- 이메일체크 -->
 	 <select id="emailCheck" resultType="com.dowell.edu.vo.customer.CustomerVO">
-		select *
-		from cs_cust01_mt
-		where email = #{email}
+		SELECT
+		   	 email 				
+		FROM
+		   	 cs_cust01_mt 			<!-- 고객관리 테이블 -->
+		WHERE
+		   	 email = #{email} 		<!-- 고객관리 테이블의 email -->
 	
 	</select> 
 	
-		<insert id="insertcust" parameterType="Map">
+	<insert id="insertcust" parameterType="Map">
 		INSERT INTO cs_cust01_mt 
 					(
 				         CUST_NO   					<!-- 고객번호 -->
@@ -306,12 +309,12 @@
 	 					
 				    )
 			VALUES (
-				 		cs_cust01_mt_seq.NEXTVAL 							<!-- 고객번호 : cs_cust01_mt_seq : +1씩증가 -->
+				 		cs_cust01_mt_seq.NEXTVAL 												<!-- 고객번호 : cs_cust01_mt_seq : +1씩증가 -->
 						,#{cust_nm} 															<!-- 고객명 -->
 						,#{sex_cd} 																<!-- 성병코드 M:남자, F:여자 -->
 						,#{scal_yn} 															<!-- 양음력구분 0:양력, 1:음력-->
-						,to_char(TO_DATE('1997-02-15', 'YYYY-MM-DD'), 'YYYYMMDD') 	<!-- 생년월일 : 20210910 -->
-						,to_char(TO_DATE('2021-01-02', 'YYYY-MM-DD'), 'YYYYMMDD') 	<!-- 결혼기념일 : 20210910 -->
+						,to_char(TO_DATE('1997-02-15', 'YYYY-MM-DD'), 'YYYYMMDD') 				<!-- 생년월일 : 20210910 -->
+						,to_char(TO_DATE('2021-01-02', 'YYYY-MM-DD'), 'YYYYMMDD') 				<!-- 결혼기념일 : 20210910 -->
 						,#{poc_cd} 																<!-- 직업코드 -->
 						,#{mbl_no} 																<!-- 핸드폰번호 : 01011112222 -->
 						,#{psmt_grc_cd} 														<!-- 우편물수령코드 H:자택, O: 직장 -->
@@ -319,30 +322,30 @@
 						,#{zip_cd} 																<!-- 우편번호코드 -->
 						,#{addr} 																<!-- 주소 -->
 						,#{addr_dtl} 															<!-- 상세주소 -->
-						,DEFAULT 															<!-- 고객상태코드 10 :정상, 80:중지, 90:해지-->
+						,DEFAULT 																<!-- 고객상태코드 10 :정상, 80:중지, 90:해지-->
 						,#{jn_prt_cd} 															<!-- 가입매장코드 -->
 						,#{email_rcv_yn} 														<!-- 이메일수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의-->
 						,#{sms_rcv_yn} 															<!-- SMS수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
 						,#{tm_rcv_yn} 															<!-- TM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
 						,#{dm_rcv_yn} 															<!-- DM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
-						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD') 		<!-- 최초가입일자 -->
-						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')			<!-- 가입일자 -->															<!-- 해지일자 -->
+						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD') 						<!-- 최초가입일자 -->
+						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')						<!-- 가입일자 -->															<!-- 해지일자 -->
 						,SYSDATE 																<!-- 최조등록일자#{fst_rdg_dt} -->
-						,#{session_id} 														<!-- 최초등록자 --> 
-						,SYSDATE 													<!-- 최종수정일자#{lst_upd_dt} -->
+						,#{session_id} 															<!-- 최초등록자 --> 
+						,SYSDATE 																<!-- 최종수정일자#{lst_upd_dt} -->
 						,#{session_id} 															<!-- 최종수정자 --> 
 					)
 	</insert>
 	
-	<!-- <select id="emailCheck" resultType="com.dowell.edu.vo.customer.CustomerVO">
-	 SELECT
-		    user_no
-		    , email
-		    
-		    FROM
-		    cs_cust01_mt
-     WHERE
-		    email= #{email}
-	</select> -->
+	<!-- 휴대폰 중복체크 -->
+	<select id="mblCheck" resultType="com.dowell.edu.vo.customer.CustomerVO">
+		SELECT 					
+		   	 mbl_no 				<!-- 휴대폰번호 -->
+		FROM
+		   	 cs_cust01_mt 			<!-- 고객관리 테이블  -->
+		WHERE
+		   	 mbl_no = #{mbl_no} 	<!-- 고객관리 테이블의 휴대폰번호 -->
+		
+	</select>
 	
 </mapper>

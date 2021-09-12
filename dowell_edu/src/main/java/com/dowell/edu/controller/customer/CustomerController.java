@@ -241,7 +241,8 @@ public class CustomerController {
 		      log.info("############################################"+param);
 		      try {
 		    	  int result = customerService.insertcust(param);
-		    	 
+		    	  String msg = result > 0 ? "신규고객 등록 성공" : "신규고객 등록 실패";
+		    	  redirectAttr.addFlashAttribute("msg", msg);
 		      }catch(Exception e) {
 					//1.로깅작업
 					log.error(e.getMessage(),e);
@@ -431,6 +432,38 @@ public class CustomerController {
 		   
 		   CustomerVO emailChk = customerService.emailCheck(param);
 	       String message=null;
+	       if(emailChk==null) {//사용할 수 있다. db에서 찾았는데없으니까
+	           message = "success";
+	       }else {//사용할 수 없다.
+	           message ="fail";
+	       }	
+	       return message;
+	   }
+	   
+	 //휴대폰번호 중복체크
+	   @ResponseBody
+	   @RequestMapping(value="/mblCheck", method= RequestMethod.POST)
+	   public String mblCheck(@RequestParam("mbl_no_first") String mbl_no_first
+			   					,@RequestParam("mbl_no_middle") String mbl_no_middle
+			   					,@RequestParam("mbl_no_end") String mbl_no_end
+			   					) throws Exception{
+	       //select * from member where userid = #{};
+	       //이 member 객체에는 id만 값이 들어있고, 다른 것은 다 null 값이다.
+		   
+		   System.out.println("########1#####" + mbl_no_first);
+		   System.out.println("########1#####" + mbl_no_middle);
+		   System.out.println("########1#####" + mbl_no_end);
+		   
+		   String mbl_no = mbl_no_first + mbl_no_middle + mbl_no_end;
+		   
+		   Map<String, Object> param= new HashMap<>();
+		   
+				param.put("mbl_no",mbl_no);
+		
+		   
+		   CustomerVO emailChk = customerService.mblCheck(param);
+	      
+		   String message=null;
 	       if(emailChk==null) {//사용할 수 있다. db에서 찾았는데없으니까
 	           message = "success";
 	       }else {//사용할 수 없다.

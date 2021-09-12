@@ -34,9 +34,10 @@ public interface CustomerService {
 	//신규등록
 	int insertcust(Map<String, Object> param) throws Exception;
 
-	//이메일체크
-	CustomerVO emailCheck(CustomerVO customerVo) throws Exception;
-
-	CustomerVO emailCheck(Map<String, Object> param);
+	//이메일 중복체크
+	CustomerVO emailCheck(Map<String, Object> param) throws Exception;
+	
+	//휴대폰 중복체크
+	CustomerVO mblCheck(Map<String, Object> param) throws Exception;
 
 }
