@@ -155,10 +155,10 @@ alert("${msg}");
                         <h3>신규고객등록</h3>
                         <p class="topTitle">고객기본정보</p>
                 </div>
-              
+              	<c:if test="${member.user_id != null}">
                 	<div class="infoTool">
 	                	<form id="registerFrm" name="registerFrm" action="/customer/custRegister" method="post">
-		                    <c:if test="${member.user_id != null}">
+		                   
 		                    <table class="tg">
 		                        <tbody>
 			                        
@@ -172,9 +172,9 @@ alert("${msg}");
 			                                    <span class="required" style="margin-right: 41px;">직업코드</span>
 			                                   
 			                                    <select id="poc_cd" name="poc_cd"> 
-			                                    	<c:forEach var="codeCd" items="${codeCd}" begin="2" end="9">
-
-			                                        <option value="${codeCd.dtl_cd}">${codeCd.dtl_cd_nm}</option> 
+			                                    	<option value="" disabled selected hidden></option> 
+			                                    	<c:forEach var="codeCd" items="${codeCd}" begin="0" end="7">
+			                                        	<option value="${codeCd.dtl_cd}">${codeCd.dtl_cd_nm}</option> 
 			                                     	</c:forEach>
 			                                     </select>
 			                                </td>
@@ -186,15 +186,15 @@ alert("${msg}");
 			                                </td>
 			                                <td class="tg-0lax">
 			                                    <span style="margin-right: -7px; padding-right: 21px;">성별</span>
-			                                    <input type="radio" name="sex_cd" value="${codeCd[0].dtl_cd}" id="sexF" checked>여성
-			                                    <input type="radio" name="sex_cd" value="${codeCd[1].dtl_cd}" id="sexM"> 남성 
+			                                    <input type="radio" name="sex_cd" value="${codeCd[8].dtl_cd}" id="sexF" checked>여성
+			                                    <input type="radio" name="sex_cd" value="${codeCd[9].dtl_cd}" id="sexM"> 남성 
 			                                </td>
 			                            </tr>
 			                            <tr>
 			                                <td class="tg-0lax">
 			                                    <span class="required" style="padding-left: 30px; margin-right: 12px;">휴대폰번호</span>
 			                                        <input type="hidden" name="mbl_no" id="mbl_no">
-			                                        <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 9px;" required>
+			                                        <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" minlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 9px;" required>
 			                                        <input type="text" name="mbl_no_middle" id="mbl_no_middle" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
 			                                        <input type="text" name="mbl_no_end" id="mbl_no_end" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
 			                                        <br/><span id = "mblcheck" style="margin-left: 121px;"></span>
@@ -237,7 +237,7 @@ alert("${msg}");
 			                                    <input type="text" id="mrrg_dt" name="mrrg_dt">
 			                                 </td>
 			                                <td class="tg-0lax">
-			                                    <p style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
+			                                    <p class="required" style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
 			                                    <input type="text" style="width: 56px; margin-left: 53px;" id="partnerSearchInputCd" name="partnerSearchInputCd">
 			                                    <button type="button" style="width: 33px;" onclick="prtBtn()">
 			                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
@@ -254,41 +254,38 @@ alert("${msg}");
 										<tbody>
 										  <tr>
 										    <td class="tg-0lax">
-			                                    <span class="required">이메일수신동의</span>
+			                                    <span class="required" style="margin-right: 23px;">이메일수신동의</span>
 			                                    <input type="radio" name="email_rcv_yn" value="Y" required>예
-			                                    <input type="radio" name="email_rcv_yn" value="N"  required> 아니오
+			                                    <input type="radio" name="email_rcv_yn" value="N"  required style="margin-left: 43px;"> 아니오
 			                                </td>
 			                                <td class="tg-0lax">
-			                                    <span class="required">SMS수신동의</span>
+			                                    <span class="required" style="margin-right: 33px">SMS수신동의</span>
 			                                    <input type="radio" name="sms_rcv_yn"  value="Y" >예
-			                                    <input type="radio" name="sms_rcv_yn" value="N" > 아니요
+			                                    <input type="radio" name="sms_rcv_yn" value="N" style="margin-left: 37px;"> 아니요
 			                                </td>
 										  </tr>
 										  <tr>
 										    <td class="tg-0lax">
-										    	<span class="required">TM수신동의</span>
-			                                    <input type="radio" name="tm_rcv_yn" value="Y" required>예
-			                                    <input type="radio" name="tm_rcv_yn" value="N"  required> 아니오
 										    </td>
 			                                <td class="tg-0lax">
-			                                    <span class="required">DM수신동의</span>
+			                                    <span class="required" style="margin-right: 33px">DM수신동의</span>
 			                                    <input type="radio" name="dm_rcv_yn" value="Y">예
-			                                    <input type="radio" name="dm_rcv_yn" value="N" > 아니요
+			                                    <input type="radio" name="dm_rcv_yn" value="N" style="margin-left: 37px;"> 아니요
 			                                </td>
 										  </tr>
 										 
 										</tbody>
 									</table>
 								</div>
-		                    	<input type="submit" class="submitBtn" id="goNewRegBtn"  value="등록">
-		                	</c:if>
-							<c:if test="${member.user_id == null}">
-								<p>로그인 후에 작성하실 수 있습니다.</p>
-							</c:if>
+		                    	<input type="button" class="submitBtn" id="goNewRegBtn"  value="등록">
+		                    	
 		                </form>
 	                    <!-- <input type="submit" class="submitBtn" id="goNewRegBtn" onclick="goNewRegBtn()" value="등록"> -->
                 	</div>
-                
+                </c:if>
+				<c:if test="${member.user_id == null}">
+					<p>로그인 후에 작성하실 수 있습니다.</p>
+				</c:if>
                 <footer>
 		            <div class="closeDev">
 		                
@@ -302,6 +299,148 @@ alert("${msg}");
     </body>
     <script>
     
+     /* $(document).ready(function () {
+        $("#goNewRegBtn").click(function (event) {
+            event.preventDefault();
+            var $id = $("#cust_nm");
+        	if(/^\w{4,}$/.test($id.val()) == false) {
+        		alert("이름은 최소 2자리이상이어야 합니다.");
+        		$id.focus();
+        		 event.preventDefault();
+        	}
+        	var $emailValid = $("#mbl_no_first");
+        	if($emailValid.val() == 0){
+        		alert("휴대퓬 중복 검사해주세요.");
+        		 event.preventDefault();
+        	}
+        	registerFrm.submit();
+        	return true;
+        }); 
+}); */ 
+
+     $("#goNewRegBtn").on("click", function(){
+    	 var cust_nm = $("#cust_nm").val();
+    	 var mbl_no_fist = $("#mbl_no_first").val();
+    	 var mbl_no_middle = $("#mbl_no_middle").val();
+    	 var mbl_no_end = $("#mbl_no_end").val();
+    	 var email_first = $("#email_first").val();
+    	 var jn_prt_no = $("#partnerSearchInputName").val();
+    	 var brdy_dt= $("#brdy_dt").val();
+    	 var poc_cd = $("#poc_cd option:selected").val();
+    	 /* var email_rcv_yn  = $('input:radio[name="email_rcv_yn "]:checked').val();
+     	var sms_rcv_yn = $('input:radio[name="sms_rcv_yn"]:checked').val();
+     	var dm_rcv_yn  = $('input:radio[name="dm_rcv_yn "]:checked').val();
+     	 */
+			if(cust_nm == "" || cust_nm.length < 2  ){
+				alert("이름을 입력해주세요.");
+				$("#ucust_nm").focus();
+				return false;
+			}
+			if( poc_cd == ""){
+				alert("직업을 입력해주세요");
+				$("#poc_cd").focus();
+				return false;
+			}
+			if( brdy_dt == ""){
+				alert("생년월일을 입력해주세요");
+				$("#brdy_dt").focus();
+				return false;
+			}
+			
+			if(mbl_no_fist == "" || mbl_no_fist.length <3 ){
+				alert("핸드폰번호(앞3자리)를 입력해주세요.");
+				$("#mbl_no_first").focus();
+				return false;
+			}
+			if( mbl_no_middle == "" ||  mbl_no_middle.length <= 2){
+				alert("핸드폰번호(가운데3-4자리)를 입력해주세요.");
+				$("#mbl_no_middle").focus();
+				return false;
+			} 
+			if( mbl_no_end == "" || mbl_no_end.length <4 ){
+				alert("핸드폰번호(뒤4자리)를 입력해주세요.");
+				$("#mbl_no_end").focus();
+				return false;
+			}
+			
+		/* 	if( email_first == ""){
+				alert("이메일(앞)을 입력해주세요.");
+				$("#email_first").focus();
+				return false;
+			}
+			if( email_end == ""){
+				alert("이메일(뒤)을 입력해주세요.");
+				$("#email_end").focus();
+				return false;
+			} */
+			if( jn_prt_no  == ""){
+				alert("매장을 입력해주세요");
+				$("#partnerSearchInputName ").focus();
+				return false;
+			}
+			
+			
+			if( !$('input[name="email_rcv_yn"]').is(':checked')){
+				alert("이메일수신동의 확인해주세요");
+				$("#email_rcv_yn").focus();
+				return false;
+			}
+			if(!$('input[name="sms_rcv_yn"]').is(':checked')){
+				alert("이메일수신동의 확인해주세요");
+				$("#sms_rcv_yn").focus();
+				return false;
+			}
+			if(!$('input[name="dm_rcv_yn"]').is(':checked')){
+				alert("이메일수신동의 확인해주세요");
+				$("#dm_rcv_yn").focus();
+				return false;
+			}
+			/* if( !sms_rcv_yn.checked){
+				alert("SMS수신동의 확인해주세요");
+				$("#sms_rcv_yn").focus();
+				return false;
+			}
+			if( !dm_rcv_yn.checked){
+				alert("DM수신동의 입력해주세요");
+				$("#dm_rcv_yn").focus();
+				return false;
+			} */
+			else {
+				alert("신규등록진행합니다니다.")
+				$("#registerFrm").submit();
+				 
+			}
+			
+		});
+	
+
+
+   
+   /*  $("[name=goNewRegBtn]").submit(function(){
+    	var $id = $("#cust_nm");
+    	if(/^\w{4,}$/.test($id.val()) == false) {
+    		alert("이름은 최소 2자리이상이어야 합니다.");
+    		$id.focus();
+    		return false;
+    	}
+    
+    	
+    	//중복검사여부
+    	var $idValid = $("#idValid");
+    	if($idValid.val() == 0){
+    		alert("아이디 중복 검사해주세요.");
+    		return false;
+    	}
+    	
+    	var $emailValid = $("#mbl_no_first");
+    	if($emailValid.val() == 0){
+    		alert("휴대퓬 중복 검사해주세요.");
+    		return false;
+    	}
+    	
+    	return true;
+    }); */
+    
     //제이쿼리 달력
         
         $(function(){
@@ -312,8 +451,8 @@ alert("${msg}");
 	            dateFormat: "yy-mm-dd",             
 	            changeMonth: true,
 	            changeYear: true,
-	            yearRange: 'c-100:c+50',
-
+	            yearRange: 'c-100:c+0',
+	            maxDate: new Date()
         
         	});
 
@@ -324,10 +463,12 @@ alert("${msg}");
 	            dateFormat: "yy-mm-dd",             
 	            changeMonth: true,
 	            changeYear: true,
-	            yearRange: 'c-100:c+50',
+	            yearRange: 'c-100:c+0',
+	            maxDate: new Date()
 	
 	        
 	        });
+       		
             
         });
         
@@ -369,9 +510,9 @@ alert("${msg}");
 		}  */
 		 
 		
-        //이메일 중복체크 - keyup이벤트
-		$(function(){
-    		$("#email_first, #email_end").on('keyup',emailcheck);
+       //이메일 중복체크 - keyup이벤트
+	$(function(){
+   		$("#email_first, #email_end").on('keyup',emailcheck);
     }) 
     
     //이메일중복체크
@@ -457,7 +598,7 @@ alert("${msg}");
 	    })	
 	} 
 		 
-		 
+	<!-- 밸리데이션 체크 -->
 		
 		/* 숫자만 되도록 */
 		function SetNum(obj) {
@@ -484,7 +625,21 @@ alert("${msg}");
 		            }
 		        });
 		});
+		 
+		/*   $(function(){
+		       $("#email_first").keyup(function (event) {
+		            regexp =/^[A-Za-z0-9]{6,12}$/;
+		            v = $(this).val();
+		            if (regexp.test(v)) {
+		                alert("영문+숫자만 입력가능 합니다.");
+		                $(this).val(v.replace(regexp, ''));
+		            }
+		        });
+		});  */
+		  
 	
+		 
+		
         /* function goNewRegBtn(){
         	var cust_nm = $("#cust_nm").val();
         	var poc_cd = $("#poc_cd option:selected").val();
@@ -548,7 +703,8 @@ alert("${msg}");
      		         }
      	   		});
         }  */
-       
+      
+        
        
     </script>
 </html>

@@ -83,11 +83,11 @@
 			            || substr(csmt.cust_nm, length(csmt.cust_nm), 1)
 			        WHEN length(csmt.cust_nm) > 3 THEN 							<!-- 고객이름이 3자리초과 남궁*우, 선우*  -->
 			            substr(csmt.cust_nm, 1, 2)
-			            || lpad('*', length(csmt.cust_nm) - 2, '*')
+			            || lpad('*', length(csmt.cust_nm) - 3, '*')
 			            || substr(csmt.cust_nm, length(csmt.cust_nm), 1)
 			        ELSE
 			            substr(csmt.cust_nm, 1, 1)								<!-- 고객이름 외자 김* -->
-			            || lpad('*', length(csmt.cust_nm) - 2, '*')
+			            || lpad('*', length(csmt.cust_nm) - 1, '*')
 			    END cust_nm
 			    ,REGEXP_REPLACE(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\1-\2-\3'), '-(.*)-', '-'
 			    ||LPAD('*',LENGTH(REGEXP_REPLACE(csmt.mbl_no, '(.{3})(.*)(.{4})', '\2')), '*')
@@ -131,7 +131,7 @@
 		        	and jn_prt_cd = #{jn_prt_cd}
 		        </if>
 			
-
+			order by cust_no asc
 	</select>
 	
 	
@@ -264,7 +264,7 @@
 		   	 ma_code_dt 				<!-- 코드상세 테이블 -->
 		WHERE
 		   	 code_cd in('SEX_CD','POC_CD') 		<!-- 코드상세 테이블의 공통코드(code_cd) 중 'sex_cd'성별코드 -->
-		   	 								 	<!-- 코드상세 테이블의 공통코드(code_cd) 중 'poc_cd'직업코드 -->
+		ORDER BY DTL_CD ASC  				 	<!-- 코드상세 테이블의 공통코드(code_cd) 중 'poc_cd'직업코드 -->
 	</select>
 	
 	<!-- 이메일체크 -->
@@ -326,7 +326,7 @@
 						,#{jn_prt_cd} 															<!-- 가입매장코드 -->
 						,#{email_rcv_yn} 														<!-- 이메일수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의-->
 						,#{sms_rcv_yn} 															<!-- SMS수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
-						,#{tm_rcv_yn} 															<!-- TM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
+						,DEFAULT 															<!-- TM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
 						,#{dm_rcv_yn} 															<!-- DM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
 						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD') 						<!-- 최초가입일자 -->
 						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')						<!-- 가입일자 -->															<!-- 해지일자 -->

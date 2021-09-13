@@ -196,7 +196,6 @@ public class CustomerController {
 								 ,@RequestParam("email_rcv_yn") String email_rcv_yn
 								 ,@RequestParam("sms_rcv_yn") String sms_rcv_yn
 								 ,@RequestParam("dm_rcv_yn") String dm_rcv_yn
-								 ,@RequestParam("tm_rcv_yn") String tm_rcv_yn
 								 ,@RequestParam("session_id") String session_id
 								 ,ModelAndView mv
 								 ,HttpSession session
@@ -233,7 +232,6 @@ public class CustomerController {
 		      param.put("email_rcv_yn",email_rcv_yn);
 		      param.put("sms_rcv_yn",sms_rcv_yn);
 		      param.put("dm_rcv_yn",dm_rcv_yn);
-		      param.put("tm_rcv_yn",tm_rcv_yn);
 		      param.put("session_id",session_id);
 		      param.put("zip_cd",zip_cd);
 		      param.put("jn_prt_cd",jn_prt_cd);
@@ -241,8 +239,7 @@ public class CustomerController {
 		      log.info("############################################"+param);
 		      try {
 		    	  int result = customerService.insertcust(param);
-		    	  String msg = result > 0 ? "신규고객 등록 성공" : "신규고객 등록 실패";
-		    	  redirectAttr.addFlashAttribute("msg", msg);
+		    	 
 		      }catch(Exception e) {
 					//1.로깅작업
 					log.error(e.getMessage(),e);
@@ -251,7 +248,7 @@ public class CustomerController {
 		    
 		      }
 	    
-		      mv.setViewName("/customer/customerList");
+		      mv.setViewName("/customer/customerRegister");
 				
 			return mv;
 	      

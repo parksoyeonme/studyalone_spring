@@ -273,7 +273,7 @@
 			        		 tbodyHtml += ' <tr>';
 			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;"><div style="float: left;">' + data.list[i].cust_no + '</div><input type="button" style="width: 71px; margin-left: 20px;" value="변경이력" onclick="custHistory('+ data.list[i].cust_no +')" tabindex="11"></td>';
 			        	
-			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;"><div style="float: left;">' + data.list[i].cust_nm + '</div><input type="button" style="width: 64px; margin-left: 8px;" value="상세" tabindex="12"></input></td>';
+			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;"><div style="float: left;">' + data.list[i].cust_nm + '</div><input type="button" style="width: 64px; margin-left: 8px;" value="상세" onclick="custDetail('+ data.list[i].cust_no +')" tabindex="12"></input></td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].mbl_no + '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].cust_ss_cd + '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].fst_js_dt + '</td>';
