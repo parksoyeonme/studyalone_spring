@@ -119,16 +119,16 @@ alert("${msg}");
     float: right;
 }
 #cust_nm{
-    width: 110px;
-    margin-right: 29px;
+    width: 118px;
+    margin-right: 35px;
 
 }
 #poc_cd{
     width: 151px;   
 }
 #brdy_dt{
-    width: 108px;
-    margin-left: 53px;
+    width: 121px;
+    margin-left: 28px;
 }
 #sexF{
     margin-left: 61px;
@@ -142,7 +142,7 @@ alert("${msg}");
 
 }
 #mrrg_dt{
-    width: 108px;
+    width: 117px;
     margin-left: 53px;
 }
 
@@ -181,7 +181,7 @@ alert("${msg}");
 			                            </tr>
 			                            <tr>
 			                                <td class="tg-0lax">
-			                                    <span class="required" style="margin-right: -26px; padding-right: 11px; ">생년월일</span>
+			                                    <span class="required" style="margin-right: 9px; ">생년월일</span>
 			                                    <input type="text" id="brdy_dt" name="brdy_dt" required>
 			                                </td>
 			                                <td class="tg-0lax">
@@ -194,8 +194,8 @@ alert("${msg}");
 			                                <td class="tg-0lax">
 			                                    <span class="required" style="padding-left: 30px; margin-right: 12px;">휴대폰번호</span>
 			                                        <input type="hidden" name="mbl_no" id="mbl_no">
-			                                        <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" minlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 9px;" required>
-			                                        <input type="text" name="mbl_no_middle" id="mbl_no_middle" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
+			                                        <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 10px;" required>
+			                                        <input type="text" name="mbl_no_middle" id="mbl_no_middle" maxlength="4" onKeyup="SetNum(this)" style="width: 59px;" required>
 			                                        <input type="text" name="mbl_no_end" id="mbl_no_end" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
 			                                        <br/><span id = "mblcheck" style="margin-left: 121px;"></span>
 			                                </td>
@@ -207,8 +207,8 @@ alert("${msg}");
 			                            </tr>
 			                            <tr>
 			                                <td class="tg-0lax">
-			                                    <span class="required" >우편물수령</span>
-			                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 43px;" value="H" checked required>자택
+			                                    <span class="required" style="margin-left: -11px;">우편물수령</span>
+			                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 40px;" value="H" checked required>자택
 			                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 36px;" value="O" required> 직장
 			                                </td>
 			                                <td class="tg-0lax">
@@ -220,20 +220,20 @@ alert("${msg}");
 			                            </tr>
 			                            <tr>
 			                                <td class="tg-0lax" colspan='2'>
-			                                    <p style="float:left; margin-top: 6px; margin-left: 51px;">주소</p>
+			                                    <p style="float:left; margin-top: 6px; margin-left: 46px;">주소</p>
 			                                   
-			                                    <input type="text" id="zip_cd" name="zip_cd" style="width: 75px; margin-left: 25px;">
+			                                    <input type="text" id="zip_cd" name="zip_cd" style="width: 63px; margin-left: 52px;">
 			                                    <button type="button" style="width: 33px;">
 			                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
 			                                    </button>
-			                                    <input type="text" id="addr" name="addr" style="width: 256px;">
+			                                    <input type="text" id="addr" name="addr" style="width: 235px;">
 			                                    <input type="text" id="addr_dtl" name="addr_dtl" placeholder="직접입력">
 			                                    
 			                                </td>
 			                           	 </tr>
 			                            <tr>
 			                                <td class="tg-0lax">
-			                                    <span style="margin-right: -26px;">결혼기념일</span>
+			                                    <span style="margin-right: -29px;">결혼기념일</span>
 			                                    <input type="text" id="mrrg_dt" name="mrrg_dt">
 			                                 </td>
 			                                <td class="tg-0lax">
@@ -254,14 +254,14 @@ alert("${msg}");
 										<tbody>
 										  <tr>
 										    <td class="tg-0lax">
-			                                    <span class="required" style="margin-right: 23px;">이메일수신동의</span>
+			                                    <span class="required" style="margin-right: 22px;">이메일수신동의</span>
 			                                    <input type="radio" name="email_rcv_yn" value="Y" required>예
-			                                    <input type="radio" name="email_rcv_yn" value="N"  required style="margin-left: 43px;"> 아니오
+			                                    <input type="radio" name="email_rcv_yn" value="N"  required style="margin-left: 43px;" checked> 아니오
 			                                </td>
 			                                <td class="tg-0lax">
 			                                    <span class="required" style="margin-right: 33px">SMS수신동의</span>
 			                                    <input type="radio" name="sms_rcv_yn"  value="Y" >예
-			                                    <input type="radio" name="sms_rcv_yn" value="N" style="margin-left: 37px;"> 아니요
+			                                    <input type="radio" name="sms_rcv_yn" value="N" style="margin-left: 37px;" checked> 아니요
 			                                </td>
 										  </tr>
 										  <tr>
@@ -270,7 +270,7 @@ alert("${msg}");
 			                                <td class="tg-0lax">
 			                                    <span class="required" style="margin-right: 33px">DM수신동의</span>
 			                                    <input type="radio" name="dm_rcv_yn" value="Y">예
-			                                    <input type="radio" name="dm_rcv_yn" value="N" style="margin-left: 37px;"> 아니요
+			                                    <input type="radio" name="dm_rcv_yn" value="N" style="margin-left: 37px;" checked> 아니요
 			                                </td>
 										  </tr>
 										 
@@ -624,18 +624,22 @@ alert("${msg}");
 		                $(this).val(v.replace(regexp, ''));
 		            }
 		        });
+		      
 		});
 		 
-		/*   $(function(){
-		       $("#email_first").keyup(function (event) {
-		            regexp =/^[A-Za-z0-9]{6,12}$/;
-		            v = $(this).val();
-		            if (regexp.test(v)) {
-		                alert("영문+숫자만 입력가능 합니다.");
-		                $(this).val(v.replace(regexp, ''));
-		            }
-		        });
-		});  */
+		 /* $(function(){
+		    	 
+			       $("#email_first").keyup(function (event) {
+			            regexp =/^[0-9a-zA-Z]|[-_\.]?[0-9a-zA-Z]$/i;
+			            v = $(this).val();
+			            if (regexp.test(v)) {
+			                alert("영문숫자만 입력가능 합니다.");
+			                $(this).val(v.replace(regexp, ''));
+			            }
+			        });
+		});     */
+		
+	
 		  
 	
 		 

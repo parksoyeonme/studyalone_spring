@@ -112,6 +112,22 @@ h2 {
   font-size: 1.2em;
   letter-spacing: 2px;
 }
+.logout {
+  margin-top: 50px;
+  width: 80%;
+}
+.logout button {
+  width: 100%;
+  height: 50px;
+  border: 0;
+  outline: none;
+  border-radius: 40px;
+  background: linear-gradient(to left, rgb(51 138 207), rgb(54 197 215));
+  color: white;
+  font-size: 1.2em;
+  letter-spacing: 2px;
+}
+
 </style>
 <body>
 	<form name='homeForm' method="post" action="/member/login">
@@ -130,18 +146,25 @@ h2 {
             		</div>
             		<div class="forgot_pw">
                 		<a href="/customer/customerList">게시판 바로가기</a>
+                		<c:if test="${msg == false}">
+							<p style="color: red;">로그인 실패! 아이디와 비밀번호 확인해주세요.</p>
+						</c:if>
             		</div>
 		           <div class="submit">
 		               <input type="submit" value="submit">
 		           </div>
         		</div>
    	 		</div>
-		
 		</c:if>
 		<c:if test="${member != null }">
-			<div>
-				<p>${member.user_id}님 환영 합니다.</p>
-				<button id="logoutBtn" type="button">로그아웃</button>
+			<div class="wrap">
+				<div class="login">
+					<p>${member.user_id}님 환영 합니다.</p>
+					<a href="/customer/customerList">게시판 바로가기</a>
+					<div class="logout">
+						<button id="logoutBtn" type="button">로그아웃</button>
+					</div>
+				</div>
 			</div>
 		</c:if>
 		<c:if test="${msg == false}">

@@ -114,6 +114,15 @@
 	margin-right: 391px;
 	
 }
+aside{
+	width:8%;
+	background:#ece4e4;
+	float:right;
+	height: 204px;
+	margin-right: 72px;
+	margin-top: -843px;
+	
+}
 </style>
 
 	<body>
@@ -185,6 +194,9 @@
 	            </div>
 	     	</div>
 	    </section>
+	    <aside>
+	    	<%@include file="/WEB-INF/views/common/nav.jsp" %>
+	    </aside>
 	</body>
 	
 <script>
