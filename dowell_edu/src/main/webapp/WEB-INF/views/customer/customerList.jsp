@@ -155,8 +155,9 @@ aside{
 					    <td class="th-0lax">매장
 		                            <input type="text" id="partnerSearchInputCd" readonly>
 		                            <input type="text" id="partnerSearchInputName" autofocus tabindex="1">
-		                            <button type="button" style="margin-left: 5px;" onclick="openStore()">
-										<img src="/resources/images/prtBtn.PNG" alt="btnImages"  id="prtSearchBtnImg" >
+		                            <button type="button" onclick="openStore()">
+										<!-- <img src="/resources/images/prtBtn.PNG" alt="btnImages"  id="prtSearchBtnImg" > -->
+										<i class="far fa-newspaper"></i>
 									</button>
 					    </td>
 					    <td class="th-0lax">고객번호
@@ -388,6 +389,14 @@ aside{
 			 window.open(custInquiryUrl,
 		         "childNewCustomPopForm", "width=815, height=800, resizable = no, scrollbars = no");
 
+		}
+		
+		
+		//고객정보조회(상세버튼)
+	  	function custDetail(cust_no){
+	  		var cust_no = cust_no;
+	  		
+	  		location.href = "${pageContext.request.contextPath}/customer/customerDetail?cust_no=" + cust_no;
 		}
 	  	
 </script>   

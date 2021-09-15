@@ -78,13 +78,13 @@ public class CustomerServiceImpl implements CustomerService {
 
 	//이메일 중복체크
 	@Override
-	public CustomerVO emailCheck(Map<String, Object> param) throws Exception {
+	public int emailCheck(Map<String, Object> param) throws Exception {
 		return customerDao.emailCheck(param);
 	}
 
 	//휴대폰번호 중복체크
 	@Override
-	public CustomerVO mblCheck(Map<String, Object> param) throws Exception {
+	public int mblCheck(Map<String, Object> param) throws Exception {
 		return customerDao.mblCheck(param);
 	}
 

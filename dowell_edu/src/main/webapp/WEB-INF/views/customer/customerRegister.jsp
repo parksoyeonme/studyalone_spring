@@ -169,7 +169,7 @@ alert("${msg}");
 			                            <tr>
 			                                <td class="tg-0lax">
 			                                    <span class="required" style="margin-right: 41px; padding-right: 10px;" >고객명</span>
-			                                    <input type="text" id="cust_nm" name="cust_nm" maxlength="6" value="" required>
+			                                    <input type="text" id="cust_nm" name="cust_nm" maxlength="6" value="" autofocus tabindex="1" required>
 			                                     <input type="hidden" name="user_id" value="${member.user_id}">
 			                                </td>
 			                                <td class="tg-0lax">
@@ -476,9 +476,9 @@ alert("${msg}");
 		    var mbl_no_middle = $("#mbl_no_middle").val();
 		    var mbl_no_end = $("#mbl_no_end").val();
 		    
-		    console.log(mbl_no_first);
-		    console.log(mbl_no_middle);
-		    console.log(mbl_no_end);
+		    //console.log(mbl_no_first);
+		    //console.log(mbl_no_middle);
+		    //console.log(mbl_no_end);
 		 
 	 		if(!(mbl_no_first != ""  && mbl_no_middle != "" && mbl_no_end != "")){
 		    	
@@ -541,15 +541,29 @@ alert("${msg}");
 		       
 		      
 		});
+		 
+		<!-- 이메일 영문, 숫자 입력-->
 		/*  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*$/i; */
-		 var email_fregexp = /[0-9a-zA-Z.;\-]/;
-		// var email_eregexp = /[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]$/i;
+		 var email_fregexp = /[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\$/i;
+		 var email_eregexp =/[0-9a-zA-Z.]([-_\.]?[0-9a-zA-Z])*\$/i;
+		 
 		 $(function(){
 		       $("#email_first").keyup(function (event) {
 		            v = $(this).val();
 		            if (!email_fregexp.test(v)) {
-		                alert("해당 글자는 사용불가합니다.");
-		                $(this).val(v.replace(email_fregexp, ''));
+		                alert("영문/숫자만 사용 가능합니다.");
+		                $(this).val("");
+		            }
+		        });
+		   
+		});
+		 
+		 $(function(){
+		       $("#email_end").keyup(function (event) {
+		            v = $(this).val();
+		            if (!email_eregexp.test(v)) {
+		                alert("영문/숫자/, 만 사용 가능합니다.");
+		                $(this).val("");
 		            }
 		        });
 		   

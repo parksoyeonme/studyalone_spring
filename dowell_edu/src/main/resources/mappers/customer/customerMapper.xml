@@ -277,9 +277,9 @@
 	</select>
 	
 	<!-- 이메일체크 -->
-	 <select id="emailCheck" resultType="com.dowell.edu.vo.customer.CustomerVO">
+	 <select id="emailCheck" resultType="Integer">
 		SELECT
-		   	 email 				
+		   	count(*)			
 		FROM
 		   	 cs_cust01_mt 			<!-- 고객관리 테이블 -->
 		WHERE
@@ -347,9 +347,9 @@
 	</insert>
 	
 	<!-- 휴대폰 중복체크 -->
-	<select id="mblCheck" resultType="com.dowell.edu.vo.customer.CustomerVO">
+	<select id="mblCheck" resultType="Integer">
 		SELECT 					
-		   	 mbl_no 				<!-- 휴대폰번호 -->
+		   	 count(*) 				<!-- 휴대폰번호 -->
 		FROM
 		   	 cs_cust01_mt 			<!-- 고객관리 테이블  -->
 		WHERE

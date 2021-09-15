@@ -71,14 +71,14 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	//이메일 중복체크
 	@Override
-	public CustomerVO emailCheck(Map<String, Object> param) throws Exception {
+	public int emailCheck(Map<String, Object> param) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlsSession.selectOne("customer.emailCheck", param);
 	}
 
 	//휴대폰 중복체크
 	@Override
-	public CustomerVO mblCheck(Map<String, Object> param) throws Exception {
+	public int mblCheck(Map<String, Object> param) throws Exception {
 		return sqlsSession.selectOne("customer.mblCheck", param);
 	}
 

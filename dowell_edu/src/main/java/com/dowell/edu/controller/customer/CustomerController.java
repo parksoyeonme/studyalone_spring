@@ -263,9 +263,9 @@ public class CustomerController {
 				param.put("email",email);
 		
 		   
-		   CustomerVO emailChk = customerService.emailCheck(param);
-	       String message=null;
-	       if(emailChk==null) {//사용할 수 있다. db에서 찾았는데없으니까
+		   int emailChk = customerService.emailCheck(param);
+	       String message="";
+	       if(emailChk < 1) {//사용할 수 있다. db에서 찾았는데없으니까
 	           message = "success";
 	       }else {//사용할 수 없다.
 	           message ="fail";
@@ -289,10 +289,10 @@ public class CustomerController {
 				param.put("mbl_no",mbl_no);
 		
 		   
-		   CustomerVO emailChk = customerService.mblCheck(param);
+		   int emailChk = customerService.mblCheck(param);
 	      
-		   String message=null;
-	       if(emailChk==null) {
+		   String message="";
+	       if(emailChk < 1) {
 	           message = "success";
 	       }else {
 	           message ="fail";

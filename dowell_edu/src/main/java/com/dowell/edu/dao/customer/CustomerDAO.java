@@ -35,10 +35,10 @@ public interface CustomerDAO {
 	int insertcust(Map<String, Object> param) throws Exception;
 
 	//이메일 중복체크
-	CustomerVO emailCheck(Map<String, Object> param) throws Exception;
+	int emailCheck(Map<String, Object> param) throws Exception;
 
 	//휴대폰 중복체크
-	CustomerVO mblCheck(Map<String, Object> param) throws Exception;
+	int mblCheck(Map<String, Object> param) throws Exception;
 
 	
 
