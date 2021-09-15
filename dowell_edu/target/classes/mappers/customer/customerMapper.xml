@@ -331,9 +331,9 @@
 						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD') 						<!-- 최초가입일자 -->
 						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')						<!-- 가입일자 -->															<!-- 해지일자 -->
 						,SYSDATE 																<!-- 최조등록일자#{fst_rdg_dt} -->
-						,#{session_id} 															<!-- 최초등록자 --> 
+						,#{user_id} 															<!-- 세션에 존재하는 최초등록자 --> 
 						,SYSDATE 																<!-- 최종수정일자#{lst_upd_dt} -->
-						,#{session_id} 															<!-- 최종수정자 --> 
+						,#{user_id} 															<!-- 세선에 존재하는 최종수정자 --> 
 					)
 	</insert>
 	

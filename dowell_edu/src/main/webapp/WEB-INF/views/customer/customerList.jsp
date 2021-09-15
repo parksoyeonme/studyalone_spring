@@ -8,7 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <title>고객조회</title>
-
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<script src="https://kit.fontawesome.com/108adcc263.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <!--달력 jquery-->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -16,10 +17,20 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
 </head>
 <style>
-.body{
-	overflow: auto;
-	width: 80%;
-	height: 100%;
+body{
+    width:100%;
+    height: 768px;
+    overflow: auto;
+  }
+  *{
+    font-family: 'Noto Sans KR', sans-serif;
+    list-style:none;
+    text-decoration: none;
+    border-collapse: collapse;
+    margin: 0px;
+    padding:0px;
+    color:#000;
+    
 }
 .mainTitle{
 	margin-left: 43px; 
@@ -80,10 +91,12 @@
 	border :none;
 }
 #allSearchBtn{
-	width: 46px;
+	width: 55px;
 	height: 50px;
 	float:right;
-	margin-top : 15px;
+	margin-top : 4px;
+	margin-right: 10px;
+	
 }
 .required:before {
 	content: "*";
@@ -92,7 +105,8 @@
 	margin-left:-4px;
 }
 #btn_reset{
-	width: 16px;
+	border: none;
+    background: white;
 }
 #partnerSearchInputCd{
     background: #dfdddd;
@@ -115,13 +129,16 @@
 	
 }
 aside{
-	width:8%;
-	background:#ece4e4;
-	float:right;
-	height: 204px;
-	margin-right: 72px;
-	margin-top: -843px;
-	
+	float: right;
+    height: 204px;
+    margin-right: 75px;
+    margin-top: -843px;
+    width: 10%;
+}
+#custDetail{
+    float: right;
+    width: 64px;
+    margin-left: 8px;
 }
 </style>
 
@@ -129,11 +146,11 @@ aside{
 		<section>
 			<div class="container" id="container">
 				<span class="mainTitle">고객조회</span>
-				<button type="button"  onclick="refreshPage()">
-					<img src="/resources/images/reset_btn.png" alt="btnImages" id="btn_reset">
+				<button type="button" id="btn_reset" onclick="refreshPage()">
+					<i  class="fas fa-redo fa-1x"></i>
 				</button>
 		        <div class="firtBox">
-		           <table class="th">
+		           <table class="th" style="margin-top: 3px;">
 					  <tr>
 					    <td class="th-0lax">매장
 		                            <input type="text" id="partnerSearchInputCd" readonly>
@@ -145,13 +162,15 @@ aside{
 					    <td class="th-0lax">고객번호
 					    	<input type="text" id="customSearchInputNo"  value= "" tabindex="2">
                             <button type="button" style="margin-left: -7px;" onclick="openCustom()">
-								<img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" >
+								<i class="fas fa-search"></i>
+								<!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" > -->
 							</button>
                             <input type="text" id="customSearchInputName" readonly>
 					    </td>
 					    <td class="th-0lax">
 					    	<button type="button" id="allSearchBtn" onclick="custSearchAllListBtn()"tabindex="9" >
-								<img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" >
+								<i class="fas fa-search fa-3x"></i>
+								<!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" > -->
 							</button>
 					    </td>
 					  </tr>
@@ -194,7 +213,7 @@ aside{
 	            </div>
 	     	</div>
 	    </section>
-	    <aside>
+	  	 <aside>
 	    	<%@include file="/WEB-INF/views/common/nav.jsp" %>
 	    </aside>
 	</body>
@@ -285,7 +304,7 @@ aside{
 			        		 tbodyHtml += ' <tr>';
 			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;"><div style="float: left;">' + data.list[i].cust_no + '</div><input type="button" style="width: 71px; margin-left: 20px;" value="변경이력" onclick="custHistory('+ data.list[i].cust_no +')" tabindex="11"></td>';
 			        	
-			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;"><div style="float: left;">' + data.list[i].cust_nm + '</div><input type="button" style="width: 64px; margin-left: 8px;" value="상세" onclick="custDetail('+ data.list[i].cust_no +')" tabindex="12"></input></td>';
+			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;"><div style="float: left;">' + data.list[i].cust_nm + '</div><input type="button" id="custDetail"  value="상세" onclick="custDetail('+ data.list[i].cust_no +')" tabindex="12"></input></td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].mbl_no + '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].cust_ss_cd + '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].fst_js_dt + '</td>';

@@ -26,6 +26,7 @@ alert("${msg}");
 <meta charset="UTF-8">
  
 <title>신규고객등록</title>
+ 
 <!--달력 jquery-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -129,6 +130,7 @@ alert("${msg}");
 #brdy_dt{
     width: 121px;
     margin-left: 28px;
+    background-color: #f0e9e9;
 }
 #sexF{
     margin-left: 61px;
@@ -144,6 +146,7 @@ alert("${msg}");
 #mrrg_dt{
     width: 117px;
     margin-left: 53px;
+    background-color: #f0e9e9;
 }
 
 </style>
@@ -166,7 +169,7 @@ alert("${msg}");
 			                                <td class="tg-0lax">
 			                                    <span class="required" style="margin-right: 41px; padding-right: 10px;" >고객명</span>
 			                                    <input type="text" id="cust_nm" name="cust_nm" maxlength="6" value="" required>
-			                                     <input type="hidden" name="session_id" value="${member.user_id}">
+			                                     <input type="hidden" name="user_id" value="${member.user_id}">
 			                                </td>
 			                                <td class="tg-0lax">
 			                                    <span class="required" style="margin-right: 41px;">직업코드</span>
@@ -222,11 +225,11 @@ alert("${msg}");
 			                                <td class="tg-0lax" colspan='2'>
 			                                    <p style="float:left; margin-top: 6px; margin-left: 46px;">주소</p>
 			                                   
-			                                    <input type="text" id="zip_cd" name="zip_cd" style="width: 63px; margin-left: 52px;">
+			                                    <input type="text" id="zip_cd" name="zip_cd" style="width: 63px; margin-left: 52px; background-color: #f0e9e9;">
 			                                    <button type="button" style="width: 33px;">
 			                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
 			                                    </button>
-			                                    <input type="text" id="addr" name="addr" style="width: 235px;">
+			                                    <input type="text" id="addr" name="addr" style="width: 235px; background-color: #f0e9e9;">
 			                                    <input type="text" id="addr_dtl" name="addr_dtl" placeholder="직접입력">
 			                                    
 			                                </td>
@@ -238,11 +241,11 @@ alert("${msg}");
 			                                 </td>
 			                                <td class="tg-0lax">
 			                                    <p class="required" style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
-			                                    <input type="text" style="width: 56px; margin-left: 53px;" id="partnerSearchInputCd" name="partnerSearchInputCd">
+			                                    <input type="text" style="width: 56px; margin-left: 53px; background-color: #f0e9e9;" id="partnerSearchInputCd" name="partnerSearchInputCd">
 			                                    <button type="button" style="width: 33px;" onclick="prtBtn()">
 			                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
 			                                    </button>
-			                                    <input type="text" style="width: 78px;" id="partnerSearchInputName" name="jn_prt_cd">
+			                                    <input type="text" style="width: 78px; background-color: #f0e9e9;" id="partnerSearchInputName" name="jn_prt_cd">
 			                                </td>
 			                            </tr>
 		
@@ -298,26 +301,8 @@ alert("${msg}");
         
     </body>
     <script>
-    
-     /* $(document).ready(function () {
-        $("#goNewRegBtn").click(function (event) {
-            event.preventDefault();
-            var $id = $("#cust_nm");
-        	if(/^\w{4,}$/.test($id.val()) == false) {
-        		alert("이름은 최소 2자리이상이어야 합니다.");
-        		$id.focus();
-        		 event.preventDefault();
-        	}
-        	var $emailValid = $("#mbl_no_first");
-        	if($emailValid.val() == 0){
-        		alert("휴대퓬 중복 검사해주세요.");
-        		 event.preventDefault();
-        	}
-        	registerFrm.submit();
-        	return true;
-        }); 
-}); */ 
-
+  
+    //신규등록고객 폼(goNewRegBtn) 제출
      $("#goNewRegBtn").on("click", function(){
     	 var cust_nm = $("#cust_nm").val();
     	 var mbl_no_fist = $("#mbl_no_first").val();
@@ -327,10 +312,7 @@ alert("${msg}");
     	 var jn_prt_no = $("#partnerSearchInputName").val();
     	 var brdy_dt= $("#brdy_dt").val();
     	 var poc_cd = $("#poc_cd option:selected").val();
-    	 /* var email_rcv_yn  = $('input:radio[name="email_rcv_yn "]:checked').val();
-     	var sms_rcv_yn = $('input:radio[name="sms_rcv_yn"]:checked').val();
-     	var dm_rcv_yn  = $('input:radio[name="dm_rcv_yn "]:checked').val();
-     	 */
+    
 			if(cust_nm == "" || cust_nm.length < 2  ){
 				alert("이름을 입력해주세요.");
 				$("#ucust_nm").focus();
@@ -363,16 +345,6 @@ alert("${msg}");
 				return false;
 			}
 			
-		/* 	if( email_first == ""){
-				alert("이메일(앞)을 입력해주세요.");
-				$("#email_first").focus();
-				return false;
-			}
-			if( email_end == ""){
-				alert("이메일(뒤)을 입력해주세요.");
-				$("#email_end").focus();
-				return false;
-			} */
 			if( jn_prt_no  == ""){
 				alert("매장을 입력해주세요");
 				$("#partnerSearchInputName ").focus();
@@ -386,27 +358,17 @@ alert("${msg}");
 				return false;
 			}
 			if(!$('input[name="sms_rcv_yn"]').is(':checked')){
-				alert("이메일수신동의 확인해주세요");
-				$("#sms_rcv_yn").focus();
-				return false;
-			}
-			if(!$('input[name="dm_rcv_yn"]').is(':checked')){
-				alert("이메일수신동의 확인해주세요");
-				$("#dm_rcv_yn").focus();
-				return false;
-			}
-			/* if( !sms_rcv_yn.checked){
 				alert("SMS수신동의 확인해주세요");
 				$("#sms_rcv_yn").focus();
 				return false;
 			}
-			if( !dm_rcv_yn.checked){
-				alert("DM수신동의 입력해주세요");
+			if(!$('input[name="dm_rcv_yn"]').is(':checked')){
+				alert("DM수신동의 확인해주세요");
 				$("#dm_rcv_yn").focus();
 				return false;
-			} */
+			}
 			else {
-				alert("신규등록진행합니다니다.")
+				alert("신규등록진행합니다.")
 				$("#registerFrm").submit();
 				 
 			}
@@ -414,34 +376,7 @@ alert("${msg}");
 		});
 	
 
-
-   
-   /*  $("[name=goNewRegBtn]").submit(function(){
-    	var $id = $("#cust_nm");
-    	if(/^\w{4,}$/.test($id.val()) == false) {
-    		alert("이름은 최소 2자리이상이어야 합니다.");
-    		$id.focus();
-    		return false;
-    	}
-    
-    	
-    	//중복검사여부
-    	var $idValid = $("#idValid");
-    	if($idValid.val() == 0){
-    		alert("아이디 중복 검사해주세요.");
-    		return false;
-    	}
-    	
-    	var $emailValid = $("#mbl_no_first");
-    	if($emailValid.val() == 0){
-    		alert("휴대퓬 중복 검사해주세요.");
-    		return false;
-    	}
-    	
-    	return true;
-    }); */
-    
-    //제이쿼리 달력
+    	//datepicker 달력
         
         $(function(){
        		 //생년월일
@@ -483,18 +418,35 @@ alert("${msg}");
  	       		"childStorePopForm", "width=650, height=650, resizable = no, scrollbars = no");    
  	   
         }
-        
-         /* $(function(){
-        	$("#email_first").on('keyup',emailcheck);
-        })
-        
-        function emailcheck(){
-		    var email = $("#email_first").val();
-		    var sendData = {"email":email}
+		
+        //이메일 중복체크 - keyup이벤트
+		$(function(){
+	   		$("#email_first, #email_end").on('keyup',emailcheck);
+	    }) 
+	    
+	    //이메일중복체크
+	    function emailcheck(){
+		    var email_first = $("#email_first").val();
+		    var email_end = $("#email_end").val();
+		    
+		    //console.log(email_first);
+		    //console.log(email_end);
+		 
+	 		if(!(email_first != ""  && email_end != "")){
+		    	
+		    	$('#emailcheck').html("")
+		    	return;
+		    
+		    }
+		    	
+		    
 		    $.ajax({
 		        method : 'POST',
 		        url : '/customer/emailCheck',
-		        data : sendData,
+		        data : {
+		        	"email_first" : email_first,
+		        	"email_end" : email_end
+		    	},
 		        success : function(resp){
 		            if(resp=='fail'){
 		                $('#emailcheck').css('color','red')
@@ -505,105 +457,64 @@ alert("${msg}");
 		                $('#emailcheck').css('color','blue')
 		                $('#emailcheck').html("사용할 수 있는 이메일입니다.")
 		                flag=true;
-		            }}
+		            }
+		         }
 		    })	
-		}  */
-		 
+		} 
 		
-       //이메일 중복체크 - keyup이벤트
-	$(function(){
-   		$("#email_first, #email_end").on('keyup',emailcheck);
-    }) 
+	    //이메일 중복체크 - keyup이벤트
+		$(function(){
+	   		$("#mbl_no_first, #mbl_no_middle, #mbl_no_end").on('keyup',mblcheck);
+	    }) 
     
-    //이메일중복체크
-    function emailcheck(){
-	    var email_first = $("#email_first").val();
-	    var email_end = $("#email_end").val();
-	    
-	    console.log(email_first);
-	    console.log(email_end);
-	 
- 		if(!(email_first != ""  && email_end != "")){
-	    	
-	    	$('#emailcheck').html("")
-	    	return;
-	    
-	    }
-	    	
-	    
-	    $.ajax({
-	        method : 'POST',
-	        url : '/customer/emailCheck',
-	        data : {
-	        	"email_first" : email_first,
-	        	"email_end" : email_end
-	    	},
-	        success : function(resp){
-	            if(resp=='fail'){
-	                $('#emailcheck').css('color','red')
-	                $('#emailcheck').html("사용할 수 없는 이메일입니다.")
-	                flag=false;
-	  
-	            }else{
-	                $('#emailcheck').css('color','blue')
-	                $('#emailcheck').html("사용할 수 있는 이메일입니다.")
-	                flag=true;
-	            }}
-	    })	
-	} 
-		
-	 //이메일 중복체크 - keyup이벤트
-	$(function(){
-   		$("#mbl_no_first, #mbl_no_middle, #mbl_no_end").on('keyup',mblcheck);
-    }) 
-    
-    //이메일중복체크
-    function mblcheck(){
-	    var mbl_no_first = $("#mbl_no_first").val();
-	    var mbl_no_middle = $("#mbl_no_middle").val();
-	    var mbl_no_end = $("#mbl_no_end").val();
-	    
-	    console.log(mbl_no_first);
-	    console.log(mbl_no_middle);
-	    console.log(mbl_no_end);
-	 
- 		if(!(mbl_no_first != ""  && mbl_no_middle != "" && mbl_no_end != "")){
-	    	
-	    	$('#mblcheck').html("")
-	    	return;
-	    
-	    }
-	    	
-	    
-	    $.ajax({
-	        method : 'POST',
-	        url : '/customer/mblCheck',
-	        data : {
-	        	"mbl_no_first" : mbl_no_first,
-	        	"mbl_no_middle" : mbl_no_middle,
-	        	"mbl_no_end" : mbl_no_end
-	    	},
-	        success : function(resp){
-	            if(resp=='fail'){
-	                $('#mblcheck').css('color','red')
-	                $('#mblcheck').html("존재하는 휴대폰번호입니다.")
-	                flag=false;
-	  
-	            }else{
-	                $('#mblcheck').css('color','blue')
-	                $('#mblcheck').html("사용할 수 있는 휴대폰번호입니다.")
-	                flag=true;
-	            }
-	          }
-	    })	
-	} 
+	    //이메일중복체크
+	    function mblcheck(){
+		    var mbl_no_first = $("#mbl_no_first").val();
+		    var mbl_no_middle = $("#mbl_no_middle").val();
+		    var mbl_no_end = $("#mbl_no_end").val();
+		    
+		    console.log(mbl_no_first);
+		    console.log(mbl_no_middle);
+		    console.log(mbl_no_end);
 		 
-	<!-- 밸리데이션 체크 -->
+	 		if(!(mbl_no_first != ""  && mbl_no_middle != "" && mbl_no_end != "")){
+		    	
+		    	$('#mblcheck').html("")
+		    	return;
+		    
+		    }
+		    	
+		    
+		    $.ajax({
+		        method : 'POST',
+		        url : '/customer/mblCheck',
+		        data : {
+		        	"mbl_no_first" : mbl_no_first,
+		        	"mbl_no_middle" : mbl_no_middle,
+		        	"mbl_no_end" : mbl_no_end
+		    	},
+		        success : function(resp){
+		            if(resp=='fail'){
+		                $('#mblcheck').css('color','red')
+		                $('#mblcheck').html("사용할 수 없는 휴대폰번호입니다.")
+		                flag=false;
+		  
+		            }else{
+		                $('#mblcheck').css('color','blue')
+		                $('#mblcheck').html("사용할 수 있는 휴대폰번호입니다.")
+		                flag=true;
+		            }
+		          }
+		    })	
+		} 
+		 
+		<!-- 밸리데이션 체크 -->
 		
 		/* 숫자만 되도록 */
 		function SetNum(obj) {
 		 
-		 if ((event.keyCode <= 27) || (event.keyCode >= 33 && event.keyCode <= 46) || (event.keyCode >= 91 && event.keyCode <= 93) || (event.keyCode >= 112 && event.keyCode <= 145)) {
+		 if ((event.keyCode <= 27) || (event.keyCode >= 33 && event.keyCode <= 46) 
+			|| (event.keyCode >= 91 && event.keyCode <= 93) || (event.keyCode >= 112 && event.keyCode <= 145)) {
 		  return false;
 		 }
 		 
@@ -624,91 +535,23 @@ alert("${msg}");
 		                $(this).val(v.replace(regexp, ''));
 		            }
 		        });
+		       
 		      
 		});
-		 
-		 /* $(function(){
-		    	 
-			       $("#email_first").keyup(function (event) {
-			            regexp =/^[0-9a-zA-Z]|[-_\.]?[0-9a-zA-Z]$/i;
-			            v = $(this).val();
-			            if (regexp.test(v)) {
-			                alert("영문숫자만 입력가능 합니다.");
-			                $(this).val(v.replace(regexp, ''));
-			            }
-			        });
-		});     */
-		
+		/*  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*$/i; */
+		 var email_fregexp = /[0-9a-zA-Z.;\-]/;
+		// var email_eregexp = /[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]$/i;
+		 $(function(){
+		       $("#email_first").keyup(function (event) {
+		            v = $(this).val();
+		            if (!email_fregexp.test(v)) {
+		                alert("해당 글자는 사용불가합니다.");
+		                $(this).val(v.replace(email_fregexp, ''));
+		            }
+		        });
+		   
+		});
+
 	
-		  
-	
-		 
-		
-        /* function goNewRegBtn(){
-        	var cust_nm = $("#cust_nm").val();
-        	var poc_cd = $("#poc_cd option:selected").val();
-        	var brdy_dt= $("#brdy_dt").val();
-        	var sex_cd = $('input:radio[name="sex_cd"]:checked').val();
-        	var mbl_no = $("#mbl_no_fisrt ").val() + $("#mbl_no_middle").val() + $("#mbl_no_end").val();
-        	var scal_yn = $('input:radio[name="scal_yn"]:checked').val();
-        	var post_grc_cd = $('input:radio[name="post_grc_cd"]:checked').val();
-        	var email = $("#email_start").val() + '@' + $("#email_end").val();
-        	var addr  = $("#addr_first").val() + ' ' + $("#addr_middle").val() + ', ' + $("#addr_end").val();
-        	var mrrg_dt  = $("#mrrg_dt").val();
-        	var jn_prt_no = $("#partnerSearchInputName").val();
-        	var email_rcv_yn  = $('input:radio[name="email_rcv_yn "]:checked').val();
-        	var sms_rcv_yn = $('input:radio[name="sms_rcv_yn"]:checked').val();
-        	var dm_rcv_yn  = $('input:radio[name="dm_rcv_yn "]:checked').val();
-        	
-        	console.log("cust_nm =" + cust_nm);
-        	console.log("poc_cd =" + poc_cd);
-        	console.log("brdy_dt =" + brdy_dt);
-        	console.log("sex_cd =" + sex_cd);
-        	console.log("mbl_no =" + mbl_no);
-        	console.log("scal_yn =" + scal_yn);
-        	console.log("post_grc_cd =" + post_grc_cd);
-        	console.log("email =" + email);
-        	console.log("addr =" + addr);
-        	console.log("mrrg_dt =" + mrrg_dt);
-        	console.log("jn_prt_no =" + jn_prt_no);
-        	console.log("email_rcv_yn =" + email_rcv_yn);
-        	console.log("sms_rcv_yn =" + sms_rcv_yn);
-        	console.log("dm_rcv_yn =" + dm_rcv_yn);
-        	
-        	$.ajax({
-     		   url: "<c:url value='/customer/custRegister'/>",
-     			 type: 'POST',
-     			 dataType: "json",
-     	         data : {
-     	       	
-     	        	"cust_nm" : cust_nm,
-     	        	"poc_cd" : poc_cd,
-     	        	"brdy_dt" : brdy_dt,
-     	        	"sex_cd" : sex_cd,
-     	        	"mbl_no" : mbl_no,
-     	        	"scal_yn" : scal_yn,
-     	        	"post_grc_cd" : post_grc_cd,
-     	        	"email" : email,
-     	        	"addr" : addr,
-     	        	"mrrg_dt" : mrrg_dt,
-     	        	"jn_prt_no" : jn_prt_no,
-     	        	"email_rcv_yn" : email_rcv_yn,
-     	        	"sms_rcv_yn" : sms_rcv_yn,
-     	        	"dm_rcv_yn" : dm_rcv_yn
-     	        	
-     	         },
-     	         success : function(data){
-     	        	
-     	        	alert("신규고객 등록에 성공하였습니다.");
-     		         },
-     		         error(xhr, status, err){
-     	    			  console.log(xhr, status, err);
-     	    			 alert("신규고객 등록에 실패하였습니다.");
-     		         }
-     	   		});
-        }  */
-      
-        
-       
     </script>
 </html>

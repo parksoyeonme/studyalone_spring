@@ -149,15 +149,7 @@ public class CustomerController {
 			return mv;
 		}
    	
-//	 //신규고객등록 view
-//		@RequestMapping(value="/customerRegister")
-//		public ModelAndView customerRegister(ModelAndView mv) throws Exception{
-//			
-//			mv.setViewName("/customer/customerRegister");
-//			
-//			return mv;
-//		}
-		
+
 	//신규고객등록 view
 	   @RequestMapping(value="/customerRegister", method = { RequestMethod.POST, RequestMethod.GET },
 			   produces ="application/text; charset=utf8")
@@ -196,7 +188,7 @@ public class CustomerController {
 								 ,@RequestParam("email_rcv_yn") String email_rcv_yn
 								 ,@RequestParam("sms_rcv_yn") String sms_rcv_yn
 								 ,@RequestParam("dm_rcv_yn") String dm_rcv_yn
-								 ,@RequestParam("session_id") String session_id
+								 ,@RequestParam("user_id") String user_id
 								 ,ModelAndView mv
 								 ,HttpSession session
 								 ,HttpServletRequest request
@@ -232,11 +224,11 @@ public class CustomerController {
 		      param.put("email_rcv_yn",email_rcv_yn);
 		      param.put("sms_rcv_yn",sms_rcv_yn);
 		      param.put("dm_rcv_yn",dm_rcv_yn);
-		      param.put("session_id",session_id);
+		      param.put("user_id",user_id);
 		      param.put("zip_cd",zip_cd);
 		      param.put("jn_prt_cd",jn_prt_cd);
 		      
-		      log.info("############################################"+param);
+		      
 		      try {
 		    	  int result = customerService.insertcust(param);
 		    	 
@@ -253,160 +245,7 @@ public class CustomerController {
 			return mv;
 	      
 	   }
-	   
-	   
-//	   @RequestMapping(value="/custRegister", method = { RequestMethod.POST, RequestMethod.GET },
-//			   produces ="application/text; charset=utf8")
-//	   public ModelAndView custRegister(
-//									 HttpServletRequest request
-//									 ,ModelAndView mv
-//									 ) throws Exception{
-//	      
-//		   
-//		   String cust_nm = request.getParameter("cust_nm");
-//		   String poc_cd = request.getParameter("poc_cd");
-//		   String brdy_dt = request.getParameter("brdy_dt");
-//		   String sex_cd = request.getParameter("sex_cd");
-//		   String mbl_no = request.getParameter("mbl_no");
-//		   String scal_yn = request.getParameter("scal_yn");
-//		   String post_grc_cd = request.getParameter("post_grc_cd");
-//		   String email = request.getParameter("email");
-//		   String addr = request.getParameter("addr");
-//		   String mrrg_dt = request.getParameter("mrrg_dt");
-//		   String jn_prt_no = request.getParameter("jn_prt_no");
-//		   String email_rcv_yn = request.getParameter("email_rcv_yn");
-//		   String sms_rcv_yn = request.getParameter("sms_rcv_yn");
-//		   String dm_rcv_yn = request.getParameter("dm_rcv_yn");
-//		
-//		   System.out.println(cust_nm);
-//		   System.out.println(poc_cd);
-//		   System.out.println(brdy_dt);
-//		   System.out.println(sex_cd);
-//		   System.out.println(mbl_no);
-//		   System.out.println(scal_yn);
-//		   System.out.println(post_grc_cd);
-//		   System.out.println(email);
-//		   System.out.println(addr);
-//		   System.out.println(mrrg_dt);
-//		   System.out.println(jn_prt_no);
-//		   System.out.println(email_rcv_yn);
-//		   System.out.println(sms_rcv_yn);
-//		   System.out.println(dm_rcv_yn);
-//
-//		   Map<String, Object> param= new HashMap<>();
-//	
-//		   param.put("cust_nm",request.getParameter("cust_nm"));
-//           param.put("poc_cd",request.getParameter("poc_cd"));
-//           param.put("brdy_dt",request.getParameter("brdy_dt"));
-//           param.put("sex_cd",request.getParameter("sex_cd"));
-//           param.put("mbl_no",request.getParameter("mbl_no"));
-//           param.put("scal_yn",request.getParameter("scal_yn"));
-//           param.put("post_grc_cd",request.getParameter("post_grc_cd"));
-//           param.put("email",request.getParameter("email"));
-//           param.put("addr",request.getParameter("addr"));
-//           param.put("mrrg_dt",request.getParameter("mrrg_dt"));
-//           param.put("jn_prt_no",request.getParameter("jn_prt_no"));
-//           param.put("email_rcv_yn",request.getParameter("email_rcv_yn"));
-//           param.put("sms_rcv_yn",request.getParameter("sms_rcv_yn"));
-//           param.put("dm_rcv_yn",request.getParameter("dm_rcv_yn"));
-//
-//		      
-//		      log.info("##########나와주세요############# =" + param);
-//		      try {
-//					
-//					//1. 업무로직	
-////					int result = customerService.insertcust();
-////					String msg = result > 0 ? "신규고객 등록 성공" : "신규고객 등록 실패";
-//					//2.사용자피드백 준비 및 리다이렉트
-//					
-//				} catch(Exception e) {
-//					//1.로깅작업
-//					log.error(e.getMessage(),e);
-//					//2.다시spring container에 던질것.
-//					throw e;
-//				}
-//		   		
-//		      
-//		      mv.setViewName("/customer/customerRegister");
-//				
-//			return mv;
-//	      
-//	   }
-	   
-//	   @RequestMapping(value="/custRegister", method = { RequestMethod.POST, RequestMethod.GET },
-//			   produces ="application/text; charset=utf8")
-//	   		public ModelAndView custRegister(ModelAndView mv
-//	   										,CustomerVO customerVo
-//	   										,RedirectAttributes redirectAttr) throws Exception{
-//				log.info("######나와주세요 =" + customerVo);
-//				try {
-//				
-//					//1. 업무로직	
-//					int result = customerService.insertcust(customerVo);
-//					String msg = result > 0 ? "신규고객 등록 성공" : "신규고객 등록 실패";
-//					//2.사용자피드백 준비 및 리다이렉트
-//					redirectAttr.addFlashAttribute("msg", msg);
-//				} catch(Exception e) {
-//					//1.로깅작업
-//					log.error(e.getMessage(),e);
-//					//2.다시spring container에 던질것.
-//					throw e;
-//				}
-//		   		
-//		   	
-//		   		mv.setViewName("/customer/customerRegister");
-//				
-//				return mv;
-//		}
-	   
-	   
-//	   @RequestMapping(value="/custRegister", method = { RequestMethod.POST, RequestMethod.GET },
-//			   produces ="application/text; charset=utf8")
-//	   public ModelAndView custRegister(CustomerVO customerVo
-//									 ,ModelAndView mv
-//									 ,RedirectAttributes redirectAttr) throws Exception{
-//	      
-//		   
-//		   
-//
-//		      
-//		      log.info("##########나와주세요############# =" + customerVo);
-//		      try {
-//					
-//					//1. 업무로직	
-//					int result = customerService.insertcust(customerVo);
-//					String msg = result > 0 ? "신규고객 등록 성공" : "신규고객 등록 실패";
-//					//2.사용자피드백 준비 및 리다이렉트
-//					redirectAttr.addFlashAttribute("msg", msg);
-//				} catch(Exception e) {
-//					//1.로깅작업
-//					log.error(e.getMessage(),e);
-//					//2.다시spring container에 던질것.
-//					throw e;
-//				}
-//		   		
-//		      
-//		      mv.setViewName("/customer/customerRegister");
-//				
-//			return mv;
-//	      
-//	   }
-	   
-	   //이메일보류
-//	   @ResponseBody
-//	   @RequestMapping(value="/emailCheck", method= RequestMethod.POST)
-//	   public String emailCheck(CustomerVO customerVo) throws Exception{
-//	       //select * from member where userid = #{};
-//	       //이 member 객체에는 id만 값이 들어있고, 다른 것은 다 null 값이다.
-//		   CustomerVO email = customerService.emailCheck(customerVo);
-//	       String message=null;
-//	       if(email==null) {//사용할 수 있다. db에서 찾았는데없으니까
-//	           message = "success";
-//	       }else {//사용할 수 없다.
-//	           message ="fail";
-//	       }	
-//	       return message;
-//	   }
+
 	   
 	 //이메일보류
 	   @ResponseBody
@@ -414,12 +253,8 @@ public class CustomerController {
 	   public String emailCheck(@RequestParam("email_first") String email_first,
 			   					@RequestParam("email_end") String email_end
 			   					) throws Exception{
-	       //select * from member where userid = #{};
 	       //이 member 객체에는 id만 값이 들어있고, 다른 것은 다 null 값이다.
-		   
-		   System.out.println("########1#####" + email_first);
-		   System.out.println("########1#####" + email_end);
-		   
+
 		   String email = email_first + '@' + email_end;
 		   
 		   Map<String, Object> param= new HashMap<>();
@@ -444,13 +279,8 @@ public class CustomerController {
 			   					,@RequestParam("mbl_no_middle") String mbl_no_middle
 			   					,@RequestParam("mbl_no_end") String mbl_no_end
 			   					) throws Exception{
-	       //select * from member where userid = #{};
-	       //이 member 객체에는 id만 값이 들어있고, 다른 것은 다 null 값이다.
-		   
-		   System.out.println("########1#####" + mbl_no_first);
-		   System.out.println("########1#####" + mbl_no_middle);
-		   System.out.println("########1#####" + mbl_no_end);
-		   
+
+	
 		   String mbl_no = mbl_no_first + mbl_no_middle + mbl_no_end;
 		   
 		   Map<String, Object> param= new HashMap<>();
@@ -461,9 +291,9 @@ public class CustomerController {
 		   CustomerVO emailChk = customerService.mblCheck(param);
 	      
 		   String message=null;
-	       if(emailChk==null) {//사용할 수 있다. db에서 찾았는데없으니까
+	       if(emailChk==null) {
 	           message = "success";
-	       }else {//사용할 수 없다.
+	       }else {
 	           message ="fail";
 	       }	
 	       return message;

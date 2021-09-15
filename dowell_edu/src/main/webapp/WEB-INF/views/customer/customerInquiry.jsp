@@ -7,6 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<script src="https://kit.fontawesome.com/108adcc263.js" crossorigin="anonymous"></script>
+
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
@@ -57,15 +60,10 @@
     width: 109px;
 }
 #searchBtn{
-	float: right;
-	background: url( "https://bit.ly/2JASsV0" )no-repeat;
-	width: 32px;
-	height: 32px;
-	cursor: pointer;
-	background-color: #a5a5f1;
-	border: none;
-	margin-top: 15px;
-	margin-right: 5px;
+    width: 56px;
+    height: 51px;
+    margin-left: 57px;
+    margin-top: 4px;
 }
 .closeDev{
     border: 1px solid rgb(179, 171, 171);
@@ -98,7 +96,11 @@ margin-left: 38%;
                     <%-- <span>핸드폰번호</span><input type="tel" id="mbl_no" name="mbl_no" value="" onkeyup="test(this)"> --%>
                     <span>핸드폰번호</span><input type="tel" id="mbl_no" name="mbl_no" value="" onkeypress="show_enter(event)">
                 </div>
-             	<input type="button" id="searchBtn" value="" onclick="custSearch()"/>
+             	<!-- <input type="button" id="searchBtn" value="" onclick="custSearch()"/> -->
+             	<button ype="button" id="searchBtn" value="" onclick="custSearch()">
+             		<i class="fas fa-search fa-2x"></i>
+             	</button>
+             	
            	</div>
             <div style="margin-top: 15px; margin-left: 25px; height: 359px; overflow:auto;">
                 <table id="custSearchList" class="tg">

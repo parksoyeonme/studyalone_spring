@@ -7,6 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<script src="https://kit.fontawesome.com/108adcc263.js" crossorigin="anonymous"></script>
+
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
@@ -74,15 +77,10 @@ margin-left: 38%;
     height: 25px;
 }
 #searchBtn{
-	float: right;
-	background: url( "https://bit.ly/2JASsV0" )no-repeat;
-	width: 32px;
-	height: 32px;
-	cursor: pointer;
-	background-color: #a5a5f1;
-	border: none;
-	margin-top: 15px;
-	margin-right: 5px;
+    width: 56px;
+    height: 51px;
+    margin-left: 265px;
+    margin-top: 4px;
 }
 </style>
     <body>
@@ -94,7 +92,10 @@ margin-left: 38%;
                     <input type="text" name="prt_nm" id="prt_nm" value="" onkeypress="show_enter(event)">
                     
                 </div>
-                <input type="button" id="searchBtn" value="" onclick="partnerSearch()"/>
+                <!-- <input type="button" id="searchBtn" value="" onclick="partnerSearch()"/> -->
+                <button type="button" id="searchBtn" value="" onclick="partnerSearch()">
+                	<i class="fas fa-search fa-2x"></i>
+                </button>
             </div>
             <div style="margin-left: 25px; margin-top: 15px; height: 359px; overflow:auto;">
                 <table class="tg" style="width: 100%;">
