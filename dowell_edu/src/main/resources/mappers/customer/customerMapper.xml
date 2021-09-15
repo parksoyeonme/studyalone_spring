@@ -19,6 +19,7 @@
     	<result column="lst_upd_dt" property="lst_upd_dt"/>
     	<result column="lst_upd_dt_time" property="lst_upd_dt_time"/>
     	<result column="cust_nm_real" property="cust_nm_real"/>
+    	<result column="user_nm" property="user_nm"/>
    			<collection property="partnerVO" resultMap="PartnerVO"/>
 	</resultMap>
 	
@@ -101,13 +102,21 @@
 			    
 			    ,to_char(to_date(csmt.fst_js_dt, 'YYMMDD'), 'YYYY-MM-DD') fst_js_dt  	<!-- 가입날짜(fst_js_dt) 날짜변환 2021-01-01  -->
 			    ,prtmt.prt_nm 															<!-- 매장명 -->
+			    ,(
+			        SELECT 																<!-- 수정자 성명 -->
+			            usmt.user_nm
+			        FROM
+			            ma_user_mt usmt
+			        WHERE
+			            csmt.lst_upd_id = usmt.user_id
+			     ) user_nm 															
 			    ,csmt.lst_upd_id 														<!-- 수정자ID -->
 			    ,to_char(csmt.lst_upd_dt, 'YYYY-MM-DD HH24MISS') AS lst_upd_dt_time 	<!-- 최종수정일자  -->
 		FROM
 			    cs_cust01_mt   csmt 													<!-- 고객관리(cs_cust01_mt),거래처관리(ma_prt_mt),코드상세(ma_code_dt) -->
-			    left JOIN ma_prt_mt prtmt ON csmt.jn_prt_cd = prtmt.prt_cd 				<!-- 고객관리테이블의 가입매장코드(jn_prt_cd) 동일 거래처관리테이블의 거래처코드(prt_cd) -->
-			    left join ma_code_dt cddt on csmt.cust_ss_cd = cddt.dtl_cd 				<!-- 고객관리테이블의 고객상태코드(cust_ss_cd) 동일 코드상세테이블의 세부코드(dtl_cd)-->
-			    
+			    LEFT JOIN ma_prt_mt prtmt ON csmt.jn_prt_cd = prtmt.prt_cd 				<!-- 고객관리테이블의 가입매장코드(jn_prt_cd) = 거래처관리테이블의 거래처코드(prt_cd) -->
+			    LEFT JOIN ma_code_dt cddt on csmt.cust_ss_cd = cddt.dtl_cd 				<!-- 고객관리테이블의 고객상태코드(cust_ss_cd) = 코드상세테이블의 세부코드(dtl_cd)-->
+			    LEFT JOIN ma_user_mt usmt ON csmt.lst_upd_id = usmt.user_id 			<!-- 사용자테이블의 사용자 ID(user_id) = 고객관리테이블의 수정자ID(lst_upd_id) -->
    		where 
    			1 = 1
    				and cddt.code_cd='CUST_SS_CD' 											<!-- 검색기본조건: 고객상태, 가입날짜  -->
@@ -175,7 +184,7 @@
 		                WHEN csht.chg_cd = 'CUST_NM'   THEN 				--이력테이블의 변경코드가 cust_nm일떄 고객명으로 변경
 		                    '고객명'
 		                ELSE
-		                    cdmt.code_nm
+		                    SUBSTR(code_nm,0, instr(code_nm, '코드')-1) 			<!-- 변경코드이름 뒤에 '코드'가 있을 시 제거 -->
 		            END AS code_nm
 		            ,( 														 
 		                SELECT 												-- 변경전 코드
@@ -347,5 +356,6 @@
 		   	 mbl_no = #{mbl_no} 	<!-- 고객관리 테이블의 휴대폰번호 -->
 		
 	</select>
+	
 	
 </mapper>

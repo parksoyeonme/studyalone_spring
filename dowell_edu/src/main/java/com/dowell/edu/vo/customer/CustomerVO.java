@@ -84,5 +84,8 @@ public class CustomerVO {
 	private String lst_upd_dt_time;
 	//마스킹말고 원본이름 사용
 	private String cust_nm_real;
+	
+	//고객리스트 조회시 
+	private String user_nm;
 
 }

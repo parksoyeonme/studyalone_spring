@@ -56,6 +56,7 @@ public class CustomerController {
 	@RequestMapping(value="/customerDetail")
 	public ModelAndView CustomerDetail(ModelAndView mv) throws Exception{
 		
+		
 		mv.setViewName("/customer/customerDetail");
 		return mv;
 	}

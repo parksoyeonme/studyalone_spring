@@ -25,10 +25,10 @@ public interface CustomerService {
 	//고객히스토리리스트(팝업)
 	List<CodeDetailVO> custHistoryList(String cust_no) throws Exception;
 
-	//고객히스토리(cust_no,cust_nm)
+	//고객히스토리(cust_no,cust_nm) 공통코드
 	List<CustomerVO> custInfoHistoryList(String cust_no) throws Exception;
 
-	//신규고객등록(sex_cd,poc_Cd)
+	//신규고객등록(sex_cd,poc_Cd) 공통코드
 	List<CodeDetailVO> selectcodeCd(CodeDetailVO codeDetailVo) throws Exception;
 
 	//신규등록

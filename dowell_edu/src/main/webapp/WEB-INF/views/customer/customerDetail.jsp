@@ -134,6 +134,12 @@
     margin-top: -604px;
     width: 10%;
 }
+.required:before {
+	content: "*";
+	display:inline-block;
+	color: red;
+	margin-left:-4px;
+}
   </style>
 </head>
 
@@ -144,21 +150,21 @@
     <table class="tf" id="tool-table">
       <thead>
         <tr>
-          <td class="tg-0lax" >고개번호</td>
+          <td class="tg-0lax" >고객번호</td>
           <td class="tg-0lax">
-            <input type="text">
-            <button class="custSearchBtn">
+            <input type="text" id="customSearchInputNo">
+            <button class="custSearchBtn" onclick="openCustom()">
               <i class="fas fa-search"></i>
             </button>
           </td>
           <td class="tg-0lax">
-            <input type="text" readonly style="background-color:#e4e3e3;">
+            <input type="text" id="customSearchInputName" readonly style="background-color:#e4e3e3;">
           </td>
         </tr>
       </thead>
       </table>
       <div class="searchBtn">
-        <button><i class="fas fa-search fa-2x"></i></button>
+        <button onclick="custInfoBtn"><i class="fas fa-search fa-2x"></i></button>
       </div>
   </div>
 
@@ -168,13 +174,13 @@
         <tbody>
           <tr style=" border-left: 1px solid #cec9c6; border-top: 1px solid #cec9c6; 
                       border-right:1px solid #cec9c6;">
-            <th class="tg-0lax" >고객명</th>
+            <th class="tg-0lax required" >고객명</th>
             <th class="tg-0lax">
               <input type="text" style="width: 72px;">
             </th>
-            <th class="tg-0lax" >생년월일</th>
+            <th class="tg-0lax required" >생년월일</th>
             <th class="tg-0lax">
-              <input type="text" id="datepicker1">
+             <input type="text" id="brdy_dt" name="brdy_dt" required>
             </th>
             <th class="tg-0lax">성별</th>
             <th class="tg-0lax">
@@ -190,9 +196,9 @@
             </td>
             <td class="tg-0lax">결혼기념일</td>
             <td class="tg-0lax">
-              <input type="text" id="datepicker2" disabled>
+              <input type="text" id="mrrg_dt" name="mrrg_dt">
             </td>
-            <td class="tg-0lax">직업코드</td>
+            <td class="tg-0lax required">직업코드</td>
             <td class="tg-0lax">
               <select name="직업코드" style="width: 144px;">
                 <option value="" disabled selected hidden></option>
@@ -207,7 +213,7 @@
             </td>
           </tr>
           <tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
-            <td class="tg-0lax">휴대폰번호</td>
+            <td class="tg-0lax required">휴대폰번호</td>
             <td class="tg-0lax">
               <input type="text" name="mbl_no_first" id="mbl_no_first" style="width: 90px;">
               <input type="text" name="mbl_no_middle" id="mbl_no_middle" style="width: 90px;">
@@ -249,12 +255,12 @@
             </td>
           </tr>
           <tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
-            <td class="tg-0lax">고객상태</td>
+            <td class="tg-0lax required">고객상태</td>
             <td class="tg-0lax">
               <input type="radio" id="정" name="정" value="1" checked>정상
               <input type="radio" id="중" name="중" value="2" style="margin-left: 33px;">중지
             </td>
-            <td class="tg-0lax">매장</td>
+            <td class="tg-0lax required">매장</td>
             <td class="tg-0lax">
               <input type="text" name="매장" id="매장" style="width: 120px;">
               <button>
@@ -299,17 +305,17 @@
           </tr>
           <tr style=" border-left:1px solid #cec9c6; border-top: 1px solid #cec9c6; 
           border-bottom: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
-            <td class="tg-0lax">이메일수신동의</td>
+            <td class="tg-0lax required">이메일수신동의</td>
             <td class="tg-0lax">
               <input type="radio" name="" id="">예
               <input type="radio" name="" id="" style="margin-left: 53px;">아니오
             </td>
-            <td class="tg-0lax">SMS수신동의</td>
+            <td class="tg-0lax required">SMS수신동의</td>
             <td class="tg-0lax">
               <input type="radio" name="" id="">예
               <input type="radio" name="" id="" style="margin-left: 53px;">아니오
             </td>
-            <td class="tg-0lax">DM수신동의</td>
+            <td class="tg-0lax required">DM수신동의</td>
             <td class="tg-0lax">
               <input type="radio" name="" id="">예
               <input type="radio" name="" id="" style="margin-left: 53px;">아니오
@@ -327,10 +333,54 @@
      </aside>
 </body>
 <script>
-  $("#datepicker1, #datepicker2").datepicker({
-  showOn:"button"
-  , buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"
-});
+	//datepicker 달력
+	
+	$(function(){
+			 //생년월일
+		$("#brdy_dt").datepicker({
+	        showOn: "both",                   
+	        buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif", 
+	        dateFormat: "yy-mm-dd",             
+	        changeMonth: true,
+	        changeYear: true,
+	        yearRange: 'c-100:c+0',
+	        maxDate: new Date()
+	
+		});
+	
+			 //결혼기념일
+	    $("#mrrg_dt").datepicker({
+	        showOn: "both",                   
+	        buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif", 
+	        dateFormat: "yy-mm-dd",             
+	        changeMonth: true,
+	        changeYear: true,
+	        yearRange: 'c-100:c+0',
+	        maxDate: new Date()
+	
+	    
+	    });
+			
+	    
+	});
+	
+	//고객번호 keyup
+	$("#customSearchInputNo").keyup(function(){
+		$("#customSearchInputName").val($(this).val());
+		$("#customSearchInputName").removeAttr("disabled");
+		
+	})
+	
+	//고객번호팝업
+	function openCustom(){
+		 
+		 window.name = "CustomPopForm";
+		 var custInquiryUrl = "${pageContext.request.contextPath}/customer/customerInquiry"
+		 
+		 window.open(custInquiryUrl,
+	         "childCustomPopForm", "width=700, height=650, resizable = no, scrollbars = no");
+	
+	}
 
 </script>
 </html>

@@ -310,7 +310,7 @@ aside{
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].fst_js_dt + '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;">' + data.list[i].partnerVO[0].prt_nm + '</td>';
 			        		 tbodyHtml += '<input type="hidden" id="prt_nm" value="'+data.list[i].partnerVO[0].prt_nm +'">'; 
-			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;">' + data.list[i].lst_upd_id  + '</td>';
+			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;">' + data.list[i].lst_upd_id +' / '+ data.list[i].user_nm +  '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].lst_upd_dt_time + '</td>';
 			        		 tbodyHtml += ' </tr>';
 			        	 }

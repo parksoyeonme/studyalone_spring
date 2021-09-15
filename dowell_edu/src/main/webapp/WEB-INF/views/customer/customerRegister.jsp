@@ -26,7 +26,8 @@ alert("${msg}");
 <meta charset="UTF-8">
  
 <title>신규고객등록</title>
- 
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<script src="https://kit.fontawesome.com/108adcc263.js" crossorigin="anonymous"></script>
 <!--달력 jquery-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -227,7 +228,8 @@ alert("${msg}");
 			                                   
 			                                    <input type="text" id="zip_cd" name="zip_cd" style="width: 63px; margin-left: 52px; background-color: #f0e9e9;">
 			                                    <button type="button" style="width: 33px;">
-			                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
+			                                    	<i class="fas fa-search"></i>
+			                                        <!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;"> -->
 			                                    </button>
 			                                    <input type="text" id="addr" name="addr" style="width: 235px; background-color: #f0e9e9;">
 			                                    <input type="text" id="addr_dtl" name="addr_dtl" placeholder="직접입력">
@@ -243,7 +245,8 @@ alert("${msg}");
 			                                    <p class="required" style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
 			                                    <input type="text" style="width: 56px; margin-left: 53px; background-color: #f0e9e9;" id="partnerSearchInputCd" name="partnerSearchInputCd">
 			                                    <button type="button" style="width: 33px;" onclick="prtBtn()">
-			                                        <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;">
+			                                    	<i class="fas fa-search"></i>
+			                                        <!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;"> -->
 			                                    </button>
 			                                    <input type="text" style="width: 78px; background-color: #f0e9e9;" id="partnerSearchInputName" name="jn_prt_cd">
 			                                </td>
