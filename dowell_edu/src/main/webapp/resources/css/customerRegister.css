@@ -1,0 +1,115 @@
+
+.infocontainer {
+
+	width: 94%;
+	height: 86px;
+	margin-left: 20px;
+
+}
+
+.topTitle{
+    font-weight: bold;
+    color: gray;
+    
+    
+}
+.infoTool{
+    margin-top: 13px;
+    width: 785px; 
+    height:319px;
+    border: 1px solid #b7afaf;
+   
+}
+.required:before {
+	content: "*";
+	display:inline-block;
+	color: red;
+	margin-left:-4px;
+}
+
+.tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-left: 19px;
+    width: 700px;
+    border: 2px solid white;
+    
+}
+.tg td {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 13px;
+    overflow: hidden;
+    padding: 10px 5px;
+    word-break: normal;
+    text-align: center;
+    width: 50%;
+}
+.tg th {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    padding: 10px 5px;
+    
+    word-break: normal;
+    background-color: #cfcdcd;
+}
+    
+.tg .tg-0lax {
+    border-color: inherit;
+    
+    vertical-align: top;
+}
+.closeDev{
+    border: 1px solid rgb(179, 171, 171);
+    background-color: rgb(228 219 219);
+    width: 783px;
+    height: 63px;
+
+    margin-top: 239px;
+}
+.submitBtn{
+    margin-top: 112px;
+    width: 90px;
+    height: 41px;
+    float: right;
+    margin-right: 12px;
+}
+.closeBtn{
+    margin-top: 5px;
+    margin-right: 10px;
+	width: 90px;
+    height: 41px;
+    float: right;
+}
+#cust_nm{
+    width: 118px;
+    margin-right: 35px;
+
+}
+#poc_cd{
+    width: 151px;   
+}
+#brdy_dt{
+    width: 121px;
+    margin-left: 28px;
+    background-color: #f0e9e9;
+}
+#sexF{
+    margin-left: 61px;
+}
+#sexM{
+    margin-left: 27px;
+}
+#email-start{
+    width: 63px;
+    margin-left: 20px;
+
+}
+#mrrg_dt{
+    width: 117px;
+    margin-left: 53px;
+    background-color: #f0e9e9;
+}

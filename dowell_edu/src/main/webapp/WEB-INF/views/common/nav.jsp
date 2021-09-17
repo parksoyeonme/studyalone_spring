@@ -178,7 +178,7 @@
 				</c:if>
 			</li>
 			<li>
-				<a href="/customer/customerDetail">
+				<a href= "${pageContext.request.contextPath}/customer/CustomerDetailView">
 					<i class="fa fa-gift"></i>
 					<strong>상세보기</strong>
 					<small>고객정보조회</small>

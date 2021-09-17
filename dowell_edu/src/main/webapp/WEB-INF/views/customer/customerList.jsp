@@ -11,136 +11,12 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <script src="https://kit.fontawesome.com/108adcc263.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/customerList.css" />
 <!--달력 jquery-->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
 </head>
-<style>
-body{
-    width:100%;
-    height: 768px;
-    overflow: auto;
-  }
-  *{
-    font-family: 'Noto Sans KR', sans-serif;
-    list-style:none;
-    text-decoration: none;
-    border-collapse: collapse;
-    margin: 0px;
-    padding:0px;
-    color:#000;
-    
-}
-.mainTitle{
-	margin-left: 43px; 
-	font-size: 19px; 
-	font-weight: bold;
-}
-.firtBox {
-    border: 2px solid silver;
-    background: rgb(173, 190, 238);
-    width: 80%;
-    height: 100px;
-    margin-left: 38px;
-   	margin-top: 20px;
-}
-.prtForm{
-	width: 98%; 
-	height: 50%;
-}
-.tg {
-    border-collapse: collapse;
-    border-spacing: 0;
-    margin-left: 44px;
-    width: 80%;
-    height:100px;
-    margin-top: 14px;
-}
-.tg td {
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    overflow: hidden;
-    padding: 10px 5px;
-    word-break: normal;
-}
-.tg th {
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    overflow: hidden;
-    padding: 10px 5px;
-    word-break: normal;
-    background-color: #cfcdcd;
-}
-.tg .tg-0pky {
-    border-color: inherit;
-    text-align: center;
-    vertical-align: top
-}
-#prtSearchBtnImg{
-	width: 12PX;
-	height: 15px;
-	border :none;
-
-}
-#custSearchBtn{
-	width: 20PX;
-	height: 13px;
-	border :none;
-}
-#allSearchBtn{
-	width: 55px;
-	height: 50px;
-	float:right;
-	margin-top : 4px;
-	margin-right: 10px;
-	
-}
-.required:before {
-	content: "*";
-	display:inline-block;
-	color: red;
-	margin-left:-4px;
-}
-#btn_reset{
-	border: none;
-    background: white;
-}
-#partnerSearchInputCd{
-    background: #dfdddd;
-}
-#customSearchInputName{
-	background: #dfdddd;
-}
-.th{
-	margin-top: -8px;
-	width: 100%;
-	margin-left: 5px;
-	padding-left: 27px;
-}
-#newCust{
-	float: right;
-	margin-top: 6px;
-	width: 171px;
-	height: 33px;
-	margin-right: 391px;
-	
-}
-aside{
-	float: right;
-    height: 204px;
-    margin-right: 75px;
-    margin-top: -843px;
-    width: 10%;
-}
-#custDetail{
-    float: right;
-    width: 64px;
-    margin-left: 8px;
-}
-</style>
 
 	<body>
 		<section>
@@ -309,8 +185,8 @@ aside{
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].mbl_no + '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].cust_ss_cd + '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].fst_js_dt + '</td>';
-			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;">' + data.list[i].partnerVO[0].prt_nm + '</td>';
-			        		 tbodyHtml += '<input type="hidden" id="prt_nm" value="'+data.list[i].partnerVO[0].prt_nm +'">'; 
+			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;">' + data.list[i].prt_nm + '</td>';
+			        		 tbodyHtml += '<input type="hidden" id="prt_nm" value="'+data.list[i].prt_nm +'">'; 
 			        		 tbodyHtml += '<td class="tg-0pky" style="text-align: left;">' + data.list[i].lst_upd_id +' / '+ data.list[i].user_nm +  '</td>';
 			        		 tbodyHtml += '<td class="tg-0pky">' + data.list[i].lst_upd_dt_time + '</td>';
 			        		 tbodyHtml += ' </tr>';

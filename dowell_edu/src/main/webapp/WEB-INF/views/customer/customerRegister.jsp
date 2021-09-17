@@ -14,12 +14,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
   System.out.println("로그인한 사용자");
  }
 %>  
-<%-- RedirectAttribute.addFlashAttribute의 저장된 속성값 사용(1회용) --%>
-<c:if test="${not empty msg}">
-<script>
-alert("${msg}");
-</script>   
-</c:if>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,280 +23,151 @@ alert("${msg}");
 <title>신규고객등록</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <script src="https://kit.fontawesome.com/108adcc263.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/customerRegister.css" />
 <!--달력 jquery-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
 </head>
-<style>
-
-.infocontainer {
-
-	width: 94%;
-	height: 86px;
-	margin-left: 20px;
-
-}
-
-.topTitle{
-    font-weight: bold;
-    color: gray;
-    
-    
-}
-.infoTool{
-    margin-top: 13px;
-    width: 785px; 
-    height:319px;
-    border: 1px solid #b7afaf;
-   
-}
-.required:before {
-	content: "*";
-	display:inline-block;
-	color: red;
-	margin-left:-4px;
-}
-
-.tg {
-    border-collapse: collapse;
-    border-spacing: 0;
-    margin-left: 19px;
-    width: 700px;
-    border: 2px solid white;
-    
-}
-.tg td {
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    font-size: 13px;
-    overflow: hidden;
-    padding: 10px 5px;
-    word-break: normal;
-    text-align: center;
-    width: 50%;
-}
-.tg th {
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    overflow: hidden;
-    padding: 10px 5px;
-    
-    word-break: normal;
-    background-color: #cfcdcd;
-}
-    
-.tg .tg-0lax {
-    border-color: inherit;
-    
-    vertical-align: top;
-}
-.closeDev{
-    border: 1px solid rgb(179, 171, 171);
-    background-color: rgb(228 219 219);
-    width: 783px;
-    height: 63px;
-
-    margin-top: 239px;
-}
-.submitBtn{
-    margin-top: 112px;
-    width: 90px;
-    height: 41px;
-    float: right;
-    margin-right: 12px;
-}
-.closeBtn{
-    margin-top: 5px;
-    margin-right: 10px;
-	width: 90px;
-    height: 41px;
-    float: right;
-}
-#cust_nm{
-    width: 118px;
-    margin-right: 35px;
-
-}
-#poc_cd{
-    width: 151px;   
-}
-#brdy_dt{
-    width: 121px;
-    margin-left: 28px;
-    background-color: #f0e9e9;
-}
-#sexF{
-    margin-left: 61px;
-}
-#sexM{
-    margin-left: 27px;
-}
-#email-start{
-    width: 63px;
-    margin-left: 20px;
-
-}
-#mrrg_dt{
-    width: 117px;
-    margin-left: 53px;
-    background-color: #f0e9e9;
-}
-
-</style>
-
     <body>
-        
-            <div class="container">
-                <div class="infocontainer">
-                        <h3>신규고객등록</h3>
-                        <p class="topTitle">고객기본정보</p>
-                </div>
-              	<c:if test="${member.user_id != null}">
-                	<div class="infoTool">
-	                	<form id="registerFrm" name="registerFrm" action="/customer/custRegister" method="post">
-		                   
-		                    <table class="tg">
-		                        <tbody>
-			                        
-			                            <tr>
-			                                <td class="tg-0lax">
-			                                    <span class="required" style="margin-right: 41px; padding-right: 10px;" >고객명</span>
-			                                    <input type="text" id="cust_nm" name="cust_nm" maxlength="6" value="" autofocus tabindex="1" required>
-			                                     <input type="hidden" name="user_id" value="${member.user_id}">
-			                                </td>
-			                                <td class="tg-0lax">
-			                                    <span class="required" style="margin-right: 41px;">직업코드</span>
-			                                   
-			                                    <select id="poc_cd" name="poc_cd"> 
-			                                    	<option value="" disabled selected hidden></option> 
-			                                    	<c:forEach var="codeCd" items="${codeCd}" begin="0" end="7">
-			                                        	<option value="${codeCd.dtl_cd}">${codeCd.dtl_cd_nm}</option> 
-			                                     	</c:forEach>
-			                                     </select>
-			                                </td>
-			                            </tr>
-			                            <tr>
-			                                <td class="tg-0lax">
-			                                    <span class="required" style="margin-right: 9px; ">생년월일</span>
-			                                    <input type="text" id="brdy_dt" name="brdy_dt" required>
-			                                </td>
-			                                <td class="tg-0lax">
-			                                    <span style="margin-right: -7px; padding-right: 21px;">성별</span>
-			                                    <input type="radio" name="sex_cd" value="${codeCd[8].dtl_cd}" id="sexF" checked>여성
-			                                    <input type="radio" name="sex_cd" value="${codeCd[9].dtl_cd}" id="sexM"> 남성 
-			                                </td>
-			                            </tr>
-			                            <tr>
-			                                <td class="tg-0lax">
-			                                    <span class="required" style="padding-left: 30px; margin-right: 12px;">휴대폰번호</span>
-			                                        <input type="hidden" name="mbl_no" id="mbl_no">
-			                                        <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 10px;" required>
-			                                        <input type="text" name="mbl_no_middle" id="mbl_no_middle" maxlength="4" onKeyup="SetNum(this)" style="width: 59px;" required>
-			                                        <input type="text" name="mbl_no_end" id="mbl_no_end" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
-			                                        <br/><span id = "mblcheck" style="margin-left: 121px;"></span>
-			                                </td>
-			                                <td class="tg-0lax">
-			                                    <span style="margin-right: -7px; padding-right: 21px;">생일</span>
-			                                    <input type="radio" name="scal_yn" value="0" style="margin-left: 61px;" checked>양력
-			                                    <input type="radio" name="scal_yn" value="1" style="margin-left: 27px;"> 음력
-			                                </td>
-			                            </tr>
-			                            <tr>
-			                                <td class="tg-0lax">
-			                                    <span class="required" style="margin-left: -11px;">우편물수령</span>
-			                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 40px;" value="H" checked required>자택
-			                                    <input type="radio" name="psmt_grc_cd" style="margin-left: 36px;" value="O" required> 직장
-			                                </td>
-			                                <td class="tg-0lax">
-			                                    <p style="padding-left: 49px; float:left; margin-top: 1px;">이메일</p>
-			                                    <input type="text" id="email_first" name="email_first" style="margin-left: 51px; width: 45px;">@ 
-			                                    <input type="text" id="email_end" name="email_end" style="width: 112px;">
-			                                    <br/><p id = "emailcheck" style="margin-top: 2px; height: 1px;"></p>
-			                                </td>
-			                            </tr>
-			                            <tr>
-			                                <td class="tg-0lax" colspan='2'>
-			                                    <p style="float:left; margin-top: 6px; margin-left: 46px;">주소</p>
-			                                   
-			                                    <input type="text" id="zip_cd" name="zip_cd" style="width: 63px; margin-left: 52px; background-color: #f0e9e9;">
-			                                    <button type="button" style="width: 33px;">
-			                                    	<i class="fas fa-search"></i>
-			                                        <!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;"> -->
-			                                    </button>
-			                                    <input type="text" id="addr" name="addr" style="width: 235px; background-color: #f0e9e9;">
-			                                    <input type="text" id="addr_dtl" name="addr_dtl" placeholder="직접입력">
-			                                    
-			                                </td>
-			                           	 </tr>
-			                            <tr>
-			                                <td class="tg-0lax">
-			                                    <span style="margin-right: -29px;">결혼기념일</span>
-			                                    <input type="text" id="mrrg_dt" name="mrrg_dt">
-			                                 </td>
-			                                <td class="tg-0lax">
-			                                    <p class="required" style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
-			                                    <input type="text" style="width: 56px; margin-left: 53px; background-color: #f0e9e9;" id="partnerSearchInputCd" name="partnerSearchInputCd">
-			                                    <button type="button" style="width: 33px;" onclick="prtBtn()">
-			                                    	<i class="fas fa-search"></i>
-			                                        <!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;"> -->
-			                                    </button>
-			                                    <input type="text" style="width: 78px; background-color: #f0e9e9;" id="partnerSearchInputName" name="jn_prt_cd">
-			                                </td>
-			                            </tr>
-		
-			                        </tbody>
-			                    </table>
-			                    <p class="topTitle">수신동의</p>
-			                    <div style="border: 1px solid #b7afaf; height: 79px;">
-				                    <table class="tg">
-										<tbody>
-										  <tr>
-										    <td class="tg-0lax">
-			                                    <span class="required" style="margin-right: 22px;">이메일수신동의</span>
-			                                    <input type="radio" name="email_rcv_yn" value="Y" required>예
-			                                    <input type="radio" name="email_rcv_yn" value="N"  required style="margin-left: 43px;" checked> 아니오
-			                                </td>
-			                                <td class="tg-0lax">
-			                                    <span class="required" style="margin-right: 33px">SMS수신동의</span>
-			                                    <input type="radio" name="sms_rcv_yn"  value="Y" >예
-			                                    <input type="radio" name="sms_rcv_yn" value="N" style="margin-left: 37px;" checked> 아니요
-			                                </td>
-										  </tr>
-										  <tr>
-										    <td class="tg-0lax">
-										    </td>
-			                                <td class="tg-0lax">
-			                                    <span class="required" style="margin-right: 33px">DM수신동의</span>
-			                                    <input type="radio" name="dm_rcv_yn" value="Y">예
-			                                    <input type="radio" name="dm_rcv_yn" value="N" style="margin-left: 37px;" checked> 아니요
-			                                </td>
-										  </tr>
-										 
-										</tbody>
-									</table>
-								</div>
-		                    	<input type="button" class="submitBtn" id="goNewRegBtn"  value="등록">
-		                    	
-		                </form>
-	                    <!-- <input type="submit" class="submitBtn" id="goNewRegBtn" onclick="goNewRegBtn()" value="등록"> -->
-                	</div>
-                </c:if>
-				<c:if test="${member.user_id == null}">
-					<p>로그인 후에 작성하실 수 있습니다.</p>
-				</c:if>
-                <footer>
-		            <div class="closeDev">
-		                
-		                <input type="button" class="closeBtn" value="닫기" onclick="window.close()">
-		 
-		            </div>
-		        </footer>
-        	</div>
-        
-        
+	    <div class="container">
+	        <div class="infocontainer">
+	            <h3>신규고객등록</h3>
+	            <p class="topTitle">고객기본정보</p>
+	        </div>
+	      	<c:if test="${member.user_id != null}">
+	        	<div class="infoTool">
+		         	<form id="registerFrm" name="registerFrm" action="/customer/custRegister" method="post">
+		              <table class="tg">
+		                  <tbody>
+		                       <tr>
+		                           <td class="tg-0lax">
+		                               <span class="required" style="margin-right: 41px; padding-right: 10px;" >고객명</span>
+		                               <input type="text" id="cust_nm" name="cust_nm" maxlength="10" value="" autofocus tabindex="1" required>
+		                               <input type="hidden" name="user_id" value="${member.user_id}">
+		                           </td>
+		                           <td class="tg-0lax">
+		                               <span class="required" style="margin-right: 41px;">직업코드</span>
+		                               <select id="poc_cd" name="poc_cd"> 
+			                               <option value="" disabled selected hidden></option> 
+			                               <c:forEach var="codeCd" items="${codeCd}" begin="0" end="7">
+			                               		<option value="${codeCd.dtl_cd}">${codeCd.dtl_cd_nm}</option> 
+			                                </c:forEach>
+		                                </select>
+		                           </td>
+		                       </tr>
+		                       <tr>
+		                           <td class="tg-0lax">
+		                               <span class="required" style="margin-right: 9px; ">생년월일</span>
+		                               <input type="text" id="brdy_dt" name="brdy_dt" required>
+		                           </td>
+		                           <td class="tg-0lax">
+		                               <span style="margin-right: -7px; padding-right: 21px;">성별</span>
+		                               <input type="radio" name="sex_cd" value="${codeCd[8].dtl_cd}" id="sexF" checked>${codeCd[8].dtl_cd_nm}
+		                               <input type="radio" name="sex_cd" value="${codeCd[9].dtl_cd}" id="sexM">${codeCd[9].dtl_cd_nm} 
+		                           </td>
+		                       </tr>
+		                       <tr>
+		                           <td class="tg-0lax">
+		                               <span class="required" style="padding-left: 30px; margin-right: 12px;">휴대폰번호</span>
+		                                   <input type="hidden" name="mbl_no" id="mbl_no">
+		                                   <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 10px;" required>
+		                                   <input type="text" name="mbl_no_middle" id="mbl_no_middle" maxlength="4" onKeyup="SetNum(this)" style="width: 59px;" required>
+		                                   <input type="text" name="mbl_no_end" id="mbl_no_end" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
+		                               <br/>
+		                               <span id = "mblcheck" style="margin-left: 121px;"></span>
+		                           </td>
+		                           <td class="tg-0lax">
+		                               <span style="margin-right: -7px; padding-right: 21px;">생일</span>
+		                               <input type="radio" name="scal_yn" value="0" style="margin-left: 61px;" checked>양력
+		                               <input type="radio" name="scal_yn" value="1" style="margin-left: 27px;"> 음력
+		                           </td>
+		                       </tr>
+		                       <tr>
+		                           <td class="tg-0lax">
+		                               <span class="required" style="margin-left: -11px;">우편물수령</span>
+		                               <input type="radio" name="psmt_grc_cd" style="margin-left: 40px;" value="H" checked required>자택
+		                               <input type="radio" name="psmt_grc_cd" style="margin-left: 36px;" value="O" required> 직장
+		                           </td>
+		                           <td class="tg-0lax">
+		                               <p style="padding-left: 49px; float:left; margin-top: 1px;">이메일</p>
+		                               <input type="text" id="email_first" name="email_first" style="margin-left: 51px; width: 45px;">@ 
+		                               <input type="text" id="email_end" name="email_end" style="width: 112px;">
+		                               <br/>
+		                               <p id = "emailcheck" style="margin-top: 2px; height: 1px;"></p>
+		                           </td>
+		                       </tr>
+		                       <tr>
+									<td class="tg-0lax" colspan='2'>
+		                               <p style="float:left; margin-top: 6px; margin-left: 46px;">주소</p>
+		                               <input type="text" id="zip_cd" name="zip_cd" style="width: 63px; margin-left: 52px; background-color: #f0e9e9;">
+		                               <button type="button" style="width: 33px;">
+		                               		<i class="fas fa-search"></i>
+		                                   <!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;"> -->
+		                               </button>
+		                               <input type="text" id="addr" name="addr" style="width: 235px; background-color: #f0e9e9;">
+		                               <input type="text" id="addr_dtl" name="addr_dtl" placeholder="직접입력">
+		                           </td>
+		                       </tr>
+		                       <tr>
+		                           <td class="tg-0lax">
+		                               <span style="margin-right: -29px;">결혼기념일</span>
+		                               <input type="text" id="mrrg_dt" name="mrrg_dt">
+		                            </td>
+		                           <td class="tg-0lax">
+		                               <p class="required" style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
+		                               <input type="text" style="width: 56px; margin-left: 53px; background-color: #f0e9e9;" id="partnerSearchInputCd" name="partnerSearchInputCd">
+		                               <button type="button" style="width: 33px;" onclick="prtBtn()">
+		                               		<i class="fas fa-search"></i>
+		                                   <!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;"> -->
+		                               </button>
+		                               <input type="text" style="width: 78px; background-color: #f0e9e9;" id="partnerSearchInputName" name="jn_prt_cd">
+		                           </td>
+		                       </tr>
+		                   </tbody>
+		               </table>
+		               <p class="topTitle">수신동의</p>
+		               <div style="border: 1px solid #b7afaf; height: 79px;">
+		               		<table class="tg">
+								<tbody>
+								  <tr>
+								    <td class="tg-0lax">
+		                               <span class="required" style="margin-right: 22px;">이메일수신동의</span>
+		                               <input type="radio" name="email_rcv_yn" value="Y" required>예
+		                               <input type="radio" name="email_rcv_yn" value="N"  required style="margin-left: 43px;" checked> 아니오
+		                            </td>
+		                            <td class="tg-0lax">
+		                               <span class="required" style="margin-right: 33px">SMS수신동의</span>
+		                               <input type="radio" name="sms_rcv_yn"  value="Y" >예
+		                               <input type="radio" name="sms_rcv_yn" value="N" style="margin-left: 37px;" checked> 아니요
+		                            </td>
+								  </tr>
+								  <tr>
+								    <td class="tg-0lax"></td>
+		                            <td class="tg-0lax">
+		                               <span class="required" style="margin-right: 38px">DM수신동의</span>
+		                               <input type="radio" name="dm_rcv_yn" value="Y">예
+		                               <input type="radio" name="dm_rcv_yn" value="N" style="margin-left: 37px;" checked> 아니요
+		                            </td>
+								  </tr>
+								</tbody>
+							</table>
+						</div>
+		              	<input type="button" class="submitBtn" id="goNewRegBtn"  value="등록">
+		          	</form>
+	             <!-- <input type="submit" class="submitBtn" id="goNewRegBtn" onclick="goNewRegBtn()" value="등록"> -->
+	        	</div>
+			</c:if>
+			<c:if test="${member.user_id == null}">
+				<p>로그인 후에 작성하실 수 있습니다.</p>
+			</c:if>
+			<footer>
+		      <div class="closeDev">
+		          <input type="button" class="closeBtn" value="닫기" onclick="window.close()">
+		      </div>
+		   </footer>
+	 	</div>
+
     </body>
     <script>
   
@@ -347,6 +213,17 @@ alert("${msg}");
 				$("#mbl_no_end").focus();
 				return false;
 			}
+			if( $('#mblcheck').css('color','red')){
+				alert("사용할 수 없는 번호입니다.");
+				$("#mbl_no_end").focus();
+				return false;
+			}
+			
+			if($('#emailcheck').css('color','red')){
+				alert("사용할 수 없는 이메일입니다.");
+				$("#email_first").focus();
+				return false;
+			}
 			
 			if( jn_prt_no  == ""){
 				alert("매장을 입력해주세요");
@@ -370,6 +247,8 @@ alert("${msg}");
 				$("#dm_rcv_yn").focus();
 				return false;
 			}
+			
+			 
 			else {
 				alert("신규등록진행합니다.")
 				$("#registerFrm").submit();

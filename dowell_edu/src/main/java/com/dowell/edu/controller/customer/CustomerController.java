@@ -44,22 +44,65 @@ public class CustomerController {
 	public ModelAndView customerList(CodeDetailVO codeDetailVo, ModelAndView mv) throws Exception{
 		
 		//고객상태조회(cust_ss_cd)
-		List<CodeDetailVO> custSsCd = customerService.selectcustSsCd(codeDetailVo);
+		List<CodeDetailVO> list = customerService.selectcustSsCd(codeDetailVo);
 		
-		mv.addObject("custSsCd", custSsCd);
+		mv.addObject("custSsCd", list);
 		mv.setViewName("/customer/customerList");
 		
 		return mv;
 	}
-	
 	//고객정보조회 view
+		@RequestMapping(value="/CustomerDetailView")
+		public ModelAndView CustomerDetailView(CodeDetailVO codeDetailVo,ModelAndView mv) throws Exception{
+			List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
+			
+			mv.addObject("commCd", listcd);
+
+			mv.setViewName("/customer/customerDetail");
+			return mv;
+		}
+	//고객정보조회 
 	@RequestMapping(value="/customerDetail")
-	public ModelAndView CustomerDetail(ModelAndView mv) throws Exception{
+	public ModelAndView CustomerDetail(ModelAndView mv
+			,@RequestParam(value="cust_no", required=false) String cust_no) throws Exception{
 		
-		
+	
+		Map<String, Object> param= new HashMap<>();
+
+	      param.put("cust_no",cust_no);
+
+	  List<CustomerVO> list = customerService.selectDetailOne(param);
+	  log.info("####list출력하나요?########" + list);
+	  
+	  
+	
+		mv.addObject("list", list);
 		mv.setViewName("/customer/customerDetail");
 		return mv;
 	}
+	
+//	  @RequestMapping(value="/customerDetail", method = { RequestMethod.POST, RequestMethod.GET },
+//			   produces ="application/text; charset=utf8")
+//		public ModelAndView customerDetail(@RequestParam(value="cust_no", required=false) String cust_no
+//										, ModelAndView mv) throws Exception{
+//			
+//		   //고객히스토리리스트(팝업)
+//			//List<CodeDetailVO> custHistory = customerService.custHistoryList(cust_no);
+//		   log.info("#####상세버튼 클릭시#" + cust_no);
+//			Map<String, Object> param= new HashMap<>();
+//
+//		      param.put("cust_no",cust_no);
+//
+//		  List<CustomerVO> list = customerService.selectDetailOne(param);
+//		  log.info("####list출력하나요?########" + list);
+//			//mv.addObject("history", custHistory);
+//			mv.addObject("listBtn", list);
+//			mv.setViewName("/customer/customerDetail");
+//			
+//			return mv;
+//		}
+	  
+	  
 	
 	//고객조회 팝업 view
 	@RequestMapping(value="/customerInquiry")
@@ -101,12 +144,12 @@ public class CustomerController {
 	   @ResponseBody
 	   @RequestMapping(value="/custAllSearchList", method = { RequestMethod.POST, RequestMethod.GET },
 			   produces ="application/text; charset=utf8")
-	   public String custAllSearchList(@RequestParam String jn_prt_cd,
-									   @RequestParam String cust_ss_cd,
-									   @RequestParam String cust_no,
-									   @RequestParam String fromDate,
-									   @RequestParam String toDate,
-									   Model model			) throws Exception{
+	   public String custAllSearchList(@RequestParam String jn_prt_cd
+									   ,@RequestParam String cust_ss_cd
+									   ,@RequestParam String cust_no
+									   ,@RequestParam String fromDate
+									   ,@RequestParam String toDate
+									   ,Model model			) throws Exception{
 	      
 		   
 		   
@@ -137,12 +180,13 @@ public class CustomerController {
 		public ModelAndView custHistory(@RequestParam(value="cust_no", required=false) String cust_no
 										, ModelAndView mv) throws Exception{
 			
+		
 		   //고객히스토리리스트(팝업)
 			List<CodeDetailVO> custHistory = customerService.custHistoryList(cust_no);
 			
 			//고객히스토리(cust_no,cust_nm)
 			List<CustomerVO> custinfoHistory = customerService.custInfoHistoryList(cust_no);
-			
+		
 			mv.addObject("history", custHistory);
 			mv.addObject("infohistory", custinfoHistory);
 			mv.setViewName("/customer/customerHistory");
@@ -251,9 +295,9 @@ public class CustomerController {
 	 //이메일보류
 	   @ResponseBody
 	   @RequestMapping(value="/emailCheck", method= RequestMethod.POST)
-	   public String emailCheck(@RequestParam("email_first") String email_first,
-			   					@RequestParam("email_end") String email_end
-			   					) throws Exception{
+	   public String emailCheck(@RequestParam("email_first") String email_first
+			   					,@RequestParam("email_end") String email_end
+			   						) throws Exception{
 	       //이 member 객체에는 id만 값이 들어있고, 다른 것은 다 null 값이다.
 
 		   String email = email_first + '@' + email_end;
@@ -299,5 +343,30 @@ public class CustomerController {
 	       }	
 	       return message;
 	   }
+	   
+	  //고객정보조회 : 메인에서 들어갔을 때
+	   @ResponseBody
+	   @RequestMapping(value="/customerDetailList", method = { RequestMethod.POST, RequestMethod.GET },
+			   produces ="application/text; charset=utf8")
+	   public String customerDetailList(@RequestParam String cust_no
+									   ,Model model	) throws Exception{
+	      
+		   log.info("###갑자기왜안나와####" + cust_no);
+		   Map<String, Object> param= new HashMap<>();
+
+		      param.put("cust_no",cust_no);
+
+		  List<CustomerVO> list = customerService.selectDetailOne(param);    
+	   
+	      JSONObject obj = new JSONObject();
+	      obj.put("list", list);
+	      
+	      String resp = obj.toString();
+		      
+		     return resp;
+		
+	   }
+	   
+	 
 	   
 }

@@ -79,7 +79,8 @@ public class CustomerVO {
 	private String lst_upd_id;
 	
 	//고객리스트 조회시 사용
-	private List<PartnerVO> partnerVO;
+	private String prt_nm;
+	private String prt_cd;
 	//Date lst_upd_id를 문자열로 바꾼 후 사용
 	private String lst_upd_dt_time;
 	//마스킹말고 원본이름 사용
@@ -87,5 +88,11 @@ public class CustomerVO {
 	
 	//고객리스트 조회시 
 	private String user_nm;
-
+	
+	//고객정보조회
+	private String mbl_no_first;
+	private String mbl_no_middle;
+	private String mbl_no_end;
+	private String email_start;
+	private String email_end;
 }

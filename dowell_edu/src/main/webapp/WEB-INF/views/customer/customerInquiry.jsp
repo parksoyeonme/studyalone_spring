@@ -13,78 +13,9 @@
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/customerInquiry.css" />
 <title>고객팝업</title>
 </head>
-<style>
-.body{
-	width: 750px;
-	height: 300px;
-	border: 2px solid red;
-}
-.container {
-    border: 2px solid silver;
-    background: rgb(173, 190, 238);
-    width: 615px;
-    height: 60px;
-    margin-left: 20px;
-}
-
-.tg {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-.tg td {
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    overflow: hidden;
-    padding: 10px 5px;
-    word-break: normal;
-}
-.tg th {
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-    overflow: hidden;
-    padding: 10px 5px;
-    word-break: normal;
-    background-color: #cfcdcd;
-}
-.tg .tg-0lax {
-	text-align: center;
-    width: 109px;
-}
-#searchBtn{
-    width: 56px;
-    height: 51px;
-    margin-left: 57px;
-    margin-top: 4px;
-}
-.closeDev{
-    border: 1px solid rgb(179, 171, 171);
-     background-color: rgb(228 219 219);
-    width: 600px;
-    height: 50px;
-    margin-left: 20px;
-    margin-top: 50px;
-}
-.closeBtn{
-margin-left: 38%;
-    margin-top: 5px;
-    width: 90px;
-    height: 41px;
-}
-.submitBtn{
-	width: 90px;
-    height: 41px;
-}
-</style>
-
     <body>
         <h2 style="margin-left: 21px;">고객조회</h2>
         <section>

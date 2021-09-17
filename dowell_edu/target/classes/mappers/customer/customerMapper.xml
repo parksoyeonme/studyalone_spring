@@ -20,7 +20,8 @@
     	<result column="lst_upd_dt_time" property="lst_upd_dt_time"/>
     	<result column="cust_nm_real" property="cust_nm_real"/>
     	<result column="user_nm" property="user_nm"/>
-   			<collection property="partnerVO" resultMap="PartnerVO"/>
+   		<result column="prt_nm" property="prt_nm"/>
+   		<result column="prt_cd" property="prt_cd"/>
 	</resultMap>
 	
 	<resultMap type="com.dowell.edu.vo.customer.CustomerHistoryVO" id="CustomerHistoryVO">
@@ -322,8 +323,8 @@
 						,#{cust_nm} 															<!-- 고객명 -->
 						,#{sex_cd} 																<!-- 성병코드 M:남자, F:여자 -->
 						,#{scal_yn} 															<!-- 양음력구분 0:양력, 1:음력-->
-						,to_char(TO_DATE('1997-02-15', 'YYYY-MM-DD'), 'YYYYMMDD') 				<!-- 생년월일 : 20210910 -->
-						,to_char(TO_DATE('2021-01-02', 'YYYY-MM-DD'), 'YYYYMMDD') 				<!-- 결혼기념일 : 20210910 -->
+						,to_char(TO_DATE(brdy_dt, 'YYYY-MM-DD'), 'YYYYMMDD') 					<!-- 생년월일 : 20210910 -->
+						,to_char(TO_DATE(mrrg_dt, 'YYYY-MM-DD'), 'YYYYMMDD') 					<!-- 결혼기념일 : 20210910 -->
 						,#{poc_cd} 																<!-- 직업코드 -->
 						,#{mbl_no} 																<!-- 핸드폰번호 : 01011112222 -->
 						,#{psmt_grc_cd} 														<!-- 우편물수령코드 H:자택, O: 직장 -->
@@ -335,7 +336,7 @@
 						,#{jn_prt_cd} 															<!-- 가입매장코드 -->
 						,#{email_rcv_yn} 														<!-- 이메일수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의-->
 						,#{sms_rcv_yn} 															<!-- SMS수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
-						,DEFAULT 															<!-- TM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
+						,DEFAULT 																<!-- TM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
 						,#{dm_rcv_yn} 															<!-- DM수신동의여부 DEFAULT 'N' : Y:동의, 'N':미동의 -->
 						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD') 						<!-- 최초가입일자 -->
 						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')						<!-- 가입일자 -->															<!-- 해지일자 -->
@@ -357,5 +358,67 @@
 		
 	</select>
 	
+	<select id="selectcommCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
+		SELECT
+		    	code_cd 			<!-- 공통코드 -->
+		        ,dtl_cd 			<!-- 세부코드 -->
+		        ,dtl_cd_nm 			<!-- 세부코드명 -->
+		FROM
+		    ma_code_dt 				<!-- 코드상세 table -->
+		WHERE
+		    code_cd IN ( 			<!-- 코드상세 table 의 세부코드 중  -->
+		        'SEX_CD' 			<!-- 성별코드, 직업코드, 우편물수령코드, 고객상태코드 포함 -->
+		        ,'POC_CD'
+		        ,'PSMT_GRC_CD'
+		        ,'CUST_SS_CD'
+		    )
+		ORDER BY code_cd ASC
+	</select>
+	
+	<select id="selectDetailOne" resultMap="CustomerVO" >
+	
+		SELECT
+		     cumt.cust_no 			<!-- 고객관리의 고객번호 -->
+		    ,cumt.cust_nm 			<!-- 고객명 -->
+		    ,to_char(TO_DATE(cumt.brdy_dt, 'YYYYMMDD'), 'YYYY-MM-DD') brdy_dt 			<!-- 생년월일 -->
+		    ,cumt.sex_cd 			<!-- 성별코드 -->
+		    ,cumt.scal_yn 			<!-- 양음력구분 -->
+		    ,to_char(to_date(cumt.mrrg_dt, 'YYMMDD'), 'YYYY-MM-DD') mrrg_dt 			<!-- 결혼기념일 -->
+		    ,cumt.poc_cd 			<!-- 직업코드 -->
+		    ,cumt.mbl_no 			<!-- 휴대폰번호 -->
+		    ,SUBSTR(cumt.mbl_no, 1,3) mbl_no_first						<!-- 휴대폰번호 앞 3자리 -->
+		    ,<![CDATA[
+			    case 
+			        when length(cumt.mbl_no) > 10 then SUBSTR(cumt.mbl_no, 4,4)	
+			        else SUBSTR(cumt.mbl_no, 4,3) 								
+			   	end mbl_no_middle
+			    ,case 
+			        when length(cumt.mbl_no) > 10 then SUBSTR(cumt.mbl_no, 8,4) 
+			        else SUBSTR(cumt.mbl_no, 7,4)
+			    end mbl_no_end
+		    ]]>
+		    ,cumt.psmt_grc_cd 		<!-- 우편물수령코드 -->
+		    ,cumt.email 			<!-- 이메일 -->
+		    ,SUBSTR(cumt.email,1,INSTR(cumt.email,'@',1,1)-1) email_start 	<!-- 이메일 ID부 -->
+		    ,SUBSTR(cumt.email,INSTR(cumt.email,'@')+1) email_end			<!-- 이메일 host부  -->
+		    ,cumt.stp_dt 			<!-- 중지일자 -->
+		    ,cumt.zip_cd 			<!-- 우편번호코드 -->
+		    ,cumt.addr 				<!-- 주소 -->
+		    ,cumt.addr_dtl 			<!-- 상세주소 -->
+		    ,cumt.cust_ss_cd 		<!-- 고객상태코드 -->
+		    ,cumt.jn_prt_cd 		<!-- 가입매장코드 -->
+		    ,prtmt.prt_nm 			<!-- 거래처관리table의 거래처명 -->
+		    ,cumt.fst_js_dt 		<!-- 최초가입일자 -->
+		    ,cumt.js_dt 			<!-- 가입일자 -->
+		    ,cumt.email_rcv_yn 		<!-- 이메일수신동의여부 -->
+		    ,cumt.sms_rcv_yn 		<!-- sms수신동의여부 -->
+		    ,cumt.dm_rcv_yn 		<!-- dm수신동의여부 -->
+		FROM
+		    cs_cust01_mt cumt 		<!-- 고객관리table 별칭 cumt -->
+		    LEFT JOIN ma_prt_mt prtmt ON prtmt.prt_cd = cumt.jn_prt_cd 		<!-- 거래처관리table 별칭(prtmt)의 매장코드(prt_cd)와 -->
+		    where cust_no = #{cust_no}
+		     										<!-- 고객관리table 별칭(cumt)의 가입매장코드(jn_prt_cd) 동일 -->
+		
+	</select>
 	
 </mapper>

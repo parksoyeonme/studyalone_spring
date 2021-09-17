@@ -9,89 +9,9 @@
 <meta charset="UTF-8">
 <title>고객팝업</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/customerHistory.css" />
 </head>
-<style>
-.body{
-	width: 750px;
-	height: 300px;
-	border: 2px solid red;
-}
 
-.infocontainer {
-	border: 2px solid silver;
-	background: rgb(192 205 243);
-	width: 700px;
-	width: 700px;
-	height: 60px;
-	margin-left: 20px;
-
-}
-#infoDev{
-    float: left;
-    margin-top: 19px;
-    margin-left: 15px;
-    color: #379ff2;
-}
-
-.historyNo{
-	margin-top: -19px;
-    margin-left: 51px;
-	color: #379ff2;
-}
-.historyNm{
-    margin-top: -21px;
-    margin-left: 145px;
-    color: #379ff2;
-}
-.tg {
-    border-collapse: collapse;
-    border-spacing: 0;
-    margin-left: 19px;
-    width: 700px;
-    
-}
-.tg td {
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    font-size: 13px;
-    overflow: hidden;
-    padding: 10px 5px;
-    word-break: normal;
-    text-align: center;
-}
-.tg th {
-    border-color: black;
-    border-style: solid;
-    border-width: 1px;
-    overflow: hidden;
-    padding: 10px 5px;
-    
-    word-break: normal;
-    background-color: #cfcdcd;
-}
-    
-.tg .tg-0lax {
-    border-color: inherit;
-    text-align: center;
-    vertical-align: top;
-}
-.closeDev{
-    border: 1px solid rgb(179, 171, 171);
-    width: 700px;
-    height: 50px;
-    margin-left: 20px;
-   	margin-top: 72px;
-   	background: #ecdcdc;
-}
-.closeDev .closeBtn{
-    float: right;
-    width: 100px;
-    height: 29px;
-    margin-top: 11px;
-}
-    
-</style>
 
 <body>
     <section>

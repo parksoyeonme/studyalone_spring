@@ -82,4 +82,17 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return sqlsSession.selectOne("customer.mblCheck", param);
 	}
 
+	//고객정보조회(공통코드)
+	@Override
+	public List<CodeDetailVO> selectcommCd(CodeDetailVO codeDetailVo) throws Exception {
+		return sqlsSession.selectList("customer.selectcommCd", codeDetailVo);
+	}
+
+	//고객정보조회list
+	@Override
+	public List<CustomerVO> selectDetailOne(Map<String, Object> param) throws Exception {
+		return sqlsSession.selectList("customer.selectDetailOne", param);	
+	}
+
+
 }
