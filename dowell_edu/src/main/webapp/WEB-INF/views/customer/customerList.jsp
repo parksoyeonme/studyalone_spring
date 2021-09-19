@@ -271,8 +271,22 @@
 		//고객정보조회(상세버튼)
 	  	function custDetail(cust_no){
 	  		var cust_no = cust_no;
+	  		console.log("#####상세버튼클리후넘긴디아" + cust_no);
 	  		
-	  		location.href = "${pageContext.request.contextPath}/customer/customerDetail?cust_no=" + cust_no;
+	  		$.ajax({
+	  	        
+	  	        type:"post",
+	  	        url:"${pageContext.request.contextPath}/customer/customerDetail",
+		  	    data : {
+			        "cust_no" : cust_no
+			       },
+	  	        success:function(data){
+	  	            location.href = "${pageContext.request.contextPath}/customer/customerDetail?cust_no=" + cust_no;
+	  	           
+	  	        }                
+	  	    });
+	  		
+	  		//location.href = "${pageContext.request.contextPath}/customerDetail?cust_no=" + cust_no;
 		}
 	  	
 </script>   

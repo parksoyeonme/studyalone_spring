@@ -75,7 +75,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                                   <input type="text" name="mbl_no_middle" id="mbl_no_middle" maxlength="4" onKeyup="SetNum(this)" style="width: 59px;" required>
 		                                   <input type="text" name="mbl_no_end" id="mbl_no_end" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
 		                               <br/>
-		                               <span id = "mblcheck" style="margin-left: 121px;"></span>
+		                               <span id = "mblcheck" value="0" style="margin-left: 121px;"></span>
 		                           </td>
 		                           <td class="tg-0lax">
 		                               <span style="margin-right: -7px; padding-right: 21px;">생일</span>
@@ -94,7 +94,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                               <input type="text" id="email_first" name="email_first" style="margin-left: 51px; width: 45px;">@ 
 		                               <input type="text" id="email_end" name="email_end" style="width: 112px;">
 		                               <br/>
-		                               <p id = "emailcheck" style="margin-top: 2px; height: 1px;"></p>
+		                               <p id = "emailcheck" value="0" style="margin-top: 2px; height: 1px;"></p>
 		                           </td>
 		                       </tr>
 		                       <tr>
@@ -181,7 +181,10 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
     	 var jn_prt_no = $("#partnerSearchInputName").val();
     	 var brdy_dt= $("#brdy_dt").val();
     	 var poc_cd = $("#poc_cd option:selected").val();
-    
+    	 var mblcheck= $("#mblcheck").val();
+    	 var email_first= $("#email_first").val();
+    	 var emailcheck= $("#emailcheck").val();
+    	 
 			if(cust_nm == "" || cust_nm.length < 2  ){
 				alert("이름을 입력해주세요.");
 				$("#ucust_nm").focus();
@@ -213,16 +216,20 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				$("#mbl_no_end").focus();
 				return false;
 			}
-			if( $('#mblcheck').css('color','red')){
+			
+			
+			if(mblcheck == 0){
 				alert("사용할 수 없는 번호입니다.");
 				$("#mbl_no_end").focus();
 				return false;
 			}
 			
-			if($('#emailcheck').css('color','red')){
-				alert("사용할 수 없는 이메일입니다.");
-				$("#email_first").focus();
+			if(email_first != "" && emailcheck == 0 ){
+					alert("해당 이메일은 사용할 수 없습니다.");
+				$("#email_first ").focus();
+				
 				return false;
+				
 			}
 			
 			if( jn_prt_no  == ""){
@@ -252,8 +259,9 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 			else {
 				alert("신규등록진행합니다.")
 				$("#registerFrm").submit();
-				 
+				
 			}
+			
 			
 		});
 	
@@ -333,11 +341,13 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		            if(resp=='fail'){
 		                $('#emailcheck').css('color','red')
 		                $('#emailcheck').html("사용할 수 없는 이메일입니다.")
+		                $('#emailcheck').val(0);
 		                flag=false;
 		  
 		            }else{
 		                $('#emailcheck').css('color','blue')
 		                $('#emailcheck').html("사용할 수 있는 이메일입니다.")
+		                $('#emailcheck').val(1);
 		                flag=true;
 		            }
 		         }
@@ -379,11 +389,13 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		            if(resp=='fail'){
 		                $('#mblcheck').css('color','red')
 		                $('#mblcheck').html("사용할 수 없는 휴대폰번호입니다.")
+		                $('#mblcheck').val(0);
 		                flag=false;
 		  
 		            }else{
 		                $('#mblcheck').css('color','blue')
 		                $('#mblcheck').html("사용할 수 있는 휴대폰번호입니다.")
+		                 $('#mblcheck').val(1);
 		                flag=true;
 		            }
 		          }

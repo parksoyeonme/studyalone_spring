@@ -51,22 +51,50 @@ public class CustomerController {
 		
 		return mv;
 	}
-	//고객정보조회 view
-		@RequestMapping(value="/CustomerDetailView")
-		public ModelAndView CustomerDetailView(CodeDetailVO codeDetailVo,ModelAndView mv) throws Exception{
-			List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
-			
-			mv.addObject("commCd", listcd);
+	@RequestMapping(value="/customerDetails")
+	public ModelAndView CustomerDetailView(CodeDetailVO codeDetailVo,ModelAndView mv) throws Exception{
+		List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
+		
+		mv.addObject("commCd", listcd);
 
-			mv.setViewName("/customer/customerDetail");
-			return mv;
-		}
+		mv.setViewName("/customer/customerDetail");
+		return mv;
+	}
+	
+//	@RequestMapping(value={"/customerDetail","/customerDetailBtn"}, method = { RequestMethod.POST, RequestMethod.GET })
+//	public ModelAndView CustomerDetailView(CodeDetailVO codeDetailVo,ModelAndView mv,
+//			@RequestParam(value="cust_no", required=false) String cust_no) throws Exception{
+//		List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
+//		
+//		Map<String, Object> param= new HashMap<>();
+//		
+//		param.put("cust_no",cust_no);
+//		
+//		List<CustomerVO> list = customerService.selectDetailOne(param);
+//		
+//		log.info("####나와줘뿅########" + list);
+//		mv.addObject("commCd", listcd);
+//
+//		mv.addObject("listBtn", list);
+//		mv.setViewName("/customer/customerDetail");
+//		return mv;
+//	}
+	//고객정보조회 view
+//		@RequestMapping(value="/CustomerDetail")
+//		public ModelAndView CustomerDetailView(CodeDetailVO codeDetailVo,ModelAndView mv) throws Exception{
+//			List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
+//			
+//			mv.addObject("commCd", listcd);
+//
+//			mv.setViewName("/customer/customerDetail");
+//			return mv;
+//		}
 	//고객정보조회 
-	@RequestMapping(value="/customerDetail")
-	public ModelAndView CustomerDetail(ModelAndView mv
+	@RequestMapping(value={"/customerDetail"},  method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView CustomerDetail(CodeDetailVO codeDetailVo,ModelAndView mv
 			,@RequestParam(value="cust_no", required=false) String cust_no) throws Exception{
 		
-	
+		List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
 		Map<String, Object> param= new HashMap<>();
 
 	      param.put("cust_no",cust_no);
@@ -75,19 +103,19 @@ public class CustomerController {
 	  log.info("####list출력하나요?########" + list);
 	  
 	  
-	
-		mv.addObject("list", list);
+	 mv.addObject("commCd", listcd);
+		mv.addObject("listBtn", list);
 		mv.setViewName("/customer/customerDetail");
 		return mv;
 	}
-	
+//	
 //	  @RequestMapping(value="/customerDetail", method = { RequestMethod.POST, RequestMethod.GET },
 //			   produces ="application/text; charset=utf8")
 //		public ModelAndView customerDetail(@RequestParam(value="cust_no", required=false) String cust_no
-//										, ModelAndView mv) throws Exception{
+//				,CodeDetailVO codeDetailVo, ModelAndView mv) throws Exception{
 //			
 //		   //고객히스토리리스트(팝업)
-//			//List<CodeDetailVO> custHistory = customerService.custHistoryList(cust_no);
+//			List<CodeDetailVO> listcd = customerService.custHistoryList(cust_no);
 //		   log.info("#####상세버튼 클릭시#" + cust_no);
 //			Map<String, Object> param= new HashMap<>();
 //
@@ -95,7 +123,7 @@ public class CustomerController {
 //
 //		  List<CustomerVO> list = customerService.selectDetailOne(param);
 //		  log.info("####list출력하나요?########" + list);
-//			//mv.addObject("history", custHistory);
+//		  mv.addObject("commCd", listcd);
 //			mv.addObject("listBtn", list);
 //			mv.setViewName("/customer/customerDetail");
 //			
@@ -345,27 +373,31 @@ public class CustomerController {
 	   }
 	   
 	  //고객정보조회 : 메인에서 들어갔을 때
-	   @ResponseBody
-	   @RequestMapping(value="/customerDetailList", method = { RequestMethod.POST, RequestMethod.GET },
-			   produces ="application/text; charset=utf8")
-	   public String customerDetailList(@RequestParam String cust_no
-									   ,Model model	) throws Exception{
-	      
-		   log.info("###갑자기왜안나와####" + cust_no);
-		   Map<String, Object> param= new HashMap<>();
-
-		      param.put("cust_no",cust_no);
-
-		  List<CustomerVO> list = customerService.selectDetailOne(param);    
-	   
-	      JSONObject obj = new JSONObject();
-	      obj.put("list", list);
-	      
-	      String resp = obj.toString();
-		      
-		     return resp;
-		
-	   }
+//	   @ResponseBody
+//	   @RequestMapping(value={"/customerDetailList"}, method = { RequestMethod.POST, RequestMethod.GET },
+//			   produces ="application/text; charset=utf8")
+//	   public String customerDetailList(@RequestParam String cust_no
+//									   ,Model model	) throws Exception{
+//	      
+//		   log.info("###갑자기왜안나와####" + cust_no);
+//		   Map<String, Object> param= new HashMap<>();
+//
+//		      param.put("cust_no",cust_no);
+//
+//		      
+//		  List<CustomerVO> list = customerService.selectDetailOne(param);    
+//	   
+//		  model.addAttribute("listBtn", list);
+//		  
+//	      JSONObject obj = new JSONObject();
+//	      obj.put("list", list);
+//	      
+//	      String resp = obj.toString();
+//	      
+//		      
+//		     return resp;
+//		
+//	   }
 	   
 	 
 	   

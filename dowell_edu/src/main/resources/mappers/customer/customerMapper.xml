@@ -372,7 +372,7 @@
 		        ,'PSMT_GRC_CD'
 		        ,'CUST_SS_CD'
 		    )
-		ORDER BY code_cd ASC
+		ORDER BY code_cd ASC, dtl_cd ASC
 	</select>
 	
 	<select id="selectDetailOne" resultMap="CustomerVO" >
@@ -413,6 +413,7 @@
 		    ,cumt.email_rcv_yn 		<!-- 이메일수신동의여부 -->
 		    ,cumt.sms_rcv_yn 		<!-- sms수신동의여부 -->
 		    ,cumt.dm_rcv_yn 		<!-- dm수신동의여부 -->
+		    ,cumt.cncl_dt 			<!-- 해지일자 -->
 		FROM
 		    cs_cust01_mt cumt 		<!-- 고객관리table 별칭 cumt -->
 		    LEFT JOIN ma_prt_mt prtmt ON prtmt.prt_cd = cumt.jn_prt_cd 		<!-- 거래처관리table 별칭(prtmt)의 매장코드(prt_cd)와 -->
