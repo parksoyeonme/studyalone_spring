@@ -94,5 +94,10 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return sqlsSession.selectList("customer.selectDetailOne", param);	
 	}
 
+	@Override
+	public int updatecustDetail(Map<String, Object> param) throws Exception {
+		return sqlsSession.update("customer.updatecustDetail", param);
+	}
+
 
 }

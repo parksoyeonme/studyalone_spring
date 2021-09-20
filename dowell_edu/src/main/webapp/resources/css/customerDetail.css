@@ -99,7 +99,7 @@
       margin-left: 42px;
       width: 80%;
     }
-    #storeBtn{
+    #detailChgBtn{
       float: right;
       width: 196px;
       height: 40px;
@@ -110,8 +110,8 @@
   aside{
 	float: right;
     height: 204px;
-    margin-right: -417px;
-    margin-top: -604px;
+    margin-right: -413px;
+    margin-top: -600px;
     width: 10%;
 }
 .required:before {

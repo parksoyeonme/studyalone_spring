@@ -256,7 +256,7 @@ public class CustomerController {
 								 ,@RequestParam("zip_cd") String zip_cd
 								 ,@RequestParam("addr") String addr
 								 ,@RequestParam("addr_dtl") String addr_dtl
-								 ,@RequestParam("mrrg_dt") String mrrg_dt
+								 ,@RequestParam(value="mrrg_dt", required = false) String mrrg_dt
 								 ,@RequestParam("jn_prt_cd") String jn_prt_cd
 								 ,@RequestParam("email_rcv_yn") String email_rcv_yn
 								 ,@RequestParam("sms_rcv_yn") String sms_rcv_yn
@@ -280,6 +280,9 @@ public class CustomerController {
 			  email ="";
 		   }
 		   
+		   System.out.println(brdy_dt);
+		   System.out.println(sex_cd);
+		   System.out.println(mrrg_dt);
 		   
 		   Map<String, Object> param= new HashMap<>();
 	
@@ -399,6 +402,108 @@ public class CustomerController {
 //		
 //	   }
 	   
-	 
+	   //고객정보수정
+	   @ResponseBody
+	   @RequestMapping(value="/updatecustomerDetail", method = { RequestMethod.POST, RequestMethod.GET },
+			   produces ="application/text; charset=utf8")
+	   public ModelAndView updatecustomerDetail(@RequestParam(value="cust_nm", required = false) String cust_nm
+			   								   ,@RequestParam(value="cust_no", required = false) String cust_no
+											   ,@RequestParam(value="brdy_dt", required = false) String brdy_dt
+											   ,@RequestParam(value="sex_cd", required = false) String sex_cd
+											   ,@RequestParam(value="scal_yn", required = false) String scal_yn
+											   ,@RequestParam(value="mrrg_dt", required = false) String mrrg_dt
+											   ,@RequestParam(value="poc_cd", required = false) String poc_cd
+											   ,@RequestParam(value="mbl_no_first", required = false) String mbl_no_first
+											   ,@RequestParam(value="mbl_no_middle", required = false) String mbl_no_middle
+											   ,@RequestParam(value="mbl_no_end", required = false) String mbl_no_end
+											   ,@RequestParam(value="psmt_grc_cd", required = false) String psmt_grc_cd
+											   ,@RequestParam(value="email_first", required = false) String email_first
+											   ,@RequestParam(value="email_end", required = false) String email_end
+											   ,@RequestParam(value="zip_cd", required = false) String zip_cd
+											   ,@RequestParam(value="addr", required = false) String addr
+											   ,@RequestParam(value="addr_dtl", required = false) String addr_dtl
+											   ,@RequestParam(value="cust_ss_cd", required = false) String cust_ss_cd
+											   ,@RequestParam(value="jn_prt_cd", required = false) String jn_prt_cd
+											   ,@RequestParam(value="email_rcv_yn", required = false) String email_rcv_yn
+											   ,@RequestParam(value="sms_rcv_yn", required = false) String sms_rcv_yn
+											   ,@RequestParam(value="dm_rcv_yn", required = false) String dm_rcv_yn
+											   ,@RequestParam(value="user_id", required = false) String user_id
+											   ,ModelAndView mv
+											   ,HttpSession session
+											   ,HttpServletRequest request
+											   ,RedirectAttributes redirectAttr) throws Exception{
+	       
+		   
+		
+		   String mbl_no = mbl_no_first + mbl_no_middle + mbl_no_end;
+		 
+		   
+		   String email ="";
+		   
+		   if(!email_first.equals("") && !email_end.equals("")) {
+			   email = email_first + '@' + email_end;
+		   }else {
+			  email ="";
+		   }
+		   System.out.println(cust_nm);
+		   System.out.println(cust_no);
+		   System.out.println(brdy_dt);
+		   System.out.println(sex_cd);
+		   System.out.println(mrrg_dt);
+		   System.out.println(poc_cd);
+		   System.out.println(mbl_no);
+		   System.out.println(psmt_grc_cd);
+		   System.out.println(email);
+		   System.out.println(zip_cd);
+		   System.out.println(addr);
+		   System.out.println(addr_dtl);
+		   System.out.println(cust_ss_cd);
+		   System.out.println(jn_prt_cd);
+		   System.out.println(email_rcv_yn);
+		   System.out.println(sms_rcv_yn);
+		   System.out.println(dm_rcv_yn);
+		   System.out.println(user_id);
+		
+		   
+		   
+		   Map<String, Object> param= new HashMap<>();
+	
+		      param.put("cust_nm",cust_nm);
+		      param.put("cust_no",cust_no);
+		      param.put("brdy_dt",brdy_dt);
+		      param.put("sex_cd",sex_cd);
+		      param.put("scal_yn",scal_yn);
+		      param.put("mrrg_dt",mrrg_dt);
+		      param.put("poc_cd",poc_cd);
+		      param.put("mbl_no",mbl_no);
+		      param.put("psmt_grc_cd",psmt_grc_cd);
+		      param.put("email",email);
+		      param.put("zip_cd",zip_cd);
+		      param.put("addr",addr);
+		      param.put("addr_dtl",addr_dtl);
+		      param.put("cust_ss_cd",cust_ss_cd);
+		      param.put("jn_prt_cd",jn_prt_cd);
+		      param.put("email_rcv_yn",email_rcv_yn);
+		      param.put("sms_rcv_yn",sms_rcv_yn);
+		      param.put("dm_rcv_yn",dm_rcv_yn);
+		      param.put("user_id",user_id);
+		      
+		      
+		      try {
+		    	  int result = customerService.updatecustDetail(param);
+		    	 
+		      }catch(Exception e) {
+					//1.로깅작업
+					log.error(e.getMessage(),e);
+					//2.다시spring container에 던질것.
+					throw e;
+		    
+		      }
+	    
+		      mv.setViewName("/customer/customerDetail");
+				
+			return mv;
+	      
+	   }
 	   
 }

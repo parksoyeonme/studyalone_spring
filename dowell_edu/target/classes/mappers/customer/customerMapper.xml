@@ -323,8 +323,8 @@
 						,#{cust_nm} 															<!-- 고객명 -->
 						,#{sex_cd} 																<!-- 성병코드 M:남자, F:여자 -->
 						,#{scal_yn} 															<!-- 양음력구분 0:양력, 1:음력-->
-						,to_char(TO_DATE(brdy_dt, 'YYYY-MM-DD'), 'YYYYMMDD') 					<!-- 생년월일 : 20210910 -->
-						,to_char(TO_DATE(mrrg_dt, 'YYYY-MM-DD'), 'YYYYMMDD') 					<!-- 결혼기념일 : 20210910 -->
+						,to_char(to_date(#{brdy_dt},'YY/MM/DD'), 'YYYYMMDD')					<!-- 생년월일 : 20210910 -->
+						,to_char(to_date(#{mrrg_dt},'YY/MM/DD'), 'YYYYMMDD')					<!-- 결혼기념일 : 20210910 -->
 						,#{poc_cd} 																<!-- 직업코드 -->
 						,#{mbl_no} 																<!-- 핸드폰번호 : 01011112222 -->
 						,#{psmt_grc_cd} 														<!-- 우편물수령코드 H:자택, O: 직장 -->
@@ -422,4 +422,49 @@
 		
 	</select>
 	
+	<update id="updatecustDetail">
+	 update cs_cust01_mt set
+		CUST_NM = #{cust_nm}
+		,SEX_CD = #{sex_cd}
+		,SCAL_YN = #{scal_yn}
+		,BRDY_DT = to_char(TO_DATE(#{brdy_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 
+		,MRRG_dT = to_char(TO_DATE(#{mrrg_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')
+		,POC_CD = #{poc_cd}
+		,PSMT_GRC_CD = #{psmt_grc_cd}
+
+		,ZIP_CD = #{zip_cd} 
+		,ADDR= #{addr}
+		,ADDR_DTL= #{addr_dtl}
+		,CUST_SS_CD= #{cust_ss_cd}
+		,JN_PRT_CD= #{jn_prt_cd} 
+		,EMAIL_RCV_YN= #{email_rcv_yn}
+		,SMS_RCV_YN= #{sms_rcv_yn}
+		,DM_RCV_YN= #{dm_rcv_yn}
+		,MBL_NO = CASE
+					WHEN CUST_SS_CD ='90' THEN 'NULL'
+				ELSE #{mbl_no}
+				end
+		,EMAIL = CASE
+					WHEN CUST_SS_CD ='90' THEN ''
+				ELSE #{email}
+				end
+				
+				
+		<!-- 여기서부터 안돌아가는 쿼리 -->
+			<if test="cust_ss_cd = '10' ">
+			,STP_DT = ''
+			,CNCL_DT = ''
+			</if>
+			<if test="cust_ss_cd = '80' ">
+			,STP_DT = SYSDATE
+			</if>
+			<if test="cust_ss_cd = '90' ">
+			,CNCL_DT = SYSDATE
+			</if>
+		 
+		,LST_UPD_DT = SYSDATE
+		,LST_UPD_ID = #{user_id}
+		where cust_no= #{cust_no}
+	
+	</update>
 </mapper>

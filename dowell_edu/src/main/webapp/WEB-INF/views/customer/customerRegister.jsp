@@ -178,7 +178,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
     	 var mbl_no_middle = $("#mbl_no_middle").val();
     	 var mbl_no_end = $("#mbl_no_end").val();
     	 var email_first = $("#email_first").val();
-    	 var jn_prt_no = $("#partnerSearchInputName").val();
+    	 var jn_prt_cd = $("#partnerSearchInputName").val();
     	 var brdy_dt= $("#brdy_dt").val();
     	 var poc_cd = $("#poc_cd option:selected").val();
     	 var mblcheck= $("#mblcheck").val();
@@ -232,7 +232,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				
 			}
 			
-			if( jn_prt_no  == ""){
+			if( jn_prt_cd  == ""){
 				alert("매장을 입력해주세요");
 				$("#partnerSearchInputName ").focus();
 				return false;

@@ -100,5 +100,11 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.selectDetailOne(param);
 	}
 
+	//고객정보조회 update
+	@Override
+	public int updatecustDetail(Map<String, Object> param) throws Exception {
+		return customerDao.updatecustDetail(param);
+	}
+
 	
 }

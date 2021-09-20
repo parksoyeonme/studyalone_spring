@@ -46,5 +46,8 @@ public interface CustomerService {
 	//고객정보조회list
 	List<CustomerVO> selectDetailOne(Map<String, Object> param) throws Exception;
 
+	//고객정보조회 update
+	int updatecustDetail(Map<String, Object> param) throws Exception;
+
 
 }
