@@ -153,15 +153,34 @@
   left: 200px;
 }
 </style>
+<script type="text/javascript">
+ $(document).ready(function(){
+	$("#detail, #list").on("click", function(){
+		
+		location.href="/";
+		alert("로그인해주세요!");
+	})
+	
+}) 
+</script>
 <div class="container">
 <nav>
 		<ul class="mcd-menu">
 			<li>
-				<a href="/customer/customerList">
-					<i class="fa fa-home"></i>
-					<strong>목록</strong>
-					<small>고객리스트</small>
-				</a>
+				<c:if test="${member == null}">
+					<a href="/">
+						<i class="fa fa-home"></i>
+						<strong id="list">목록</strong>
+						<small>고객리스트</small>
+					</a>
+				</c:if>
+				<c:if test="${member != null}">
+					<a href="/customer/customerList">
+						<i class="fa fa-home"></i>
+						<strong >목록</strong>
+						<small>고객리스트</small>
+					</a>
+				</c:if>
 			</li>
 			<li>
 				<c:if test="${member != null}">
@@ -177,12 +196,21 @@
 					</a>
 				</c:if>
 			</li>
-			<li>
-				<a href= "${pageContext.request.contextPath}/customer/customerDetails">
-					<i class="fa fa-gift"></i>
-					<strong>상세보기</strong>
-					<small>고객정보조회</small>
-				</a>
+			<li >
+				<c:if test="${member == null}">
+					<a href= "/">
+						<i class="fa fa-gift"></i>
+						<strong id="detail">상세보기</strong>
+						<small>고객정보조회</small>
+					</a>
+				</c:if>
+				<c:if test="${member != null}">
+					<a href= "${pageContext.request.contextPath}/customer/customerDetails">
+						<i class="fa fa-gift"></i>
+						<strong>상세보기</strong>
+						<small>고객정보조회</small>
+					</a>
+				</c:if>
 			</li>
 			<li>
 				<c:if test="${member != null}">

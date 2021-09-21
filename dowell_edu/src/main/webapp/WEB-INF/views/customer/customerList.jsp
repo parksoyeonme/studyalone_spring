@@ -38,10 +38,12 @@
 					    </td>
 					    <td class="th-0lax">고객번호
 					    	<input type="text" id="customSearchInputNo"  value= "" tabindex="2">
-                            <button type="button" style="margin-left: -7px;" onclick="openCustom()">
-								<i class="fas fa-search"></i>
-								<!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" > -->
-							</button>
+					    	
+	                            <button type="button" style="margin-left: -7px;" onclick="openCustom()">
+									<i class="fas fa-search"></i>
+									<!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" > -->
+								</button>
+							
                             <input type="text" id="customSearchInputName" readonly>
 					    </td>
 					    <td class="th-0lax">
@@ -289,5 +291,7 @@
 	  		//location.href = "${pageContext.request.contextPath}/customerDetail?cust_no=" + cust_no;
 		}
 	  	
+	  
+		
 </script>   
 </html>

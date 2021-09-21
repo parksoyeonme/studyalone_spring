@@ -49,5 +49,10 @@ public interface CustomerService {
 	//고객정보조회 update
 	int updatecustDetail(Map<String, Object> param) throws Exception;
 
+	//히스토리인서트
+	int insertCustHistory(Map<String, Object> param2) throws Exception;
+
+	
+
 
 }

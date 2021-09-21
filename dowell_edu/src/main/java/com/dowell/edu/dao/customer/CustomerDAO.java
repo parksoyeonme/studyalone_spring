@@ -49,6 +49,10 @@ public interface CustomerDAO {
 	//고객정보조회 update
 	int updatecustDetail(Map<String, Object> param) throws Exception;
 
+	int insertCustHistory(Map<String, Object> param2)throws Exception;
+
+	
+
 
 
 	

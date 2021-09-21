@@ -449,22 +449,68 @@
 				ELSE #{email}
 				end
 				
+		,STP_DT = 	case when #{cust_ss_cd} = '10' then NULL
+					 when #{cust_ss_cd} = '90' then NULL
+					else SYSDATE	
+					end	
+		,cncl_dt = 	case when #{cust_ss_cd} = '10' then NULL
+					 when #{cust_ss_cd} = '80' then NULL
+					else SYSDATE
+					END
+		
 				
 		<!-- 여기서부터 안돌아가는 쿼리 -->
-			<if test="cust_ss_cd = '10' ">
-			,STP_DT = ''
-			,CNCL_DT = ''
-			</if>
-			<if test="cust_ss_cd = '80' ">
-			,STP_DT = SYSDATE
-			</if>
-			<if test="cust_ss_cd = '90' ">
-			,CNCL_DT = SYSDATE
-			</if>
+		
+		<!-- 	<choose>
+		<when test="cust_ss_cd = '10' ">
+		,STP_DT = ''
+		,CNCL_DT = ''
+		</when>
+		<when test="cust_ss_cd = '80' ">
+		,STP_DT = SYSDATE
+		</when>
+		<when test="cust_ss_cd = '90' ">
+		,CNCL_DT = SYSDATE
+		</when>
+		</choose> -->
 		 
 		,LST_UPD_DT = SYSDATE
 		,LST_UPD_ID = #{user_id}
 		where cust_no= #{cust_no}
 	
 	</update>
+	
+	
+	
+	<!-- <insert id="insertCustHistory">
+	INSERT INTO sd_cust01_ht 
+					(
+				         CUST_NO   					
+				        ,CHG_DT 					
+				        ,CHG_SEQ 					
+				        ,CHG_CD 					
+				        ,CHG_BF_CNT 					
+				        ,CHG_AFT_CNT 					
+				        ,FST_REG_DT 					
+				        ,FST_USER_DT 					
+				        ,LST_UPD_DT 				
+				        ,LST_UPD_ID 						
+				   
+	 					
+				    )
+			VALUES 
+			<foreach item="item" collection="list" separator=",">
+			(
+			
+
+					#{item.cust_no}
+					,sysdate
+					,c
+					,#{item.CHG_BF_CNT}
+					,#{item.CHG_AFT_CNT}
+					,chg_bf_cnt
+			
+			)
+			</foreach>
+	</insert> -->
 </mapper>

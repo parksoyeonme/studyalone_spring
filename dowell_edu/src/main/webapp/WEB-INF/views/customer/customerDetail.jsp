@@ -34,6 +34,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 <body>
  <section>
   <span class="mainTitle">고객조회</span>
+  
   <button type="button" id="btn_reset" onclick="refreshPage()">
 	<i  class="fas fa-redo fa-1x"></i>
   </button>
@@ -76,6 +77,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
   </div>
 
     <h4>고객기본정보</h4>
+
     <div class="detail01">
     <form id="custUpdateFrm" name="custUpdateFrm" action="/customer/updatecustomerDetail" method="post">
       <table class="tg">
@@ -85,12 +87,14 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
             <th class="tg-0lax required" >고객명</th>
             <th class="tg-0lax">
               <input type="text" value="${listBtn[0].cust_nm}" name="cust_nm" id="cust_nm" maxlength="10" style="width: 72px;">
+            	<input type="hidden" name="cust_nm_org" value="${listBtn[0].cust_nm}">
             	<input type="hidden" name="user_id" value="${member.user_id}">
             	<input type="hidden" name="cust_no" value="${listBtn[0].cust_no}">
             </th>
             <th class="tg-0lax required" >생년월일</th>
             <th class="tg-0lax">
              <input type="text" value="${listBtn[0].brdy_dt}" id="brdy_dt" name="brdy_dt" required>
+             <input type="hidden" name="brdy_dt_org" value="${listBtn[0].brdy_dt}">
             </th>
             <th class="tg-0lax">성별</th>
             <th class="tg-0lax">
@@ -107,7 +111,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		      
 		      id="sexM"> ${commCd[14].dtl_cd_nm}
             	
-            
+            <input type="hidden" name="sex_cd_org" value="${listBtn[0].sex_cd}">
             
             </th>
             
@@ -115,6 +119,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
           <tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
             <td class="tg-0lax" >생일</td>
             <td class="tg-0lax">
+              <input type="hidden" name="scal_yn_org" value="${listBtn[0].scal_yn}">
               <input type="radio" name="scal_yn" id="solar" value="0" checked
               <c:if test ="${listBtn[0].scal_yn eq 0}">checked="checked"</c:if> 
               
@@ -127,9 +132,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
             <td class="tg-0lax">결혼기념일</td>
             <td class="tg-0lax">
               <input type="text" id="mrrg_dt" name="mrrg_dt" value="${listBtn[0].mrrg_dt}">
+              <input type="hidden" name="mrrg_dt_org" value="${listBtn[0].mrrg_dt}">
             </td>
             <td class="tg-0lax required">직업코드</td>
             <td class="tg-0lax">
+            <input type="hidden" name="poc_cd_org" value="${listBtn[0].poc_cd}">
               <select id="poc_cd" name="poc_cd" style="width: 144px" > 
 	              <option value="" disabled selected>선택</option> 
 	              <c:forEach var="commCd" items="${commCd}" begin="3" end="10">
@@ -144,6 +151,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
           <tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
             <td class="tg-0lax required">휴대폰번호</td>
             <td class="tg-0lax">
+            <input type="hidden" name="mbl_no_org" value="${listBtn[0].mbl_no}">
               <input type="text" name="mbl_no_first" id="mbl_no_first" value="${listBtn[0].mbl_no_first}" onKeyup="SetNum(this)" style="width: 90px;">
               <input type="text" name="mbl_no_middle" id="mbl_no_middle" value="${listBtn[0].mbl_no_middle}" onKeyup="SetNum(this)" style="width: 90px;">
               <input type="text" name="mbl_no_end" id="mbl_no_end" value="${listBtn[0].mbl_no_end}" onKeyup="SetNum(this)" style="width: 90px;">
@@ -153,15 +161,17 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
             <td class="tg-0lax" colspan="1"></td>
             <td class="tg-0lax">해지일자</td>
             <td class="tg-0lax">
+             
               <input type="text" name="cncl_dt" id="cncl_dt" value="${listBtn[0].cncl_dt}" disabled>
             </td>
           </tr>
           <tr style=" border-left: 1px solid #cec9c6; border-right:1px solid #cec9c6;">
             <td class="tg-0lax">우편물수령</td>
             <td class="tg-0lax">
-              <!-- <input type="radio" id="집" name="집" checked>자택
-              <input type="radio" id="회사" name="회사" style="margin-left: 33px;">직장 -->
-              <input type="radio" name="psmt_grc_cd" value="${commCd[11].dtl_cd}" id="home" checked 
+            	<!-- <input type="radio" id="집" name="집" checked>자택
+              	<input type="radio" id="회사" name="회사" style="margin-left: 33px;">직장 -->
+              	<input type="hidden" name="psmt_grc_cd_org" value="${listBtn[0].psmt_grc_cd}">
+              	<input type="radio" name="psmt_grc_cd" value="${commCd[11].dtl_cd}" id="home" checked 
               
               <c:if test ="${listBtn[0].psmt_grc_cd eq commCd[11].dtl_cd}">checked="checked"</c:if> 
               
@@ -174,6 +184,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
             </td>
             <td class="tg-0lax">이메일</td>
             <td class="tg-0lax">
+            <input type="hidden" name="email_org" value="${listBtn[0].email}">
               <input type="text" id="email_first" name="email_first" value="${listBtn[0].email_start}" style="width: 84px;">@ 
               <input type="text" id="email_end" name="email_end" value="${listBtn[0].email_end}" >
               <input type="hidden" id = "emailcheck" value="0">
@@ -186,17 +197,21 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
           <tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
             <td class="tg-0lax" >주소</td>
             <td class="tg-0lax" colspan='5'>
+            <input type="hidden" name="zip_cd_org" value="${listBtn[0].zip_cd}">
               <input type="text" id="zip_cd" name="zip_cd" value="${listBtn[0].zip_cd}">
               <button type="button">
                 <i class="fas fa-search"></i>
               </button>
+              <input type="hidden" name="addr_org" value="${listBtn[0].addr}">
               <input type="text" style="width: 524px;" id="addr" name="addr" value="${listBtn[0].addr}">
+              <input type="hidden" name="addr_dtl_org" value="${listBtn[0].addr_dtl}">
               <input type="text" id="addr_dtl" name="addr_dtl" value="${listBtn[0].addr_dtl}" placeholder="직접입력">
             </td>
           </tr>
           <tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
             <td class="tg-0lax required">고객상태</td>
             <td class="tg-0lax">
+            <input type="hidden" name="cust_ss_cd_org" value="${listBtn[0].cust_ss_cd}">
               <input type="radio" name="cust_ss_cd" value="${commCd[0].dtl_cd}" id="normal" checked
               
               <c:if test ="${listBtn[0].cust_ss_cd eq commCd[0].dtl_cd}">checked="checked"</c:if>
@@ -219,6 +234,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
               <button type="button" onclick="openStore()">
                 <i class="fas fa-search"></i>
               </button>
+              <input type="hidden" name="jn_prt_cd_org" value="${listBtn[0].jn_prt_cd}">
               <input type="text" id="partnerSearchInputName" name="jn_prt_cd" value="${listBtn[0].jn_prt_cd}" style="width: 120px;" readonly>
             </td>
             <td class="tg-0lax">가입일자</td>
@@ -307,11 +323,13 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
       </div>
      </form>
     </div>
-   
+  	
      </section>
+     
       <aside>
     	<%@include file="/WEB-INF/views/common/nav.jsp" %>
      </aside>
+     
 </body>
 <script>
 	//console.log("##@#@#@#@list" + listBtn);
@@ -560,6 +578,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 			console.log(dm_rcv_yn);
 		 
 		 console.log("#######와라라랄라라##########" + jn_prt_cd); */
+		 	
+		 
+		 
+		 
+		 
 			if(cust_nm == "" || cust_nm.length < 2  ){
 				alert("이름을 입력해주세요.");
 				$("#ucust_nm").focus();

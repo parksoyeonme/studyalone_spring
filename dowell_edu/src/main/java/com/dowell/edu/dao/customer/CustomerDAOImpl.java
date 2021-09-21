@@ -99,5 +99,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return sqlsSession.update("customer.updatecustDetail", param);
 	}
 
+	@Override
+	public int insertCustHistory(Map<String, Object> param2) throws Exception {
+		return sqlsSession.insert("customer.insertCustHistory", param2);
+	}
+
+	
+
 
 }

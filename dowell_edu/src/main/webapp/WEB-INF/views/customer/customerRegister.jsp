@@ -49,7 +49,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                           <td class="tg-0lax">
 		                               <span class="required" style="margin-right: 41px;">직업코드</span>
 		                               <select id="poc_cd" name="poc_cd"> 
-			                               <option value="" disabled selected hidden></option> 
+			                               <option value="" disabled selected >선택</option> 
 			                               <c:forEach var="codeCd" items="${codeCd}" begin="0" end="7">
 			                               		<option value="${codeCd.dtl_cd}">${codeCd.dtl_cd_nm}</option> 
 			                                </c:forEach>
@@ -201,7 +201,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				return false;
 			}
 			
-			if(mbl_no_fist == "" || mbl_no_fist.length <3 ){
+			if(mbl_no_fist == "" || mbl_no_fist.length <3 || mbl_no_fist != '010'
+					|| mbl_no_fist != '011' || mbl_no_fist != '017'){
 				alert("핸드폰번호(앞3자리)를 입력해주세요.");
 				$("#mbl_no_first").focus();
 				return false;

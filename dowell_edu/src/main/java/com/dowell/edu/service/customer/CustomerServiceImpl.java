@@ -106,5 +106,12 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.updatecustDetail(param);
 	}
 
+	@Override
+	public int insertCustHistory(Map<String, Object> param2) throws Exception {
+		return customerDao.insertCustHistory(param2);
+	}
+
+	
+
 	
 }

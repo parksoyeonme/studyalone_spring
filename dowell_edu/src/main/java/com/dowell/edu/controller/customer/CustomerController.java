@@ -307,7 +307,7 @@ public class CustomerController {
 		      
 		      try {
 		    	  int result = customerService.insertcust(param);
-		    	 
+		    	
 		      }catch(Exception e) {
 					//1.로깅작업
 					log.error(e.getMessage(),e);
@@ -428,6 +428,21 @@ public class CustomerController {
 											   ,@RequestParam(value="sms_rcv_yn", required = false) String sms_rcv_yn
 											   ,@RequestParam(value="dm_rcv_yn", required = false) String dm_rcv_yn
 											   ,@RequestParam(value="user_id", required = false) String user_id
+											   ,@RequestParam(value="cust_nm_org", required = false) String cust_nm_org
+											   ,@RequestParam(value="brdy_dt_org", required = false) String brdy_dt_org
+											   ,@RequestParam(value="sex_cd_org", required = false) String sex_cd_org
+											   ,@RequestParam(value="scal_yn_org", required = false) String scal_yn_org
+											   ,@RequestParam(value="mrrg_dt_org", required = false) String mrrg_dt_org
+											   ,@RequestParam(value="poc_cd_org", required = false) String poc_cd_org
+											   ,@RequestParam(value="mbl_no_org", required = false) String mbl_no_org
+											   ,@RequestParam(value="psmt_grc_cd_org", required = false) String psmt_grc_cd_org
+											   ,@RequestParam(value="email_org", required = false) String email_org
+											   ,@RequestParam(value="zip_cd_org", required = false) String zip_cd_org
+											   ,@RequestParam(value="addr_org", required = false) String addr_org
+											   ,@RequestParam(value="addr_dtl_org", required = false) String addr_dtl_org
+											   ,@RequestParam(value="cust_ss_cd_org", required = false) String cust_ss_cd_org
+											   ,@RequestParam(value="jn_prt_cd_org", required = false) String jn_prt_cd_org
+
 											   ,ModelAndView mv
 											   ,HttpSession session
 											   ,HttpServletRequest request
@@ -445,6 +460,10 @@ public class CustomerController {
 		   }else {
 			  email ="";
 		   }
+		   
+		  
+			   
+		   
 		   System.out.println(cust_nm);
 		   System.out.println(cust_no);
 		   System.out.println(brdy_dt);
@@ -463,6 +482,23 @@ public class CustomerController {
 		   System.out.println(sms_rcv_yn);
 		   System.out.println(dm_rcv_yn);
 		   System.out.println(user_id);
+		   System.out.println("----original data-----");
+		   System.out.println(cust_nm_org);
+		   System.out.println(brdy_dt_org);
+		   System.out.println(sex_cd_org);
+		   System.out.println(scal_yn_org);
+		   System.out.println(mrrg_dt_org);
+		   System.out.println(poc_cd_org);
+		   System.out.println(mbl_no_org);
+		   System.out.println(psmt_grc_cd_org);
+		   System.out.println(email_org);
+		   System.out.println(zip_cd_org);
+		   System.out.println(addr_org);
+		   
+		   System.out.println(addr_dtl_org);
+		   System.out.println(cust_ss_cd_org);
+		   System.out.println(jn_prt_cd_org);
+
 		
 		   
 		   
@@ -487,10 +523,16 @@ public class CustomerController {
 		      param.put("sms_rcv_yn",sms_rcv_yn);
 		      param.put("dm_rcv_yn",dm_rcv_yn);
 		      param.put("user_id",user_id);
-		      
+		    //정보불러오는 거
+		      //List<CustomerVO> list = customerService.selectDetailOne(param);
 		      
 		      try {
+		    	  
+		    	  
+		    	  //업데이트정보넘기는거
 		    	  int result = customerService.updatecustDetail(param);
+		    	  
+		    	  
 		    	 
 		      }catch(Exception e) {
 					//1.로깅작업
@@ -499,6 +541,57 @@ public class CustomerController {
 					throw e;
 		    
 		      }
+		      
+		      
+		      
+		      //변경
+			   if(cust_nm != cust_nm_org) {
+				   
+				   String cust_nm_chg = cust_nm_org;
+			   }else {
+				   cust_nm = cust_nm;
+			   }
+			   
+			   if(brdy_dt != brdy_dt_org) {
+				   String brdy_dt_chg = brdy_dt_org;
+			   }
+			   if(sex_cd != sex_cd_org) {
+				   String sex_cd_chg = sex_cd_org;
+			   }
+			   if(poc_cd != poc_cd_org) {
+				   String poc_cd_chg = poc_cd_org;
+			   }
+			   if(mbl_no!= mbl_no_org) {
+				   String mbl_no_chg = mbl_no_org;
+			   }
+			   if(cust_ss_cd != cust_ss_cd_org) {
+				   String cust_ss_cd_chg = cust_ss_cd_org;
+			   }
+			   if(jn_prt_cd != jn_prt_cd_org) {
+				   String jn_prt_cd_chg = jn_prt_cd_org;
+			   }
+			   
+			   
+//			   Map<String, Object> param2= new HashMap<>();
+//				
+//			   	  param2.put("cust_nm",cust_nm);
+//			      param2.put("brdy_dt",brdy_dt);
+//			      param2.put("sex_cd",poc_cd);
+//			      param2.put("poc_cd",poc_cd);
+//			      param2.put("mbl_no",mbl_no);
+//			      param2.put("cust_ss_cd",cust_ss_cd);
+//			      param2.put("jn_prt_cd",jn_prt_cd);
+//			      
+//			      param2.put("cust_nm_chg",cust_nm_org);
+//			      param2.put("brdy_dt_chg",brdy_dt_org);
+//			      param2.put("sex_cd_chg",poc_cd_org);
+//			      param2.put("poc_cd_chg",poc_cd_org);
+//			      param2.put("mbl_no_chg",mbl_no_org);
+//			      param2.put("cust_ss_cd_chg",cust_ss_cd_org);
+//			      param2.put("jn_prt_cd_chg",jn_prt_cd_org);
+////			   
+			      //int result = customerService.insertCustHistory(param2);
+			      
 	    
 		      mv.setViewName("/customer/customerDetail");
 				
