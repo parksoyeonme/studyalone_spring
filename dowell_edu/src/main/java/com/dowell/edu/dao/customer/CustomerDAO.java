@@ -44,12 +44,18 @@ public interface CustomerDAO {
 	List<CodeDetailVO> selectcommCd(CodeDetailVO codeDetailVo) throws Exception;
 
 	//고객정보조회list
-	List<CustomerVO> selectDetailOne(Map<String, Object> param) throws Exception;
+	List<CustomerVO> selectDetailOne(String cust_no) throws Exception;
 
 	//고객정보조회 update
-	int updatecustDetail(Map<String, Object> param) throws Exception;
+	int updatecustDetail(Map<String, Object> updateParam) throws Exception;
 
-	int insertCustHistory(Map<String, Object> param2)throws Exception;
+	//int insertCustHistory(Map<String, Object> param2)throws Exception;
+
+	//int insertCustHistory(List<CustomerHistoryVO> customerHistoryList);
+
+	int insertCustHistory(Map<String, Object> insertParam);
+
+	int selectSeqCount(String cust_no);
 
 	
 

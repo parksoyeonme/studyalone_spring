@@ -440,23 +440,14 @@
 		,EMAIL_RCV_YN= #{email_rcv_yn}
 		,SMS_RCV_YN= #{sms_rcv_yn}
 		,DM_RCV_YN= #{dm_rcv_yn}
-		,MBL_NO = CASE
-					WHEN CUST_SS_CD ='90' THEN 'NULL'
-				ELSE #{mbl_no}
-				end
-		,EMAIL = CASE
-					WHEN CUST_SS_CD ='90' THEN ''
-				ELSE #{email}
-				end
+		,MBL_NO =#{mbl_no}
+		
+		,EMAIL = #{email}
+		,js_dt = #{js_dt}
+					
 				
-		,STP_DT = 	case when #{cust_ss_cd} = '10' then NULL
-					 when #{cust_ss_cd} = '90' then NULL
-					else SYSDATE	
-					end	
-		,cncl_dt = 	case when #{cust_ss_cd} = '10' then NULL
-					 when #{cust_ss_cd} = '80' then NULL
-					else SYSDATE
-					END
+		,STP_DT = 	#{stp_dt}
+		,cncl_dt = 	#{cncl_dt}
 		
 				
 		<!-- 여기서부터 안돌아가는 쿼리 -->
@@ -481,8 +472,123 @@
 	</update>
 	
 	
+	<update id="insertCustHistory">
+ <foreach item="list" collection="insertList" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+	INTO sd_cust01_ht 
+					<!-- (
+				         CUST_NO   					
+				        ,CHG_DT 					
+				        ,CHG_SEQ 					
+				        ,CHG_CD 					
+				        ,CHG_BF_CNT 					
+				        ,CHG_AFT_CNT 
+				        ,FST_REG_DT
+        				,FST_USER_ID					
+				        ,LST_UPD_DT 				
+				        ,LST_UPD_ID 						
+				   
+	 					
+				    ) -->
+			VALUES 
+				
+				(
+						#{list.cust_no}
+						,SYSDATE
+						,(select NVL(max(chg_seq), 0)
+						  from sd_cust01_ht 
+						  where cust_no= #{list.cust_no}
+						  ) + 1
+						,'mbl_no'
+						
+						,#{list.chg_bf_cnt}
+						,#{list.chg_aft_cnt}
+						, (
+							SELECT
+					               fst_reg_dt
+					            FROM
+					                cs_cust01_mt
+					           
+					                where cust_no= #{list.cust_no}
+						)
+						, (
+							SELECT
+					               fst_user_id
+					            FROM
+					                cs_cust01_mt
+					            
+					                where cust_no= #{list.cust_no}
+						)
+						,SYSDATE
+						,#{list.user_id}
+						
+				
+				)
+			</foreach>
+			
+	</update> 
+  <!-- <update id="insertCustHistory">
+ 
+	INSERT INTO sd_cust01_ht 
+					(
+				         CUST_NO   					
+				        ,CHG_DT 					
+				        ,CHG_SEQ 					
+				        ,CHG_CD 					
+				        ,CHG_BF_CNT 					
+				        ,CHG_AFT_CNT 
+				        ,FST_REG_DT
+        				,FST_USER_ID					
+				        ,LST_UPD_DT 				
+				        ,LST_UPD_ID 						
+				   
+	 					
+				    )
+			VALUES 
+				<foreach item="list" collection="insertList" open="INSERT ALL" close="SELECT * FROM DUAL" separator=",">
+				(
+						#{list.cust_no}
+						,SYSDATE
+						,(select NVL(max(chg_seq), 0) + 1 
+						  from sd_cust01_ht 
+						  where cust_no= #{list.cust_no}
+						  )
+						,'휴대폰번호'
+						
+						,#{list.chg_bf_cnt}
+						,#{list.chg_aft_cnt}
+						, (
+							SELECT
+					               fst_reg_dt
+					            FROM
+					                cs_cust01_mt
+					           
+					                where cust_no= #{list.cust_no}
+						)
+						, (
+							SELECT
+					               fst_user_id
+					            FROM
+					                cs_cust01_mt
+					            
+					                where cust_no= #{list.cust_no}
+						)
+						,SYSDATE
+						,#{list.user_id}
+						
+				
+				)
+			</foreach>
+			
+	</update>  --> 
 	
-	<!-- <insert id="insertCustHistory">
+	<select id="selectSeqCount" resultType="Integer">
+		select NVL(max(chg_seq),0)
+		from sd_cust01_ht
+		where cust_no = #{cust_no}
+	
+	</select>
+	 <!-- <insert id="insertCustHistory">
+ <foreach item="item" collection="insertParam" separator=",">
 	INSERT INTO sd_cust01_ht 
 					(
 				         CUST_NO   					
@@ -491,26 +597,29 @@
 				        ,CHG_CD 					
 				        ,CHG_BF_CNT 					
 				        ,CHG_AFT_CNT 					
-				        ,FST_REG_DT 					
-				        ,FST_USER_DT 					
 				        ,LST_UPD_DT 				
 				        ,LST_UPD_ID 						
 				   
 	 					
 				    )
 			VALUES 
-			<foreach item="item" collection="list" separator=",">
-			(
-			
+				
+				(
+						#{cust_no}
+						,SYSDATE
+						,(UPDATE SD_CUST01_HT SET CHG_SEQ =CHG_SEQ +1)
+						,'휴대폰번호'
+						<foreach item="list" collection="insertList" separator=",">
+						,#{list.chg_bf_cnt}
+						,#{list.chg_aft_cnt}
+						</foreach>
+						
+						,SYSDATE
+						,#{user_id}
+						
+				</foreach>
+				)
+				where cust_no= #{cust_no}
 
-					#{item.cust_no}
-					,sysdate
-					,c
-					,#{item.CHG_BF_CNT}
-					,#{item.CHG_AFT_CNT}
-					,chg_bf_cnt
-			
-			)
-			</foreach>
-	</insert> -->
+	</insert>   -->
 </mapper>

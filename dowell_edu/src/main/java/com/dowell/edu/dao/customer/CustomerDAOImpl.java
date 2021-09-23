@@ -89,22 +89,52 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	//고객정보조회list
+//	@Override
+//	public List<CustomerVO> selectDetailOne(Map<String, Object> param) throws Exception {
+//		return sqlsSession.selectList("customer.selectDetailOne", param);	
+//	}
+
 	@Override
-	public List<CustomerVO> selectDetailOne(Map<String, Object> param) throws Exception {
-		return sqlsSession.selectList("customer.selectDetailOne", param);	
+	public int updatecustDetail(Map<String, Object> updateParam) throws Exception {
+		return sqlsSession.update("customer.updatecustDetail", updateParam);
+	}
+
+//	@Override
+//	public int insertCustHistory(Map<String, Object> param2) throws Exception {
+//		return sqlsSession.insert("customer.insertCustHistory", param2);
+//	}
+
+	@Override
+	public List<CustomerVO> selectDetailOne(String cust_no) throws Exception {
+		return sqlsSession.selectList("customer.selectDetailOne", cust_no);	
+	}
+
+//	@Override
+//	public int insertCustHistory(List<CustomerHistoryVO> customerHistoryList) {
+//		return sqlsSession.insert("customer.insertCustHistory", customerHistoryList);
+//	}
+
+//	@Override
+//	public int insertCustHistory(Map<String, Object> insertParam) {
+//		return sqlsSession.insert("customer.insertCustHistory", insertParam);
+//	}
+
+//	@Override
+//	public int insertCustHistory(List<CustomerHistoryVO> customerHistoryList) {
+//		return sqlsSession.insert("customer.insertCustHistory", customerHistoryList);
+//	}
+
+	@Override
+	public int insertCustHistory(Map<String, Object> insertParam) {
+		return sqlsSession.update("customer.insertCustHistory", insertParam);
 	}
 
 	@Override
-	public int updatecustDetail(Map<String, Object> param) throws Exception {
-		return sqlsSession.update("customer.updatecustDetail", param);
+	public int selectSeqCount(String cust_no) {
+		return sqlsSession.selectOne("customer.selectSeqCount", cust_no);
 	}
 
-	@Override
-	public int insertCustHistory(Map<String, Object> param2) throws Exception {
-		return sqlsSession.insert("customer.insertCustHistory", param2);
-	}
 
-	
 
 
 }

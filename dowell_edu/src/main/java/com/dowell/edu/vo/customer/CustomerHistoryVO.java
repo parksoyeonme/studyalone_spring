@@ -3,23 +3,16 @@ package com.dowell.edu.vo.customer;
 import java.util.Date;
 import java.util.List;
 
-import com.dowell.edu.vo.common.CodeDetailVO;
-import com.dowell.edu.vo.common.CodeMaterVO;
-import com.dowell.edu.vo.common.PartnerVO;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CustomerHistoryVO {
+public class CustomerHistoryVO implements Cloneable{
 
 	/**
 	 * SD_CUST01_HT	고객이력			
@@ -44,8 +37,7 @@ public class CustomerHistoryVO {
 	private Date fst_reg_dt;
 	private String fst_user_id;
 	private Date lst_upd_dt;
-	private String lst_upd_id
-	; 
+	private String lst_upd_id; 
 	private String chg_bf_cd_nm;
 	
 	private String code_nm;
@@ -58,7 +50,18 @@ public class CustomerHistoryVO {
 	
 	private String lst_upd_dt_time;
 	
-
+	private String user_id;
 	
+	private List<CustomerHistoryVO> CustomerHistoryList;
+	
+	public Object clone() {
+		Object obj = null;
+		try {
+			obj = super.clone();
+		} catch(CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return obj;
+	}
 	
 }

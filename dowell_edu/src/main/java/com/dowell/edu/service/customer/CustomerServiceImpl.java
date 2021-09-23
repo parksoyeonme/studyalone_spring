@@ -95,20 +95,48 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	//고객정보조회list
-	@Override
-	public List<CustomerVO> selectDetailOne(Map<String, Object> param) throws Exception {
-		return customerDao.selectDetailOne(param);
-	}
+//	@Override
+//	public List<CustomerVO> selectDetailOne(Map<String, Object> param) throws Exception {
+//		return customerDao.selectDetailOne(param);
+//	}
 
 	//고객정보조회 update
 	@Override
-	public int updatecustDetail(Map<String, Object> param) throws Exception {
-		return customerDao.updatecustDetail(param);
+	public int updatecustDetail(Map<String, Object> updateParam) throws Exception {
+		return customerDao.updatecustDetail(updateParam);
+	}
+
+	
+//	@Override
+//	public int insertCustHistory(Map<String, Object> param2) throws Exception {
+//		return customerDao.insertCustHistory(param2);
+//	}
+
+	@Override
+	public List<CustomerVO> selectDetailOne(String cust_no) throws Exception {
+		return customerDao.selectDetailOne(cust_no);
+	}
+
+//	@Override
+//	public int insertCustHistory(List<CustomerHistoryVO> customerHistoryList) throws Exception {
+//		// TODO Auto-generated method stub
+//		return customerDao.insertCustHistory(customerHistoryList);
+//	}
+
+
+//	@Override
+//	public int insertCustHistory(List<CustomerHistoryVO> customerHistoryList) throws Exception {
+//		return customerDao.insertCustHistory(customerHistoryList);
+//	}
+
+	@Override
+	public int insertCustHistory(Map<String, Object> insertParam) throws Exception {
+		return customerDao.insertCustHistory(insertParam);
 	}
 
 	@Override
-	public int insertCustHistory(Map<String, Object> param2) throws Exception {
-		return customerDao.insertCustHistory(param2);
+	public int selectSeqCount(String cust_no) {
+		return customerDao.selectSeqCount(cust_no);
 	}
 
 	

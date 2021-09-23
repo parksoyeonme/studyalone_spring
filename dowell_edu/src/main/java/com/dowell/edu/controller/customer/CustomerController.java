@@ -1,5 +1,7 @@
 package com.dowell.edu.controller.customer;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +24,6 @@ import com.dowell.edu.service.customer.CustomerService;
 import com.dowell.edu.vo.common.CodeDetailVO;
 import com.dowell.edu.vo.customer.CustomerHistoryVO;
 import com.dowell.edu.vo.customer.CustomerVO;
-import com.dowell.edu.vo.member.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
@@ -95,11 +92,9 @@ public class CustomerController {
 			,@RequestParam(value="cust_no", required=false) String cust_no) throws Exception{
 		
 		List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
-		Map<String, Object> param= new HashMap<>();
+	
 
-	      param.put("cust_no",cust_no);
-
-	  List<CustomerVO> list = customerService.selectDetailOne(param);
+	  List<CustomerVO> list = customerService.selectDetailOne(cust_no);
 	  log.info("####list출력하나요?########" + list);
 	  
 	  
@@ -428,6 +423,7 @@ public class CustomerController {
 											   ,@RequestParam(value="sms_rcv_yn", required = false) String sms_rcv_yn
 											   ,@RequestParam(value="dm_rcv_yn", required = false) String dm_rcv_yn
 											   ,@RequestParam(value="user_id", required = false) String user_id
+											   //origin
 											   ,@RequestParam(value="cust_nm_org", required = false) String cust_nm_org
 											   ,@RequestParam(value="brdy_dt_org", required = false) String brdy_dt_org
 											   ,@RequestParam(value="sex_cd_org", required = false) String sex_cd_org
@@ -449,11 +445,16 @@ public class CustomerController {
 											   ,RedirectAttributes redirectAttr) throws Exception{
 	       
 		   
-		
+		   List<CustomerVO> CustomerList = customerService.selectDetailOne(cust_no);
+		   List<CustomerHistoryVO> CustomerHistoryList = new ArrayList<CustomerHistoryVO>();
+		   CustomerHistoryVO customerHistoryVO = null;
+
+		   //다시 정상 상태로 돌아왔을 때 추가할 가입날짜
+		   String js_dt = CustomerList.get(0).getJs_dt();
 		   String mbl_no = mbl_no_first + mbl_no_middle + mbl_no_end;
-		 
-		   
 		   String email ="";
+		   String stp_dt = "";
+		   String cncl_dt = "";
 		   
 		   if(!email_first.equals("") && !email_end.equals("")) {
 			   email = email_first + '@' + email_end;
@@ -461,8 +462,97 @@ public class CustomerController {
 			  email ="";
 		   }
 		   
-		  
+		   
+		   String pattern = "yyyyMMdd";
+		   SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+		   String date = simpleDateFormat.format(new Date());
+		   System.out.println("워렐레레레레" + date);
+		   
+		   
+		   System.out.println("park 원본@ " + CustomerList.get(0).getCust_ss_cd());
+		   System.out.println("park 변경@ " + cust_ss_cd);
+		   System.out.println(CustomerList.get(0).getCust_ss_cd().equals(cust_ss_cd));
+		   System.out.println(CustomerList.get(0).getCust_ss_cd().equals("90"));
+		   
+		   // 정지 또는 해지에서 정상으로 가는 경우, 가입 날짜를 현재 날짜로 표시
+		   if((CustomerList.get(0).getCust_ss_cd().equals("80") && cust_ss_cd.equals("10")) 
+			||(CustomerList.get(0).getCust_ss_cd().equals("90") && cust_ss_cd.equals("10"))) {
+			   //여기다가 현재 날짜 넣기
+			   js_dt = date;
 			   
+		   // 정지에서 해지로 가는 경우, 핸드폰번호와 이메일 삭제
+		   }else if(CustomerList.get(0).getCust_ss_cd().equals("80") && cust_ss_cd.equals("90")){
+			   log.info("고객상태가 해지되었습니다. 핸드폰번호와 이메일 정보를 삭제합니다.");
+			   
+			   mbl_no = " ";
+			   email = " ";
+			   cncl_dt = date;
+		   // 정상에서 정지로 가는 경우, 정지 일자 등록
+		   }else if(CustomerList.get(0).getCust_ss_cd().equals("10") && cust_ss_cd.equals("80")) {
+			   stp_dt = date;
+			   js_dt = " ";
+		   }
+			   
+		   int chg_seq = customerService.selectSeqCount(cust_no);
+		   System.out.println("나와라사아아앙ㅇamx" + chg_seq);
+
+		   CustomerHistoryVO copyHistoryVO = new CustomerHistoryVO();
+		   copyHistoryVO.setCust_no(cust_no);
+		   copyHistoryVO.setUser_id(user_id);
+		   copyHistoryVO.setChg_seq(chg_seq);
+		   
+//		   if(cust_ss_cd)
+		   //고객명, 생년월일, 휴대폰번호, 성별, 직업코드, 고객상태, 가입매장
+		   if(!CustomerList.get(0).getCust_nm().equals(cust_nm)) {
+			   customerHistoryVO = (CustomerHistoryVO) copyHistoryVO.clone();
+			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getCust_nm());
+			   customerHistoryVO.setChg_aft_cnt(cust_nm);
+			   //변경항목 : 고객명
+			  // customerHistoryVO.setChg_cd('cust_nm');
+			   CustomerHistoryList.add(customerHistoryVO);
+		   }
+		   if(!CustomerList.get(0).getBrdy_dt().equals(brdy_dt)) {
+			   customerHistoryVO = (CustomerHistoryVO) copyHistoryVO.clone();
+			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getBrdy_dt());
+			   customerHistoryVO.setChg_aft_cnt(brdy_dt);
+			   //변경항목 : 생년월일
+			   CustomerHistoryList.add(customerHistoryVO);
+		   }
+		   if(!CustomerList.get(0).getMbl_no().equals(mbl_no)) {
+			   customerHistoryVO = (CustomerHistoryVO) copyHistoryVO.clone();
+			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getMbl_no());
+			   customerHistoryVO.setChg_aft_cnt(mbl_no);
+			   CustomerHistoryList.add(customerHistoryVO);
+		   }
+		   if(!CustomerList.get(0).getSex_cd().equals(sex_cd)) {
+			   customerHistoryVO = (CustomerHistoryVO) copyHistoryVO.clone();
+			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getSex_cd());
+			   customerHistoryVO.setChg_aft_cnt(sex_cd);
+			   CustomerHistoryList.add(customerHistoryVO);
+		   }
+		   if(!CustomerList.get(0).getPoc_cd().equals(poc_cd)) {
+			   customerHistoryVO = (CustomerHistoryVO) copyHistoryVO.clone();
+			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getPoc_cd());
+			   customerHistoryVO.setChg_aft_cnt(poc_cd);
+			   CustomerHistoryList.add(customerHistoryVO);
+		   }
+		   if(!CustomerList.get(0).getCust_ss_cd().equals(cust_ss_cd)) {
+			   customerHistoryVO = (CustomerHistoryVO) copyHistoryVO.clone();
+			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getCust_ss_cd());
+			   customerHistoryVO.setChg_aft_cnt(cust_ss_cd);
+			   CustomerHistoryList.add(customerHistoryVO);
+		   }
+		   if(!CustomerList.get(0).getJn_prt_cd().equals(jn_prt_cd)) {
+			   customerHistoryVO = (CustomerHistoryVO) copyHistoryVO.clone();
+			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getJn_prt_cd());
+			   customerHistoryVO.setChg_aft_cnt(jn_prt_cd);
+			   CustomerHistoryList.add(customerHistoryVO);
+		   }
+		   
+		   System.out.println("######까르르륽" + CustomerHistoryList);
+		   
+			   /*
 		   
 		   System.out.println(cust_nm);
 		   System.out.println(cust_no);
@@ -498,56 +588,67 @@ public class CustomerController {
 		   System.out.println(addr_dtl_org);
 		   System.out.println(cust_ss_cd_org);
 		   System.out.println(jn_prt_cd_org);
-
-		
+			*/
 		   
-		   
-		   Map<String, Object> param= new HashMap<>();
-	
-		      param.put("cust_nm",cust_nm);
-		      param.put("cust_no",cust_no);
-		      param.put("brdy_dt",brdy_dt);
-		      param.put("sex_cd",sex_cd);
-		      param.put("scal_yn",scal_yn);
-		      param.put("mrrg_dt",mrrg_dt);
-		      param.put("poc_cd",poc_cd);
-		      param.put("mbl_no",mbl_no);
-		      param.put("psmt_grc_cd",psmt_grc_cd);
-		      param.put("email",email);
-		      param.put("zip_cd",zip_cd);
-		      param.put("addr",addr);
-		      param.put("addr_dtl",addr_dtl);
-		      param.put("cust_ss_cd",cust_ss_cd);
-		      param.put("jn_prt_cd",jn_prt_cd);
-		      param.put("email_rcv_yn",email_rcv_yn);
-		      param.put("sms_rcv_yn",sms_rcv_yn);
-		      param.put("dm_rcv_yn",dm_rcv_yn);
-		      param.put("user_id",user_id);
-		    //정보불러오는 거
-		      //List<CustomerVO> list = customerService.selectDetailOne(param);
+		   Map<String, Object> updateParam= new HashMap<>();
+		      updateParam.put("cust_nm",cust_nm);
+		      updateParam.put("cust_no",cust_no);
+		      updateParam.put("brdy_dt",brdy_dt);
+		      updateParam.put("sex_cd",sex_cd);
+		      updateParam.put("scal_yn",scal_yn);
+		      updateParam.put("mrrg_dt",mrrg_dt);
+		      updateParam.put("poc_cd",poc_cd);
+		      updateParam.put("mbl_no",mbl_no);
+		      updateParam.put("psmt_grc_cd",psmt_grc_cd);
+		      updateParam.put("email",email);
+		      updateParam.put("zip_cd",zip_cd);
+		      updateParam.put("addr",addr);
+		      updateParam.put("addr_dtl",addr_dtl);
+		      updateParam.put("cust_ss_cd",cust_ss_cd);
+		      updateParam.put("jn_prt_cd",jn_prt_cd);
+		      updateParam.put("email_rcv_yn",email_rcv_yn);
+		      updateParam.put("sms_rcv_yn",sms_rcv_yn);
+		      updateParam.put("dm_rcv_yn",dm_rcv_yn);
+		      updateParam.put("user_id",user_id);
+		      updateParam.put("js_dt", js_dt);
+		      updateParam.put("stp_dt", stp_dt);
+		      updateParam.put("cncl_dt", cncl_dt);
 		      
+		      
+				/*
+				 * Map<String, Object> insertParam= new HashMap<>(); 
+				 * insertParam.put("cust_no",cust_no);
+				 * insertParam.put("insertList", CustomerHistoryList);
+				 * insertParam.put("user_id", user_id);
+				 */
+		      
+		      Map<String, Object> insertParam= new HashMap<>();
+		      insertParam.put("insertList", CustomerHistoryList);
+  		      //정보불러오는 거
+		      //List<CustomerVO> list = customerService.selectDetailOne(param);
+		      int updateResult;
+		      int insertResult;
 		      try {
-		    	  
-		    	  
 		    	  //업데이트정보넘기는거
-		    	  int result = customerService.updatecustDetail(param);
-		    	  
-		    	  
-		    	 
+		    	  updateResult = customerService.updatecustDetail(updateParam);
+//		    	  if(updateResult != 0) {
+		    	  	  System.out.println("이 부분 찍히나여?");
+		    	  //	  countResult = customerService.updatecustDetail(updateParam);
+		    		  insertResult = customerService.insertCustHistory(insertParam);
+//		    	  }
 		      }catch(Exception e) {
 					//1.로깅작업
 					log.error(e.getMessage(),e);
 					//2.다시spring container에 던질것.
 					throw e;
-		    
 		      }
 		      
 		      
-		      
+//		      String cust_nm_chg;
 		      //변경
-			   if(cust_nm != cust_nm_org) {
+			  /* if(cust_nm != cust_nm_org) {
 				   
-				   String cust_nm_chg = cust_nm_org;
+				   cust_nm_chg = cust_nm_org;
 			   }else {
 				   cust_nm = cust_nm;
 			   }
@@ -569,7 +670,7 @@ public class CustomerController {
 			   }
 			   if(jn_prt_cd != jn_prt_cd_org) {
 				   String jn_prt_cd_chg = jn_prt_cd_org;
-			   }
+			   }*/
 			   
 			   
 //			   Map<String, Object> param2= new HashMap<>();
