@@ -139,6 +139,11 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.selectSeqCount(cust_no);
 	}
 
+	@Override
+	public int mblCheckDetail(Map<String, Object> param) throws Exception {
+		return customerDao.mblCheckDetail(param);
+	}
+
 	
 
 	

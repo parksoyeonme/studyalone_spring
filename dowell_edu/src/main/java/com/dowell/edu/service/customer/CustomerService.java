@@ -40,6 +40,9 @@ public interface CustomerService {
 	//휴대폰 중복체크
 	int mblCheck(Map<String, Object> param) throws Exception;
 
+	//정보 수정시 휴대폰 중복체크
+	int mblCheckDetail(Map<String, Object> param) throws Exception;
+
 	//고객정보조회(공통코드)
 	List<CodeDetailVO> selectcommCd(CodeDetailVO codeDetailVo) throws Exception;
 

@@ -362,6 +362,25 @@
 		
 	</select>
 	
+	<select id="mblCheckDetail" resultType="Integer">
+		SELECT 					
+		   	 count(*) 				<!-- 휴대폰번호 -->
+		   	
+		FROM
+		   	 cs_cust01_mt 			<!-- 고객관리 테이블  -->
+		WHERE
+		    <!-- 현재 조회한 고객 말고 다른 고객들이 이 핸드폰번호 가지고 있을 때 체크 -->
+		   	 mbl_no = #{mbl_no} 	<!-- 고객관리 테이블의 휴대폰번호 -->
+			<!-- 현재 조회한 고객이 갖고 있는 핸드폰번호는 무시 -->
+	     and mbl_no != (
+	     	<!-- 여기서 고객번호 가지고 핸드폰번호 찾아오면 댐 -->
+	     	select mbl_no 
+	     	from cs_cust01_mt
+	     	where  cust_no = #{cust_no}
+	     )
+	    
+	</select>
+	
 	<select id="selectcommCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
 		SELECT
 		    	code_cd 			<!-- 공통코드 -->

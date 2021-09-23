@@ -370,6 +370,35 @@ public class CustomerController {
 	       return message;
 	   }
 	   
+	   //휴대폰번호 중복체크디테일
+	   @ResponseBody
+	   @RequestMapping(value="/mblCheckDetail", method= RequestMethod.POST)
+	   public String mblCheckDetail(@RequestParam("mbl_no_first") String mbl_no_first
+			   					,@RequestParam("mbl_no_middle") String mbl_no_middle
+			   					,@RequestParam("mbl_no_end") String mbl_no_end
+			   					,@RequestParam("cust_no") String cust_no
+			   					) throws Exception{
+
+	
+		   String mbl_no = mbl_no_first + mbl_no_middle + mbl_no_end;
+		   
+		   Map<String, Object> param= new HashMap<>();
+		   
+				param.put("mbl_no",mbl_no);
+				param.put("cust_no",cust_no);
+		   
+		   int emailChk = customerService.mblCheckDetail(param);
+	      
+		   String message="";
+	       if(emailChk < 1) {
+	           message = "success";
+	       }else {
+	           message ="fail";
+	       }	
+	       return message;
+	   }
+	   
+	   
 	  //고객정보조회 : 메인에서 들어갔을 때
 //	   @ResponseBody
 //	   @RequestMapping(value={"/customerDetailList"}, method = { RequestMethod.POST, RequestMethod.GET },
@@ -436,7 +465,7 @@ public class CustomerController {
 		   
 		   List<CustomerHistoryVO> CustomerHistoryList = new ArrayList<CustomerHistoryVO>();
 		   CustomerHistoryVO customerHistoryVO = null;
-
+		   
 		   
 		   String js_dt = CustomerList.get(0).getJs_dt();
 		   String stp_dt = "";
@@ -589,7 +618,9 @@ public class CustomerController {
 		    	  updateResult = customerService.updatecustDetail(updateParam);
 		    	  
 		    	  //고객정보조회 insert -> 고객이력테이블
-		    	  insertResult = customerService.insertCustHistory(insertParam);
+		    	  if((CustomerHistoryList != null) && (!CustomerHistoryList.isEmpty())) {
+		    		  insertResult = customerService.insertCustHistory(insertParam);
+		    	  }
 		      }catch(Exception e) {
 					//1.로깅작업
 					log.error(e.getMessage(),e);

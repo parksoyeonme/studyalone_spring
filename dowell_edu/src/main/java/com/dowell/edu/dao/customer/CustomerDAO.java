@@ -57,6 +57,8 @@ public interface CustomerDAO {
 
 	int selectSeqCount(String cust_no);
 
+	int mblCheckDetail(Map<String, Object> param);
+
 	
 
 

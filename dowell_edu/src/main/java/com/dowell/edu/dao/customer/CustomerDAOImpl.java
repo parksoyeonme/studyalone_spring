@@ -134,6 +134,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return sqlsSession.selectOne("customer.selectSeqCount", cust_no);
 	}
 
+	@Override
+	public int mblCheckDetail(Map<String, Object> param) {
+		return sqlsSession.selectOne("customer.mblCheckDetail", param);
+	}
+
 
 
 

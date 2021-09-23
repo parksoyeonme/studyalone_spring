@@ -89,7 +89,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
               <input type="text" value="${listBtn[0].cust_nm}" name="cust_nm" id="cust_nm" maxlength="10" style="width: 72px;">
             	<input type="hidden" name="cust_nm_org" value="${listBtn[0].cust_nm}">
             	<input type="hidden" name="user_id" value="${member.user_id}">
-            	<input type="hidden" name="cust_no" value="${listBtn[0].cust_no}">
+            	<input type="hidden" id="cust_no" name="cust_no" value="${listBtn[0].cust_no}">
             </th>
             <th class="tg-0lax required" >생년월일</th>
             <th class="tg-0lax">
@@ -419,7 +419,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
     
   	 //휴대폰중복체크
     function mbl_check(){
-    	
+    	var cust_no = $("#cust_no").val();
 	    var mbl_no_first = $("#mbl_no_first").val();
 	    var mbl_no_middle = $("#mbl_no_middle").val();
 	    var mbl_no_end = $("#mbl_no_end").val();
@@ -435,11 +435,12 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	    }
 	    $.ajax({
 	        method : 'POST',
-	        url : '/customer/mblCheck',
+	        url : '/customer/mblCheckDetail',
 	        data : {
 	        	"mbl_no_first" : mbl_no_first,
 	        	"mbl_no_middle" : mbl_no_middle,
-	        	"mbl_no_end" : mbl_no_end
+	        	"mbl_no_end" : mbl_no_end,
+	        	"cust_no" : cust_no
 	    	},
 	        success : function(resp){
 	            if(resp=='fail'){
