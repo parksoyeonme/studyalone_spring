@@ -37,7 +37,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	        </div>
 	      	<c:if test="${member.user_id != null}">
 	        	<div class="infoTool">
-		         	<form id="registerFrm" name="registerFrm" action="/customer/custRegister" method="post">
+		         	<form id="registerFrm" name="registerFrm">
 		              <table class="tg">
 		                  <tbody>
 		                       <tr>
@@ -170,7 +170,10 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 
     </body>
     <script>
-  
+    
+    
+    
+  //action="/customer/custRegister"
     //신규등록고객 폼(goNewRegBtn) 제출
      $("#goNewRegBtn").on("click", function(){
     	 var cust_nm = $("#cust_nm").val();
@@ -185,7 +188,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
     	 var email_first= $("#email_first").val();
     	 var emailcheck= $("#emailcheck").val();
     	 
-			if(cust_nm == "" || cust_nm.length < 2  ){
+    	 
+    	 if(cust_nm == "" || cust_nm.length < 2  ){
 				alert("이름을 입력해주세요.");
 				$("#ucust_nm").focus();
 				return false;
@@ -201,11 +205,16 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				return false;
 			}
 			
-			if(mbl_no_fist == "" || mbl_no_fist.length <3 || mbl_no_fist != '010'
-					|| mbl_no_fist != '011' || mbl_no_fist != '017'){
+			if(mbl_no_fist == "" || mbl_no_fist.length <3){
 				alert("핸드폰번호(앞3자리)를 입력해주세요.");
 				$("#mbl_no_first").focus();
 				return false;
+			}
+			if( mbl_no_fist == '010'
+				|| mbl_no_fist == '011' || mbl_no_fist == '017'|| mbl_no_fist == '019'){
+			alert("010, 011, 017,019는 사용하실 수 없는 번호입니다.");
+			$("#mbl_no_first").focus();
+			return false;
 			}
 			if( mbl_no_middle == "" ||  mbl_no_middle.length <= 2){
 				alert("핸드폰번호(가운데3-4자리)를 입력해주세요.");
@@ -217,10 +226,9 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				$("#mbl_no_end").focus();
 				return false;
 			}
-			
-			
+
 			if(mblcheck == 0){
-				alert("사용할 수 없는 번호입니다.");
+				alert("해당 핸드폰번호는 사용할 수 없습니다.");
 				$("#mbl_no_end").focus();
 				return false;
 			}
@@ -256,15 +264,30 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				return false;
 			}
 			
-			 
-			else {
-				alert("신규등록진행합니다.")
-				$("#registerFrm").submit();
+			
+			
+    	 //var registerFrm = $("form[name=registerFrm]").serialize() ;
+
+         $.ajax({
+             url : "${pageContext.request.contextPath}/customer/custRegister",
+             type :"POST",
+             dataType : "text",
+             data : $("#registerFrm").serialize(),
+             success : function(data){
+            	 
+					alert("회원등록되었습니다.")
 				
-			}
+                 window.close();
+            	 
+             },
+             error: function(xhr, status, error){
+                 alert("등록실패했습니다." + error);
+             }
+            
+         });
 			
 			
-		});
+	});
 	
 
     	//datepicker 달력

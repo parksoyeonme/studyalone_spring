@@ -184,8 +184,12 @@
 		                    '매장'
 		                WHEN csht.chg_cd = 'CUST_NM'   THEN 				--이력테이블의 변경코드가 cust_nm일떄 고객명으로 변경
 		                    '고객명'
+		                WHEN csht.chg_cd = 'SEX_CD'   THEN 				--이력테이블의 변경코드가 cust_nm일떄 고객명으로 변경
+		                    '성별'
+		                WHEN csht.chg_cd = 'POC_CD'   THEN 				--이력테이블의 변경코드가 cust_nm일떄 고객명으로 변경
+		                    '직업'
 		                ELSE
-		                    SUBSTR(code_nm,0, instr(code_nm, '코드')-1) 			<!-- 변경코드이름 뒤에 '코드'가 있을 시 제거 -->
+		                    '생년월일' 			
 		            END AS code_nm
 		            ,( 														 
 		                SELECT 												-- 변경전 코드
@@ -241,7 +245,7 @@
 		            sd_cust01_ht   csht
 		            LEFT JOIN ma_code_dt     cddt ON csht.chg_cd = cddt.code_cd 		-- 고객이력(sd_cust01_ht) 변경코드(chg_cd) 동일 코드상세(ma_code_dt) 공통코드(code_cd) 
 		                                         AND csht.chg_bf_cnt = cddt.dtl_cd 		-- 고객이력(sd_cust01_ht의 변경전내용(chg_bf_cnt) 동일 코드상세(ma_code_dt)의 세부코드(dtl_cd)
-		            LEFT JOIN ma_code_mt     cdmt ON cdmt.code_cd = cddt.code_cd 		-- 코드마스터의 공통코드(code_cd) 동일 코드상세의 공통코드(code_cd) 
+		            
 		            LEFT JOIN ma_prt_mt      prtmt ON csht.chg_bf_cnt = prtmt.prt_cd 	--- 고객이력의 변경전이력(chg_bf_cnt) 동일 거래처관리의 거래처코드(prt_cd) 
 		                                         AND prtmt.prt_ss_cd = cddt.dtl_cd 		-- 거래처관리의 거래처상태코드(prt_ss_cd) 동일 코드상세의 세부코드(dtl_cd)
 		            LEFT JOIN cs_cust01_mt   csmt ON csmt.poc_cd = cddt.dtl_cd 			-- 고객관리의 매장코드(poc_cd) 동일 코드상세의 세부코드(dtl_cd)  
@@ -493,12 +497,12 @@
 				
 				(
 						#{list.cust_no}
-						,SYSDATE
+						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')
 						,(select NVL(max(chg_seq), 0)
 						  from sd_cust01_ht 
 						  where cust_no= #{list.cust_no}
 						  ) + 1
-						,'mbl_no'
+						,#{list.chg_cd}
 						
 						,#{list.chg_bf_cnt}
 						,#{list.chg_aft_cnt}

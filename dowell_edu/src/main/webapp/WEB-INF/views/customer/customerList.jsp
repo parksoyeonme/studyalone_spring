@@ -47,10 +47,18 @@
                             <input type="text" id="customSearchInputName" readonly>
 					    </td>
 					    <td class="th-0lax">
-					    	<button type="button" id="allSearchBtn" onclick="custSearchAllListBtn()"tabindex="9" >
+					    <c:if test="${member != null}">
+					    	<button type="button" id="allSearchBtn" onclick="custSearchAllListBtn()" tabindex="9" >
 								<i class="fas fa-search fa-3x"></i>
 								<!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" > -->
 							</button>
+						</c:if>
+						<c:if test="${member == null}">
+					    	<button type="button" id="allSearchBtnNull" tabindex="9" >
+								<i class="fas fa-search fa-3x"></i>
+								<!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" > -->
+							</button>
+						</c:if>
 					    </td>
 					  </tr>
 					  <tr>
@@ -98,7 +106,14 @@
 	</body>
 	
 <script>
+$(document).ready(function(){
+	$("#allSearchBtnNull").on("click", function(){
+		
+		location.href="/";
+		alert("로그인 후 사용가능합니다.");
+	})
 	
+}) 
 	
 	//제이쿼리 달력  
 	$(function() {

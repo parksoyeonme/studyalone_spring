@@ -64,7 +64,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	      </thead>
 	      </table>
 	       <div class="searchBtn">
-        <button onclick="custInfoBtn()">
+        <button>
         	<i class="fas fa-search fa-2x"></i>
         </button>
       </div> 
@@ -332,6 +332,22 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
      
 </body>
 <script>
+
+	$(document).ready(function(){
+		 
+	    // 라디오버튼 클릭시 이벤트 발생
+	        if($("input[name=cust_ss_cd]:checked").val() == ${commCd[0].dtl_cd}){
+	            $("#terminate").attr("disabled",true);
+	        }
+	    	if($("input[name=cust_ss_cd]:checked").val() == ${commCd[2].dtl_cd}){
+	              $("#stop").attr("disabled",true);
+	        }
+	});
+
+
+
+
+
 	//console.log("##@#@#@#@list" + listBtn);
 	//console.log("##@#@#@#@list" + listBtn[0]);
 	//초기화버튼
@@ -428,13 +444,13 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	        success : function(resp){
 	            if(resp=='fail'){
 	            	 alert("이미 존재하는 번호 입니다.");
-	                $('#mblcheck').val(0);
+	                //$('#mblcheck').val(0);
 	                flag=false;
 	  
 	            }else{
 	            	alert("사용 가능한 번호 입니다.");
 	            	$("#mblcheck").attr("value", "Y");
-	                 $('#mblcheck').val(1);
+	                //$('#mblcheck').val(1);
 	                flag=true;
 	            }
 	          }
@@ -553,34 +569,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		 var mblcheck= $("#mblcheck").val();
 		 var email_first= $("#email_first").val();
 		 var emailcheck= $("#emailcheck").val();
-		/*  console.log(cust_nm);
-			console.log(cust_no);
-			console.log(user_id);
-			
-			console.log(brdy_dt);
-			console.log(sex_cd);
-			console.log(scal_yn);
-			console.log(mrrg_dt);
-			console.log(poc_cd);
-			console.log(mbl_no_fist);
-			console.log(mbl_no_middle);
-			console.log(mbl_no_end);
-			console.log(psmt_grc_cd);
-			console.log(email_first);
-			console.log(email_end);
-			console.log(zip_cd);
-			console.log(addr);
-			console.log(addr_dtl);
-			console.log(cust_ss_cd);
-			console.log(jn_prt_cd);
-			console.log(email_rcv_yn);
-			console.log(sms_rcv_yn);
-			console.log(dm_rcv_yn);
-		 
-		 console.log("#######와라라랄라라##########" + jn_prt_cd); */
-		 	
-		 
-		 
+				 
 		 
 		 
 			if(cust_nm == "" || cust_nm.length < 2  ){
@@ -617,8 +606,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 			}
 			
 			
-			if(mblcheck == 0){
-				alert("사용할 수 없는 번호입니다.");
+			if(mblcheck == 'N'){
+				alert("해당 번호는 사용할 수 없습니다.");
 				$("#mbl_no_end").focus();
 				return false;
 			}
@@ -658,7 +647,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				$("#dm_rcv_yn").focus();
 				return false;
 			}
-			
+		
 			 
 			else {
 				alert("수정합니다.")

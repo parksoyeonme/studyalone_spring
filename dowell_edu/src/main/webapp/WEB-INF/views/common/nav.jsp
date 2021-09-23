@@ -158,7 +158,7 @@
 	$("#detail, #list").on("click", function(){
 		
 		location.href="/";
-		alert("로그인해주세요!");
+		alert("로그인 후 사용가능합니다.");
 	})
 	
 }) 
@@ -201,14 +201,14 @@
 					<a href= "/">
 						<i class="fa fa-gift"></i>
 						<strong id="detail">상세보기</strong>
-						<small>고객정보조회</small>
+						<small >고객정보조회</small>
 					</a>
 				</c:if>
 				<c:if test="${member != null}">
 					<a href= "${pageContext.request.contextPath}/customer/customerDetails">
 						<i class="fa fa-gift"></i>
 						<strong>상세보기</strong>
-						<small>고객정보조회</small>
+						<small >고객정보조회</small>
 					</a>
 				</c:if>
 			</li>
