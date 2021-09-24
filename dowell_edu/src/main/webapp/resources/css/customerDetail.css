@@ -72,6 +72,10 @@
     .searchBtn{
       float: right;
     }
+    #btn_reset{
+	border: none;
+    background: white;
+}
     .searchBtn button{
       width: 67px;
       height: 60px;

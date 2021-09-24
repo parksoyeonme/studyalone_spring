@@ -128,7 +128,7 @@ public class CustomerServiceImpl implements CustomerService {
 //	public int insertCustHistory(List<CustomerHistoryVO> customerHistoryList) throws Exception {
 //		return customerDao.insertCustHistory(customerHistoryList);
 //	}
-
+	//고객이력 insert
 	@Override
 	public int insertCustHistory(Map<String, Object> insertParam) throws Exception {
 		return customerDao.insertCustHistory(insertParam);
@@ -138,10 +138,15 @@ public class CustomerServiceImpl implements CustomerService {
 	public int selectSeqCount(String cust_no) {
 		return customerDao.selectSeqCount(cust_no);
 	}
-
+	//정보 수정시 휴대폰 중복체크
 	@Override
 	public int mblCheckDetail(Map<String, Object> param) throws Exception {
 		return customerDao.mblCheckDetail(param);
+	}
+	//정보 수정시 이메일 중복체크
+	@Override
+	public int emailCheckDetail(Map<String, Object> param) throws Exception {
+		return customerDao.emailCheckDetail(param);
 	}
 
 	

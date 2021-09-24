@@ -95,4 +95,9 @@ public class CustomerVO {
 	private String mbl_no_end;
 	private String email_start;
 	private String email_end;
+	
+	//고객정보조회(총구매금액,당월구매금액,당월최종구매일)
+	private String tot_pur_amt;
+	private String tot_pur_mm_amt;
+	private String tot_pur_dt;
 }

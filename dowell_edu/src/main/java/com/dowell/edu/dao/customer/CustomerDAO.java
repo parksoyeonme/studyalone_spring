@@ -53,11 +53,16 @@ public interface CustomerDAO {
 
 	//int insertCustHistory(List<CustomerHistoryVO> customerHistoryList);
 
-	int insertCustHistory(Map<String, Object> insertParam);
+	//고객이력 insert
+	int insertCustHistory(Map<String, Object> insertParam) throws Exception;
 
 	int selectSeqCount(String cust_no);
-
-	int mblCheckDetail(Map<String, Object> param);
+	
+	//정보 수정시 휴대폰 중복체크
+	int mblCheckDetail(Map<String, Object> param) throws Exception;
+	
+	//정보 수정시 이메일 중복체크
+	int emailCheckDetail(Map<String, Object> param) throws Exception;
 
 	
 

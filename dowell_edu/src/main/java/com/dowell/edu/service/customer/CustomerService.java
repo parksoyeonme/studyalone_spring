@@ -52,10 +52,13 @@ public interface CustomerService {
 	//고객정보조회 update
 	int updatecustDetail(Map<String, Object> updateParam) throws Exception;
 
-	//히스토리인서트
+	//고객이력 insert
 	int insertCustHistory(Map<String, Object> insertParam) throws Exception;
 
 	int selectSeqCount(String cust_no);
+
+	//정보 수정시 이메일 중복체크
+	int emailCheckDetail(Map<String, Object> param) throws Exception;
 
 	
 
