@@ -413,6 +413,7 @@ public class CustomerController {
 		   CustomerHistoryVO customerHistoryVO = null;
 		   
 		   
+		   		   
 		   String js_dt = CustomerList.get(0).getJs_dt();
 		   String stp_dt = "";
 		   String cncl_dt = "";
@@ -444,12 +445,12 @@ public class CustomerController {
 			   log.info("고객상태가 해지되었습니다. 핸드폰번호와 이메일 정보를 삭제합니다.");
 			   
 			   mbl_no = " ";
-			   email = " ";
+			   email = "";
 			   cncl_dt = date;
-		   // 정상에서 중지로 가는 경우, 정지일자 등록
+		   // 정상에서 중지로 가는 경우, 중지일자 등록
 		   }else if(CustomerList.get(0).getCust_ss_cd().equals("10") && cust_ss_cd.equals("80")) {
 			   stp_dt = date;
-			   js_dt = " ";
+			  // js_dt = " ";
 		   }
 			   
 

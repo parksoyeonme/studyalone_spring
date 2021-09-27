@@ -122,9 +122,9 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						<tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
 							<td class="tg-0lax required">휴대폰번호</td>
 						  	<td class="tg-0lax">
-						    	<input type="text" name="mbl_no_first" id="mbl_no_first" value="${listBtn[0].mbl_no_first}" onKeyup="SetNum(this)" style="width: 90px;">
-						    	<input type="text" name="mbl_no_middle" id="mbl_no_middle" value="${listBtn[0].mbl_no_middle}" onKeyup="SetNum(this)" style="width: 90px;">
-						    	<input type="text" name="mbl_no_end" id="mbl_no_end" value="${listBtn[0].mbl_no_end}" onKeyup="SetNum(this)" style="width: 90px;">
+						    	<input type="text" name="mbl_no_first" id="mbl_no_first" value="${listBtn[0].mbl_no_first}" maxlength="3" onKeyup="SetNum(this)" style="width: 90px;">
+						    	<input type="text" name="mbl_no_middle" id="mbl_no_middle" value="${listBtn[0].mbl_no_middle}" maxlength="4" onKeyup="SetNum(this)" style="width: 90px;">
+						    	<input type="text" name="mbl_no_end" id="mbl_no_end" value="${listBtn[0].mbl_no_end}" maxlength="4" onKeyup="SetNum(this)" style="width: 90px;">
 						    	<button type="button" id="mblcheck" onclick="mbl_check()" value="0">변경</button>
 						  	</td>
 							<td class="tg-0lax" ></td>
@@ -186,7 +186,12 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						  	</td>
 							<td class="tg-0lax">가입일자</td>
 							<td class="tg-0lax">
-						    	<input type="text" name="js_dt" id="js_dt" value="${listBtn[0].js_dt}" disabled>
+								<c:if test="${listBtn[0].cust_ss_cd eq commCd[0].dtl_cd}">
+						    		<input type="text" name="js_dt" id="js_dt" value="${listBtn[0].js_dt}" disabled>
+						    	</c:if>
+						    	 <c:if test="${listBtn[0].cust_ss_cd eq commCd[1].dtl_cd  || listBtn[0].cust_ss_cd eq commCd[2].dtl_cd}">
+						    		<input type="text" name="js_dt" id="js_dt" value="" disabled>
+						    	</c:if>
 							</td>
 						</tr>
 						<tr style="border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6; border-bottom: 1px solid #cec9c6;">

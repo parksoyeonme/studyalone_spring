@@ -307,6 +307,7 @@
 		
 	</select>
 	
+	<!-- 신규고객등록 -->
 	<insert id="insertcust" parameterType="Map">
 		INSERT INTO cs_cust01_mt 
 					(
@@ -393,6 +394,7 @@
 	    
 	</select>
 	
+	<!-- 고객정보조회(수정update) 이메일 중복체크 -->
 	<select id="emailCheckDetail" resultType="Integer">
 		SELECT
 		    COUNT(*) 				<!-- 이메일 번호 카운트-->
@@ -416,6 +418,7 @@
 
 	</select>
 	
+	<!-- 고객정보조회(수정update) 공통코드 -->
 	<select id="selectcommCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
 		SELECT
 		    	code_cd 			<!-- 공통코드 -->
@@ -433,6 +436,7 @@
 		ORDER BY code_cd ASC, dtl_cd ASC
 	</select>
 	
+	<!-- 고객정보조회(수정update) 고객정보 불러오기 -->
 	<select id="selectDetailOne" resultMap="CustomerVO" >
 	
 		SELECT
@@ -460,19 +464,22 @@
 		    ,CUMT.EMAIL 																<!-- 이메일 -->
 		    ,SUBSTR(CUMT.EMAIL,1,INSTR(CUMT.EMAIL,'@',1,1)-1) EMAIL_START 				<!-- 이메일 ID부 -->
 		    ,SUBSTR(CUMT.EMAIL,INSTR(CUMT.EMAIL,'@')+1) EMAIL_END						<!-- 이메일 host부  -->
-		    ,CUMT.STP_DT 																<!-- 중지일자 -->
+		    ,TO_CHAR(TO_DATE(CUMT.STP_DT, 'YYYYMMDD'), 'YYYY-MM-DD') STP_DT 			<!-- 중지일자 -->
 		    ,CUMT.ZIP_CD 																<!-- 우편번호코드 -->
 		    ,CUMT.ADDR 																	<!-- 주소 -->
 		    ,CUMT.ADDR_DTL 																<!-- 상세주소 -->
 		    ,CUMT.CUST_SS_CD 															<!-- 고객상태코드 -->
 		    ,CUMT.JN_PRT_CD 															<!-- 가입매장코드 -->
 		    ,PRTMT.PRT_NM 																<!-- 거래처관리table의 거래처명 -->
-		    ,CUMT.FST_JS_DT 															<!-- 최초가입일자 -->
-		    ,CUMT.JS_DT 																<!-- 가입일자 -->
+		    ,TO_CHAR(TO_DATE(CUMT.FST_JS_DT, 'YYYYMMDD'), 'YYYY-MM-DD') FST_JS_DT 		<!-- 최초가입일자 -->
+		    ,CASE 
+		    	WHEN CUST_SS_CD ='10' THEN TO_CHAR(TO_DATE(CUMT.JS_DT, 'YYYYMMDD'), 'YYYY-MM-DD') 
+		    	ELSE CUMT.JS_DT																<!-- 가입일자 -->
+		     END JS_DT
 		    ,CUMT.EMAIL_RCV_YN 															<!-- 이메일수신동의여부 -->
 		    ,CUMT.SMS_RCV_YN 															<!-- sms수신동의여부 -->
 		    ,CUMT.DM_RCV_YN 															<!-- dm수신동의여부 -->
-		    ,CUMT.CNCL_DT 																<!-- 해지일자 -->
+		    ,TO_CHAR(TO_DATE(CUMT.CNCL_DT, 'YYYYMMDD'), 'YYYY-MM-DD') CNCL_DT 			<!-- 해지일자 -->
 		    ,(
 		        SELECT 																	<!-- 총구매금액 3자리 숫자로 끊어서 , 표시 -->
 		            TO_CHAR( SUM(TOT_SAL_AMT) , '999,999,999,999,999') 					<!-- 총구매금액 : TOT_PUR_AMT -->
@@ -509,6 +516,7 @@
 		
 	</select>
 	
+	<!-- 고객정보조회(수정update) 수정하기 -->
 	<update id="updatecustDetail">
 	 update cs_cust01_mt set
 		CUST_NM = #{cust_nm}
@@ -518,7 +526,6 @@
 		,MRRG_dT = to_char(TO_DATE(#{mrrg_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')
 		,POC_CD = #{poc_cd}
 		,PSMT_GRC_CD = #{psmt_grc_cd}
-
 		,ZIP_CD = #{zip_cd} 
 		,ADDR= #{addr}
 		,ADDR_DTL= #{addr_dtl}
@@ -528,39 +535,80 @@
 		,SMS_RCV_YN= #{sms_rcv_yn}
 		,DM_RCV_YN= #{dm_rcv_yn}
 		,MBL_NO =#{mbl_no}
-		
 		,EMAIL = #{email}
-		,js_dt = #{js_dt}
-					
-				
+		,JS_DT = CASE
+					WHEN CUST_SS_CD ='10' THEN to_char(TO_DATE(#{js_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')
+					ELSE #{js_dt}
+		 		END 
 		,STP_DT = 	#{stp_dt}
 		,cncl_dt = 	#{cncl_dt}
-		
-				
-		<!-- 여기서부터 안돌아가는 쿼리 -->
-		
-		<!-- 	<choose>
-		<when test="cust_ss_cd = '10' ">
-		,STP_DT = ''
-		,CNCL_DT = ''
-		</when>
-		<when test="cust_ss_cd = '80' ">
-		,STP_DT = SYSDATE
-		</when>
-		<when test="cust_ss_cd = '90' ">
-		,CNCL_DT = SYSDATE
-		</when>
-		</choose> -->
-		 
 		,LST_UPD_DT = SYSDATE
 		,LST_UPD_ID = #{user_id}
 		where cust_no= #{cust_no}
 	
 	</update>
 	
+	<!-- 변경이력 히스토리 추가insert -->
+	<!-- <insert id="insertCustHistory" parameterType="java.util.List">
+	<foreach item="list" collection="insertList" index="index" open="" separator=", " close="SELECT * FROM DUAL">
+	INSERT ALL
 	
+	  INTO sd_cust01_ht 
+					 (
+				         CUST_NO   					
+				        ,CHG_DT 					
+				        ,CHG_SEQ 					
+				        ,CHG_CD 					
+				        ,CHG_BF_CNT 					
+				        ,CHG_AFT_CNT 
+				        ,FST_REG_DT
+        				,FST_USER_ID					
+				        ,LST_UPD_DT 				
+				        ,LST_UPD_ID 						
+				   
+	 					
+				    ) 
+			VALUES 
+				
+				(
+				
+						#{list.cust_no}
+						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')
+						,(select NVL(max(chg_seq), 0) +1
+						  from sd_cust01_ht 
+						  where cust_no= #{list.cust_no}
+						  ) 
+						
+						,#{list.chg_cd}
+						
+						,#{list.chg_bf_cnt}
+						,#{list.chg_aft_cnt}
+						, (
+							SELECT
+					               fst_reg_dt
+					            FROM
+					                cs_cust01_mt
+					           
+					                where cust_no= #{list.cust_no}
+						)
+						, (
+							SELECT
+					               fst_user_id
+					            FROM
+					                cs_cust01_mt
+					            
+					                where cust_no= #{list.cust_no}
+						)
+						,SYSDATE
+						,#{list.user_id}
+						
+				
+				)
+			</foreach>
+			
+	</insert>  -->
 	<update id="insertCustHistory">
- <foreach item="list" collection="insertList" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+ <foreach item="list" collection="insertList" index="index" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
 	INTO sd_cust01_ht 
 					<!-- (
 				         CUST_NO   					
@@ -581,10 +629,10 @@
 				(
 						#{list.cust_no}
 						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')
-						,(select NVL(max(chg_seq), 0)
-						  from sd_cust01_ht 
-						  where cust_no= #{list.cust_no}
-						  ) + 1
+						,(select count(*) + #{index}+1
+							FROM SD_CUST01_HT
+								WHERE cust_no= #{list.cust_no} AND CHG_DT = TO_CHAR(SYSDATE, 'YYYYMMDD')
+							)
 						,#{list.chg_cd}
 						
 						,#{list.chg_bf_cnt}
