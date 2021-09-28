@@ -215,7 +215,7 @@
 			<li>
 				<c:if test="${member != null}">
 					<strong>
-						${member.user_id}님 
+						${member.user_nm}님 
 						<br/>안녕하세요.
 					</strong>
 				</c:if>

@@ -3,11 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="customer">   
-
-   <resultMap type="com.dowell.edu.vo.common.PartnerVO" id="PartnerVO">
-    	<result column="prt_nm" property="prt_nm"/>
-   
-	</resultMap>
 	
 	<resultMap type="com.dowell.edu.vo.customer.CustomerVO" id="CustomerVO">
     	<result column="cust_no" property="cust_no"/>
@@ -51,30 +46,30 @@
    <!-- 고객조회(팝업) -->
    <select id="selectcustSearchList" resultType="com.dowell.edu.vo.customer.CustomerVO" parameterType="Map">
 	   SELECT
-			 csmt.cust_no 															--고객번호
-		    ,csmt.cust_nm 															--고객명
-		    ,regexp_replace(csmt.mbl_no, '(.{3})(.+)(.{4})', '\1-\2-\3') AS mbl_no 	--휴대폰번호
+			 csmt.cust_no 															<!-- 고객번호 -->
+		    ,csmt.cust_nm 															<!-- 고객명 -->
+		    ,regexp_replace(csmt.mbl_no, '(.{3})(.+)(.{4})', '\1-\2-\3') AS mbl_no 	<!-- 휴대폰번호 -->
 		    ,CASE
-		        WHEN csmt.cust_ss_cd = '10' THEN cddt.dtl_cd_nm    					--고객상태코드 정상
-		        WHEN csmt.cust_ss_cd = '80' THEN cddt.dtl_cd_nm 					--고객상태코드 중지
-		        ELSE cddt.dtl_cd_nm 												--고객상태코드 해지
+		        WHEN csmt.cust_ss_cd = '10' THEN cddt.dtl_cd_nm    					<!-- 고객상태코드 정상 ='10' -->
+		        WHEN csmt.cust_ss_cd = '80' THEN cddt.dtl_cd_nm 					<!-- 고객상태코드 중지 ='80' -->
+		        ELSE cddt.dtl_cd_nm 												<!-- 고객상태코드 해지 ='90' -->
 		    END AS cust_ss_cd 														
-		FROM cs_cust01_mt csmt 														--고객관리(cs_cust01_mt)table
-		        left join ma_code_dt cddt 											--코드상세(ma_code_dt)table
-		            on csmt.cust_ss_cd = cddt.dtl_cd 								--고객관리테이블의 고객상태코드(cust_ss_cd) 동일 코드상세의 세부코드(dtl_cd)
+		FROM cs_cust01_mt csmt 														<!-- 고객관리테이블(CS_CUST01_MT) -->
+		        left join ma_code_dt cddt 											<!-- 코드상세테이블(MA_CODE_DT) -->
+		            on csmt.cust_ss_cd = cddt.dtl_cd 								<!-- 고객관리테이블의 고객상태코드(cust_ss_cd) = 코드상세의 세부코드(dtl_cd) -->
 		WHERE
 		    1 = 1
-		    	and cddt.code_cd = 'CUST_SS_CD' 									--고객명,휴대폰번호 존재시 기본값
+		    	and cddt.code_cd = 'CUST_SS_CD' 									<!-- 고객명,휴대폰번호 존재시 기본값 -->
 		    	and mbl_no like '%' || #{mbl_no} || '%'
 			    and cust_nm like '%' || #{cust_nm} || '%'
 		    	
-			    <if test="mbl_no.equals('')">										--휴대폰번호없을시 이름조회
+			    <if test="mbl_no.equals('')">										<!-- 휴대폰번호없을시 이름조회 -->
 			        and cust_nm like '%' || #{cust_nm} || '%'
 			    </if>
-			    <if test="cust_nm.equals('')"> 									 	--고객명없을시 휴대폰번호조회
+			    <if test="cust_nm.equals('')"> 									 	<!-- 고객명없을시 휴대폰번호조회 -->
 			        and mbl_no like '%' || #{mbl_no} || '%'							
 			    </if>
-			   
+		order by cust_no asc	   
 	</select>
 	
 	<!-- 고객리스트 -->
@@ -154,11 +149,11 @@
 	<!-- 고객조회의 고객상태 -->
 	<select id="selectcustSsCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
 		SELECT
-		   	 code_cd  				--공통코드
-		    ,dtl_cd 				--세부코드
-		    ,dtl_cd_nm 				--세부코드명
+		   	 code_cd  				<!-- 공통코드 -->
+		    ,dtl_cd 				<!-- 세부코드 -->
+		    ,dtl_cd_nm 				<!-- 세부코드명 -->
 		FROM
-	    	ma_code_dt 				--코드상세
+	    	ma_code_dt 				<!-- 코드상세 -->
 		WHERE
    			code_cd = 'CUST_SS_CD'
 	
@@ -285,7 +280,7 @@
 		ORDER BY DTL_CD ASC  				 	
 	</select>
 	
-	<!-- 이메일체크 -->
+	<!-- 신규고객등록 이메일 중복체크 -->
 	 <select id="emailCheck" resultType="Integer">
 		SELECT
 		   	count(*)			
@@ -296,7 +291,7 @@
 	
 	</select> 
 	
-	<!-- 휴대폰 중복체크 -->
+	<!-- 신규고객등록 휴대폰 중복체크 -->
 	<select id="mblCheck" resultType="Integer">
 		SELECT 					
 		   	 count(*) 				<!-- 휴대폰번호 count -->
@@ -518,155 +513,84 @@
 	
 	<!-- 고객정보조회(수정update) 수정하기 -->
 	<update id="updatecustDetail">
-	 update cs_cust01_mt set
-		CUST_NM = #{cust_nm}
-		,SEX_CD = #{sex_cd}
-		,SCAL_YN = #{scal_yn}
-		,BRDY_DT = to_char(TO_DATE(#{brdy_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 
-		,MRRG_dT = to_char(TO_DATE(#{mrrg_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')
-		,POC_CD = #{poc_cd}
-		,PSMT_GRC_CD = #{psmt_grc_cd}
-		,ZIP_CD = #{zip_cd} 
-		,ADDR= #{addr}
-		,ADDR_DTL= #{addr_dtl}
-		,CUST_SS_CD= #{cust_ss_cd}
-		,JN_PRT_CD= #{jn_prt_cd} 
-		,EMAIL_RCV_YN= #{email_rcv_yn}
-		,SMS_RCV_YN= #{sms_rcv_yn}
-		,DM_RCV_YN= #{dm_rcv_yn}
-		,MBL_NO =#{mbl_no}
-		,EMAIL = #{email}
-		,JS_DT = CASE
-					WHEN CUST_SS_CD ='10' THEN to_char(TO_DATE(#{js_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')
-					ELSE #{js_dt}
-		 		END 
-		,STP_DT = 	#{stp_dt}
-		,cncl_dt = 	#{cncl_dt}
-		,LST_UPD_DT = SYSDATE
-		,LST_UPD_ID = #{user_id}
-		where cust_no= #{cust_no}
+	 UPDATE CS_CUST01_MT  																<!-- 고객관리 테이블 UPDATE -->
+		SET
+			CUST_NM = #{cust_nm} 														<!-- 고객명 -->
+			,SEX_CD = #{sex_cd} 														<!-- 성별 -->
+			,SCAL_YN = #{scal_yn} 														<!-- 양음력구분 -->
+			,BRDY_DT = TO_CHAR(TO_DATE(#{brdy_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')  			<!-- 생년월일 -->
+			,MRRG_DT = TO_CHAR(TO_DATE(#{mrrg_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 			<!-- 결혼기념일 -->
+			,POC_CD = #{poc_cd} 														<!-- 직업코드 -->
+			,PSMT_GRC_CD = #{psmt_grc_cd} 												<!-- 우편물수령코드 -->
+			,ZIP_CD = #{zip_cd} 														<!-- 우편번호코드 -->
+			,ADDR= #{addr} 																<!-- 주소 -->
+			,ADDR_DTL= #{addr_dtl} 														<!-- 상세주소 -->
+			,CUST_SS_CD= #{cust_ss_cd} 													<!-- 고객상태코드 -->
+			,JN_PRT_CD= #{jn_prt_cd}  													<!-- 가입매장코드 -->
+			,EMAIL_RCV_YN= #{email_rcv_yn} 												<!-- 이메일수신동의여부 -->
+			,SMS_RCV_YN= #{sms_rcv_yn} 													<!-- SMS수신동의여부 -->
+			,DM_RCV_YN= #{dm_rcv_yn} 													<!-- DM수신동의여부 -->
+			,MBL_NO =#{mbl_no} 															<!-- 핸드폰번호. -->
+			,EMAIL = #{email} 															<!-- 이메일주소 -->
+			,JS_DT = CASE
+						WHEN CUST_SS_CD ='10' THEN TO_CHAR(TO_DATE(#{js_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 		<!-- 고객상태가 10일경우 가입일자(JS_DT)는 20000101형태 -->
+						ELSE #{js_dt} 																			<!-- 아닐시 공백 -->
+					END 
+			,STP_DT = 	#{stp_dt} 														<!-- 중지일자 -->
+			,cncl_dt = 	#{cncl_dt} 														<!-- 해지일자 -->
+			,LST_UPD_DT = SYSDATE 														<!-- 최종수정일자 -->
+			,LST_UPD_ID = #{user_id} 													<!-- 최종수정자 -->
+	 WHERE CUST_NO = #{cust_no} 														<!-- 조건절: 고객번호 -->
 	
 	</update>
 	
-	<!-- 변경이력 히스토리 추가insert -->
-	<!-- <insert id="insertCustHistory" parameterType="java.util.List">
-	<foreach item="list" collection="insertList" index="index" open="" separator=", " close="SELECT * FROM DUAL">
-	INSERT ALL
-	
-	  INTO sd_cust01_ht 
+	<!-- 고객정보조회 insert : 고객이력테이블 -->
+	<update id="insertCustHistory">
+ 	<foreach item="list" collection="insertList" index="index" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+	INTO sd_cust01_ht 
 					 (
-				         CUST_NO   					
-				        ,CHG_DT 					
-				        ,CHG_SEQ 					
-				        ,CHG_CD 					
-				        ,CHG_BF_CNT 					
-				        ,CHG_AFT_CNT 
-				        ,FST_REG_DT
-        				,FST_USER_ID					
-				        ,LST_UPD_DT 				
-				        ,LST_UPD_ID 						
-				   
-	 					
+				         CUST_NO   									<!-- 고객번호 -->		
+				        ,CHG_DT 					 				<!-- 변경일자 -->
+				        ,CHG_SEQ 									<!-- 일련번호 -->
+				        ,CHG_CD 					 				<!-- 변경코드 -->
+				        ,CHG_BF_CNT 					 			<!-- 변경전내용 -->
+				        ,CHG_AFT_CNT  								<!-- 변경후내용 -->
+				        ,FST_REG_DT 								<!-- 최초등록일자 -->
+        				,FST_USER_ID					 			<!-- 최초등록자 -->
+				        ,LST_UPD_DT 				 				<!-- 최종수정일자 -->
+				        ,LST_UPD_ID 						 		<!-- 최종수정자 -->
+
 				    ) 
 			VALUES 
-				
-				(
-				
-						#{list.cust_no}
-						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')
-						,(select NVL(max(chg_seq), 0) +1
-						  from sd_cust01_ht 
-						  where cust_no= #{list.cust_no}
-						  ) 
-						
-						,#{list.chg_cd}
-						
-						,#{list.chg_bf_cnt}
-						,#{list.chg_aft_cnt}
-						, (
-							SELECT
-					               fst_reg_dt
-					            FROM
-					                cs_cust01_mt
-					           
-					                where cust_no= #{list.cust_no}
-						)
-						, (
-							SELECT
-					               fst_user_id
-					            FROM
-					                cs_cust01_mt
-					            
-					                where cust_no= #{list.cust_no}
-						)
-						,SYSDATE
-						,#{list.user_id}
-						
-				
-				)
-			</foreach>
-			
-	</insert>  -->
-	<update id="insertCustHistory">
- <foreach item="list" collection="insertList" index="index" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
-	INTO sd_cust01_ht 
-					<!-- (
-				         CUST_NO   					
-				        ,CHG_DT 					
-				        ,CHG_SEQ 					
-				        ,CHG_CD 					
-				        ,CHG_BF_CNT 					
-				        ,CHG_AFT_CNT 
-				        ,FST_REG_DT
-        				,FST_USER_ID					
-				        ,LST_UPD_DT 				
-				        ,LST_UPD_ID 						
-				   
-	 					
-				    ) -->
-			VALUES 
-				
-				(
-						#{list.cust_no}
-						,to_char(to_date(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD')
-						,(select count(*) + #{index}+1
+					(
+						#{list.cust_no} 																	<!-- 고객번호 -->
+						,TO_CHAR(TO_DATE(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD') 									<!-- 변경일자 -->
+						,(SELECT COUNT(*) + #{index} + 1 													<!-- 일련번호 -->
 							FROM SD_CUST01_HT
-								WHERE cust_no= #{list.cust_no} AND CHG_DT = TO_CHAR(SYSDATE, 'YYYYMMDD')
-							)
-						,#{list.chg_cd}
-						
-						,#{list.chg_bf_cnt}
-						,#{list.chg_aft_cnt}
-						, (
+								WHERE CUST_NO= #{list.cust_no} AND CHG_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') 	<!-- 일련번호는 하루마다 초기화 -->
+						 )
+						,#{list.chg_cd} 																	<!-- 변경코드 -->
+						,#{list.chg_bf_cnt} 																<!-- 변경전내용 -->
+						,#{list.chg_aft_cnt} 																<!-- 변경후내용 -->
+						,(
+							SELECT 																			<!-- 고객관리테이블(CS_CUST01_MT) -->
+									FST_REG_DT
+					        FROM 																			<!-- 고객관리테이블에 등록된 최초등록일자 -->
+									CS_CUST01_MT
+					        WHERE CUST_NO = #{list.cust_no}
+						 )
+						,( 																					<!-- 고객관리테이블(CS_CUST01_MT) -->
 							SELECT
-					               fst_reg_dt
-					            FROM
-					                cs_cust01_mt
-					           
-					                where cust_no= #{list.cust_no}
-						)
-						, (
-							SELECT
-					               fst_user_id
-					            FROM
-					                cs_cust01_mt
-					            
-					                where cust_no= #{list.cust_no}
-						)
-						,SYSDATE
-						,#{list.user_id}
-						
-				
-				)
-			</foreach>
-			
+					               FST_USER_ID 																<!-- 고객관리테이블에 등록된 최조등록자 -->
+							FROM
+					                CS_CUST01_MT
+					        WHERE CUST_NO = #{list.cust_no}
+						 )
+						,SYSDATE 																			<!-- 최종수정일자 -->
+						,#{list.user_id} 																	<!-- 최종수정자 -->
+					)
+	</foreach>	
 	</update> 
-  
-	<!-- <select id="selectSeqCount" resultType="Integer">
-		select NVL(max(chg_seq),0)
-		from sd_cust01_ht
-		where cust_no = #{cust_no}
-	
-	</select> -->
+
 	
 </mapper>

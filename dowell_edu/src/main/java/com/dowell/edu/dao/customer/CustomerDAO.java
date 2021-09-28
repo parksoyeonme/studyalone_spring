@@ -34,10 +34,10 @@ public interface CustomerDAO {
 	//신규등록
 	int insertcust(Map<String, Object> param) throws Exception;
 
-	//이메일 중복체크
+	//신규고객등록 이메일 중복체크
 	int emailCheck(Map<String, Object> param) throws Exception;
 
-	//휴대폰 중복체크
+	//신규고객등록 휴대폰 중복체크
 	int mblCheck(Map<String, Object> param) throws Exception;
 
 	//고객정보조회(공통코드)
@@ -49,15 +49,9 @@ public interface CustomerDAO {
 	//고객정보조회 update
 	int updatecustDetail(Map<String, Object> updateParam) throws Exception;
 
-	//int insertCustHistory(Map<String, Object> param2)throws Exception;
-
-	//int insertCustHistory(List<CustomerHistoryVO> customerHistoryList);
-
-	//고객이력 insert
+	//고객정보조회 insert : 고객이력테이블
 	int insertCustHistory(Map<String, Object> insertParam) throws Exception;
 
-	int selectSeqCount(String cust_no);
-	
 	//정보 수정시 휴대폰 중복체크
 	int mblCheckDetail(Map<String, Object> param) throws Exception;
 	

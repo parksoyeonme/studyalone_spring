@@ -45,14 +45,12 @@ public class CustomerServiceImpl implements CustomerService {
 	//고객상태조회(cust_ss_cd)
 	@Override
 	public List<CodeDetailVO> selectcustSsCd(CodeDetailVO codeDetailVo) throws Exception {
-		// TODO Auto-generated method stub
 		return customerDao.selectcustSsCd(codeDetailVo);
 	}
 
 	//고객히스토리리스트(팝업)
 	@Override
 	public List<CodeDetailVO> custHistoryList(String cust_no) throws Exception {
-		// TODO Auto-generated method stub
 		return customerDao.custHistoryList(cust_no);
 	}
 
@@ -72,7 +70,6 @@ public class CustomerServiceImpl implements CustomerService {
 	//신규등록
 	@Override
 	public int insertcust(Map<String, Object> param) throws Exception {
-		// TODO Auto-generated method stub
 		return customerDao.insertcust(param);
 	}
 
@@ -94,50 +91,24 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.selectcommCd(codeDetailVo);
 	}
 
-	//고객정보조회list
-//	@Override
-//	public List<CustomerVO> selectDetailOne(Map<String, Object> param) throws Exception {
-//		return customerDao.selectDetailOne(param);
-//	}
-
 	//고객정보조회 update
 	@Override
 	public int updatecustDetail(Map<String, Object> updateParam) throws Exception {
 		return customerDao.updatecustDetail(updateParam);
 	}
 
-	
-//	@Override
-//	public int insertCustHistory(Map<String, Object> param2) throws Exception {
-//		return customerDao.insertCustHistory(param2);
-//	}
-
+	//고객정보조회(수정update) 고객정보 불러오기
 	@Override
 	public List<CustomerVO> selectDetailOne(String cust_no) throws Exception {
 		return customerDao.selectDetailOne(cust_no);
 	}
 
-//	@Override
-//	public int insertCustHistory(List<CustomerHistoryVO> customerHistoryList) throws Exception {
-//		// TODO Auto-generated method stub
-//		return customerDao.insertCustHistory(customerHistoryList);
-//	}
-
-
-//	@Override
-//	public int insertCustHistory(List<CustomerHistoryVO> customerHistoryList) throws Exception {
-//		return customerDao.insertCustHistory(customerHistoryList);
-//	}
 	//고객이력 insert
 	@Override
 	public int insertCustHistory(Map<String, Object> insertParam) throws Exception {
 		return customerDao.insertCustHistory(insertParam);
 	}
 
-	@Override
-	public int selectSeqCount(String cust_no) {
-		return customerDao.selectSeqCount(cust_no);
-	}
 	//정보 수정시 휴대폰 중복체크
 	@Override
 	public int mblCheckDetail(Map<String, Object> param) throws Exception {

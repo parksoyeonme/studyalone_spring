@@ -159,7 +159,7 @@ h2 {
 		<c:if test="${member != null }">
 			<div class="wrap">
 				<div class="login">
-					<p>${member.user_id}님 환영 합니다.</p>
+					<p>${member.user_nm}님 환영 합니다.</p>
 					<a href="/customer/customerList">게시판 바로가기</a>
 					<div class="logout">
 						<button id="logoutBtn" type="button">로그아웃</button>

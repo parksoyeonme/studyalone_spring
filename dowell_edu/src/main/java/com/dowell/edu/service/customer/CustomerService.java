@@ -34,10 +34,10 @@ public interface CustomerService {
 	//신규등록
 	int insertcust(Map<String, Object> param) throws Exception;
 
-	//이메일 중복체크
+	//신규고객 등록 이메일 중복체크
 	int emailCheck(Map<String, Object> param) throws Exception;
 	
-	//휴대폰 중복체크
+	//신규고객등록 휴대폰 중복체크
 	int mblCheck(Map<String, Object> param) throws Exception;
 
 	//정보 수정시 휴대폰 중복체크
@@ -54,8 +54,6 @@ public interface CustomerService {
 
 	//고객이력 insert
 	int insertCustHistory(Map<String, Object> insertParam) throws Exception;
-
-	int selectSeqCount(String cust_no);
 
 	//정보 수정시 이메일 중복체크
 	int emailCheckDetail(Map<String, Object> param) throws Exception;

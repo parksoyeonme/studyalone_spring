@@ -39,21 +39,18 @@ public class CustomerDAOImpl implements CustomerDAO {
 	//고객상태조회(cust_ss_cd)
 	@Override
 	public List<CodeDetailVO> selectcustSsCd(CodeDetailVO codeDetailVo) throws Exception {
-		// TODO Auto-generated method stub
 		return sqlsSession.selectList("customer.selectcustSsCd", codeDetailVo);
 	}
 
 	//고객히스토리리스트(팝업)
 	@Override
 	public List<CodeDetailVO> custHistoryList(String cust_no) throws Exception {
-		// TODO Auto-generated method stub
 		return sqlsSession.selectList("customer.custHistoryList", cust_no);
 	}
 
 	//고객히스토리(cust_no,cust_nm)
 	@Override
 	public List<CustomerVO> custInfoHistoryList(String cust_no) throws Exception {
-		// TODO Auto-generated method stub
 		return sqlsSession.selectList("customer.custInfoHistoryList", cust_no);
 	}
 
@@ -69,14 +66,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return sqlsSession.insert("customer.insertcust", param);
 	}
 
-	//이메일 중복체크
+	//신규고객등록 이메일 중복체크
 	@Override
 	public int emailCheck(Map<String, Object> param) throws Exception {
-		// TODO Auto-generated method stub
 		return sqlsSession.selectOne("customer.emailCheck", param);
 	}
 
-	//휴대폰 중복체크
+	//신규고객등록 휴대폰 중복체크
 	@Override
 	public int mblCheck(Map<String, Object> param) throws Exception {
 		return sqlsSession.selectOne("customer.mblCheck", param);
@@ -88,50 +84,22 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return sqlsSession.selectList("customer.selectcommCd", codeDetailVo);
 	}
 
-	//고객정보조회list
-//	@Override
-//	public List<CustomerVO> selectDetailOne(Map<String, Object> param) throws Exception {
-//		return sqlsSession.selectList("customer.selectDetailOne", param);	
-//	}
-
+	//고객정보조회(수정update) 수정하기 
 	@Override
 	public int updatecustDetail(Map<String, Object> updateParam) throws Exception {
 		return sqlsSession.update("customer.updatecustDetail", updateParam);
 	}
 
-//	@Override
-//	public int insertCustHistory(Map<String, Object> param2) throws Exception {
-//		return sqlsSession.insert("customer.insertCustHistory", param2);
-//	}
-
+	//고객정보조회(수정update) 고객정보 불러오기
 	@Override
 	public List<CustomerVO> selectDetailOne(String cust_no) throws Exception {
 		return sqlsSession.selectList("customer.selectDetailOne", cust_no);	
 	}
 
-//	@Override
-//	public int insertCustHistory(List<CustomerHistoryVO> customerHistoryList) {
-//		return sqlsSession.insert("customer.insertCustHistory", customerHistoryList);
-//	}
-
-//	@Override
-//	public int insertCustHistory(Map<String, Object> insertParam) {
-//		return sqlsSession.insert("customer.insertCustHistory", insertParam);
-//	}
-
-//	@Override
-//	public int insertCustHistory(List<CustomerHistoryVO> customerHistoryList) {
-//		return sqlsSession.insert("customer.insertCustHistory", customerHistoryList);
-//	}
-	//고객이력 insert
+	//고객정보조회 insert : 고객이력테이블
 	@Override
 	public int insertCustHistory(Map<String, Object> insertParam) {
 		return sqlsSession.update("customer.insertCustHistory", insertParam);
-	}
-
-	@Override
-	public int selectSeqCount(String cust_no) {
-		return sqlsSession.selectOne("customer.selectSeqCount", cust_no);
 	}
 
 	//정보 수정시 휴대폰 중복체크

@@ -426,7 +426,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	                flag=false;
 	  
 	            }else{
-	            	alert("사용할 수 있는 이메일 입니다.")
+	            	//alert("사용할 수 있는 이메일 입니다.")
 	                $('#emailcheck').val(1);
 	                flag=true;
 	            }
