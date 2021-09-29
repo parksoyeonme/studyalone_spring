@@ -47,7 +47,7 @@
       border: 2px solid silver;
       background: rgb(173, 190, 238);
       width: 80%;
-      height: 80px;
+      height: 100px;
       margin-left: 38px;
       margin-top: 19px;
     }
@@ -128,4 +128,8 @@
 	margin-left: 43px; 
 	font-size: 19px; 
 	font-weight: bold;
+}
+
+#addr_dtl{
+	width: 310px;
 }

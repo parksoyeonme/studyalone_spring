@@ -68,7 +68,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                           </td>
 		                       </tr>
 		                       <tr>
-		                           <td class="tg-0lax">
+		                           <td class="tg-0lax" style="padding-top: 20px;">
 		                               <span class="required" style="padding-left: 30px; margin-right: 12px;">휴대폰번호</span>
 		                                   <input type="hidden" name="mbl_no" id="mbl_no">
 		                                   <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 10px;" required>
@@ -77,7 +77,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                               <br/>
 		                               <span id = "mblcheck" value="0" style="margin-left: 121px;"></span>
 		                           </td>
-		                           <td class="tg-0lax">
+		                           <td class="tg-0lax" style="padding-top: 20px;">
 		                               <span style="margin-right: -7px; padding-right: 21px;">생일</span>
 		                               <input type="radio" name="scal_yn" value="0" style="margin-left: 61px;" checked>양력
 		                               <input type="radio" name="scal_yn" value="1" style="margin-left: 27px;"> 음력

@@ -205,7 +205,7 @@
 					</a>
 				</c:if>
 				<c:if test="${member != null}">
-					<a href= "${pageContext.request.contextPath}/customer/customerDetails">
+					<a href= "${pageContext.request.contextPath}/customer/CustomerDetail">
 						<i class="fa fa-gift"></i>
 						<strong>상세보기</strong>
 						<small >고객정보조회</small>

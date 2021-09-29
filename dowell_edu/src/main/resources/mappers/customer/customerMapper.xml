@@ -120,7 +120,7 @@
    		where 
    			1 = 1
    				and cddt.code_cd='CUST_SS_CD' 											<!-- 검색기본조건: 고객상태, 가입날짜  -->
-   				and fst_js_dt between to_date(#{fromDate},'YYYY-MM-DD') 				<!-- 가입날짜(fst_js_dt)는 fromDate 날짜와 사이에 toDate날짜 사이에 위치 --> 
+   				and js_dt between to_date(#{fromDate},'YYYY-MM-DD') 				<!-- 가입날짜(fst_js_dt)는 fromDate 날짜와 사이에 toDate날짜 사이에 위치 --> 
        								and to_date(#{toDate},'YYYY-MM-DD')
        			
 				 <if test="cust_ss_cd != ''"> 											<!-- 고객상태가 있을경우(정상,중지,해지) -->
@@ -177,16 +177,18 @@
 		            ,csht.cust_no
 		            ,to_char(to_date(csht.chg_dt, 'YYMMDD'), 'YYYY-MM-DD') chg_dt -- 변경날자 20210101 변환 
 		            ,CASE
-		                WHEN csht.chg_cd = 'MBL_NO'    THEN 				--이력테이블의 변경코드가 mbl_no일떄 휴대폰번호로 변경
+		                WHEN csht.chg_cd = 'MBL_NO'    THEN 				--이력테이블의 변경코드가 mbl_no일때 휴대폰번호로 변경
 		                    '휴대폰번호'
-		                WHEN csht.chg_cd = 'JN_PRT_CD' THEN 				--이력테이블의 변경코드가 jnt_prt_cd일떄 매장로 변경
+		                WHEN csht.chg_cd = 'JN_PRT_CD' THEN 				--이력테이블의 변경코드가 jnt_prt_cd일때 매장로 변경
 		                    '매장'
-		                WHEN csht.chg_cd = 'CUST_NM'   THEN 				--이력테이블의 변경코드가 cust_nm일떄 고객명으로 변경
+		                WHEN csht.chg_cd = 'CUST_NM'   THEN 				--이력테이블의 변경코드가 cust_nm일때 고객명으로 변경
 		                    '고객명'
-		                WHEN csht.chg_cd = 'SEX_CD'   THEN 				--이력테이블의 변경코드가 cust_nm일떄 고객명으로 변경
+		                WHEN csht.chg_cd = 'SEX_CD'   THEN 				--이력테이블의 변경코드가 SEX_CD일때 성별으로 변경
 		                    '성별'
-		                WHEN csht.chg_cd = 'POC_CD'   THEN 				--이력테이블의 변경코드가 cust_nm일떄 고객명으로 변경
+		                WHEN csht.chg_cd = 'POC_CD'   THEN 				--이력테이블의 변경코드가 POC_CD일때 직업으로 변경
 		                    '직업'
+	                    WHEN csht.chg_cd = 'CUST_SS_CD'   THEN 				--이력테이블의 변경코드가 CUST_SS_CD일때 고객상태으로 변경
+	                    	'고객상태'
 		                ELSE
 		                    '생년월일' 			
 		            END AS code_nm
@@ -491,8 +493,6 @@
 		        WHERE 
 		        	CUST_NO = #{cust_no}
 		        	AND SUBSTR(SAL_DT, 1, 6) = TO_CHAR(SYSDATE, 'YYYYMM')
-		        GROUP BY
-		            SUBSTR(SAL_DT, 5, 2)
 		     ) AS TOT_PUR_MM_AMT
 		    ,(
 		        SELECT 																	<!-- 최종구매일자 : TOT_PUR_DT -->
@@ -536,8 +536,9 @@
 						WHEN CUST_SS_CD ='10' THEN TO_CHAR(TO_DATE(#{js_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 		<!-- 고객상태가 10일경우 가입일자(JS_DT)는 20000101형태 -->
 						ELSE #{js_dt} 																			<!-- 아닐시 공백 -->
 					END 
-			,STP_DT = 	#{stp_dt} 														<!-- 중지일자 -->
-			,cncl_dt = 	#{cncl_dt} 														<!-- 해지일자 -->
+			,STP_DT = TO_CHAR(TO_DATE(#{stp_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 
+															<!-- 중지일자 -->
+			,cncl_dt = 	 	TO_CHAR(TO_DATE(#{cncl_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')		<!-- 해지일자 -->
 			,LST_UPD_DT = SYSDATE 														<!-- 최종수정일자 -->
 			,LST_UPD_ID = #{user_id} 													<!-- 최종수정자 -->
 	 WHERE CUST_NO = #{cust_no} 														<!-- 조건절: 고객번호 -->
@@ -565,7 +566,7 @@
 					(
 						#{list.cust_no} 																	<!-- 고객번호 -->
 						,TO_CHAR(TO_DATE(SYSDATE, 'YY/MM/DD'), 'YYYYMMDD') 									<!-- 변경일자 -->
-						,(SELECT COUNT(*) + #{index} + 1 													<!-- 일련번호 -->
+						,(SELECT NVL(MAX(CHG_SEQ),0) + #{index} +1											<!-- 일련번호 -->
 							FROM SD_CUST01_HT
 								WHERE CUST_NO= #{list.cust_no} AND CHG_DT = TO_CHAR(SYSDATE, 'YYYYMMDD') 	<!-- 일련번호는 하루마다 초기화 -->
 						 )

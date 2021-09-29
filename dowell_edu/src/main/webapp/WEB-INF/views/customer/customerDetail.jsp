@@ -47,13 +47,13 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 					    <tr>
 					      <td class="tg-0lax" >고객번호</td>
 					      <td class="tg-0lax">
-					        <input type="text" value="${listBtn[0].cust_no}" id="customSearchInputNo" name="cust_no">
+					        <input type="text" value="${list[0].cust_no}" id="customSearchInputNo" name="cust_no">
 					        <button class="custSearchBtn" onclick="openCustom()">
 					          <i class="fas fa-search"></i>
 					        </button>
 					      </td>
 					      <td class="tg-0lax" >
-					        <input type="text" id="customSearchInputName" value="${listBtn[0].cust_nm}" name="cust_nm" readonly style="background-color:#e4e3e3;">
+					        <input type="text" id="customSearchInputName" value="${list[0].cust_nm}" name="cust_nm" readonly style="background-color:#e4e3e3;">
 					      </td>
 					      <td>
 					      </td>
@@ -72,41 +72,41 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		
 		<!-- 고객정보조회 LIST 부분 -->
     	<div class="detail01">
-			<form id="custUpdateFrm" name="custUpdateFrm" action="/customer/updatecustomerDetail" method="post">
+			<form id="custUpdateFrm" name="custUpdateFrm" >
 				<table class="tg">
 					<tbody id="custUpdateFrm_tbody">
           				<tr style=" border-left: 1px solid #cec9c6; border-top: 1px solid #cec9c6; border-right:1px solid #cec9c6;">
             				<th class="tg-0lax required" >고객명</th>
             				<th class="tg-0lax">
-              					<input type="text" value="${listBtn[0].cust_nm}" name="cust_nm" id="cust_nm" maxlength="10" style="width: 72px;">
+              					<input type="text" value="${list[0].cust_nm}" name="cust_nm" id="cust_nm" maxlength="10" style="width: 72px;">
 				            	<input type="hidden" name="user_id" value="${member.user_id}">
-				            	<input type="hidden" id="cust_no" name="cust_no" value="${listBtn[0].cust_no}">
+				            	<input type="hidden" id="cust_no" name="cust_no" value="${list[0].cust_no}">
            			 		</th>
             				<th class="tg-0lax required" >생년월일</th>
             				<th class="tg-0lax">
-            		 			<input type="text" value="${listBtn[0].brdy_dt}" id="brdy_dt" name="brdy_dt" required>
+            		 			<input type="text" value="${list[0].brdy_dt}" id="brdy_dt" name="brdy_dt" required>
             				</th>
 				            <th class="tg-0lax">성별</th>
 				            <th class="tg-0lax">
 								<input type="radio" name="sex_cd" value="${commCd[13].dtl_cd}" checked
-								<c:if test ="${listBtn[0].sex_cd eq commCd[13].dtl_cd}">checked="checked"</c:if> id="sexF" >${commCd[13].dtl_cd_nm}
+								<c:if test ="${list[0].sex_cd eq commCd[13].dtl_cd}">checked="checked"</c:if> id="sexF" >${commCd[13].dtl_cd_nm}
 		      					
 		      					<input type="radio" name="sex_cd" value="${commCd[14].dtl_cd}" 
-		      					<c:if test ="${listBtn[0].sex_cd eq commCd[14].dtl_cd}">checked="checked"</c:if> id="sexM"> ${commCd[14].dtl_cd_nm}
+		      					<c:if test ="${list[0].sex_cd eq commCd[14].dtl_cd}">checked="checked"</c:if> id="sexM"> ${commCd[14].dtl_cd_nm}
             				</th>
 						</tr>
 						<tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
 							<td class="tg-0lax" >생일</td>
 						  	<td class="tg-0lax">
 							    <input type="radio" name="scal_yn" id="solar" value="0" checked
-						    	<c:if test ="${listBtn[0].scal_yn eq 0}">checked="checked"</c:if>>양력
+						    	<c:if test ="${list[0].scal_yn eq 0}">checked="checked"</c:if>>양력
 						    	
 						    	<input type="radio" name="scal_yn" id="lunar" value="1" style="margin-left: 33px;"
-						    	<c:if test ="${listBtn[0].scal_yn eq 1}">checked="checked"</c:if>>음력
+						    	<c:if test ="${list[0].scal_yn eq 1}">checked="checked"</c:if>>음력
 						  	</td>
 							<td class="tg-0lax">결혼기념일</td>
 							<td class="tg-0lax">
-							  <input type="text" id="mrrg_dt" name="mrrg_dt" value="${listBtn[0].mrrg_dt}">
+							  <input type="text" id="mrrg_dt" name="mrrg_dt" value="${list[0].mrrg_dt}">
 							</td>
 						  	<td class="tg-0lax required">직업코드</td>
 						  	<td class="tg-0lax">
@@ -114,7 +114,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						     		<option value="" disabled selected>선택</option> 
 					     			<c:forEach var="commCd" items="${commCd}" begin="3" end="10">
 						     			<option value="${commCd.dtl_cd}"
-						     			<c:if test ="${listBtn[0].poc_cd eq commCd.dtl_cd}">selected="selected"</c:if>>${commCd.dtl_cd_nm}</option> 
+						     			<c:if test ="${list[0].poc_cd eq commCd.dtl_cd}">selected="selected"</c:if>>${commCd.dtl_cd_nm}</option> 
 						      		</c:forEach>
 						  		</select>
 						  	</td>
@@ -122,75 +122,76 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						<tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
 							<td class="tg-0lax required">휴대폰번호</td>
 						  	<td class="tg-0lax">
-						    	<input type="text" name="mbl_no_first" id="mbl_no_first" value="${listBtn[0].mbl_no_first}" maxlength="3" onKeyup="SetNum(this)" style="width: 90px;">
-						    	<input type="text" name="mbl_no_middle" id="mbl_no_middle" value="${listBtn[0].mbl_no_middle}" maxlength="4" onKeyup="SetNum(this)" style="width: 90px;">
-						    	<input type="text" name="mbl_no_end" id="mbl_no_end" value="${listBtn[0].mbl_no_end}" maxlength="4" onKeyup="SetNum(this)" style="width: 90px;">
+						    	<input type="text" name="mbl_no_first" id="mbl_no_first" value="${list[0].mbl_no_first}" maxlength="3" onKeyup="SetNum(this)" style="width: 90px;">
+						    	<input type="text" name="mbl_no_middle" id="mbl_no_middle" value="${list[0].mbl_no_middle}" maxlength="4" onKeyup="SetNum(this)" style="width: 90px;">
+						    	<input type="text" name="mbl_no_end" id="mbl_no_end" value="${list[0].mbl_no_end}" maxlength="4" onKeyup="SetNum(this)" style="width: 90px;">
 						    	<button type="button" id="mblcheck" onclick="mbl_check()" value="0">변경</button>
 						  	</td>
 							<td class="tg-0lax" ></td>
 							<td class="tg-0lax" colspan="1"></td>
 							<td class="tg-0lax">해지일자</td>
 							<td class="tg-0lax">
-								<input type="text" name="cncl_dt" id="cncl_dt" value="${listBtn[0].cncl_dt}" disabled>
+								<input type="text" name="cncl_dt" id="cncl_dt" value="${list[0].cncl_dt}" placeholder="YYYY-MM-DD" disabled>
 						  	</td>
 						</tr>
 						<tr style=" border-left: 1px solid #cec9c6; border-right:1px solid #cec9c6;">
 							<td class="tg-0lax">우편물수령</td>
 						  	<td class="tg-0lax">
 						    	<input type="radio" name="psmt_grc_cd" value="${commCd[11].dtl_cd}" id="home" checked 
-								<c:if test ="${listBtn[0].psmt_grc_cd eq commCd[11].dtl_cd}">checked="checked"</c:if>>${commCd[11].dtl_cd_nm}
+								<c:if test ="${list[0].psmt_grc_cd eq commCd[11].dtl_cd}">checked="checked"</c:if>>${commCd[11].dtl_cd_nm}
 								<input type="radio" name="psmt_grc_cd" value="${commCd[12].dtl_cd}" id="office"
-								<c:if test ="${listBtn[0].psmt_grc_cd eq commCd[12].dtl_cd}">checked="checked"</c:if>>${commCd[12].dtl_cd_nm}
+								<c:if test ="${list[0].psmt_grc_cd eq commCd[12].dtl_cd}">checked="checked"</c:if>>${commCd[12].dtl_cd_nm}
 							</td>
 							<td class="tg-0lax">이메일</td>
 							<td class="tg-0lax">
-							  	<input type="text" id="email_first" name="email_first" value="${listBtn[0].email_start}" style="width: 84px;">@ 
-							  	<input type="text" id="email_end" name="email_end" value="${listBtn[0].email_end}" >
+							  	<input type="text" id="email_first" name="email_first" value="${list[0].email_start}" style="width: 84px;">@ 
+							  	<input type="text" id="email_end" name="email_end" value="${list[0].email_end}" >
 							  	<input type="hidden" id = "emailcheck" value="0">
 							</td>
 							<td class="tg-0lax">중지일자</td>
 							<td class="tg-0lax">
-								<input type="text" name="stp_dt" id="stp_dt" value="${listBtn[0].stp_dt}" disabled>
+						    		<input type="text" name="stp_dt" id="stp_dt" value="${list[0].stp_dt}" placeholder="YYYY-MM-DD" disabled>
 							</td>
 						</tr>
 						<tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
 							<td class="tg-0lax" >주소</td>
 						  	<td class="tg-0lax" colspan='5'>
-						    	<input type="text" id="zip_cd" name="zip_cd" value="${listBtn[0].zip_cd}">
+						    	<input type="text" id="zip_cd" name="zip_cd" value="${list[0].zip_cd}">
 						    	<button type="button">
 						      		<i class="fas fa-search"></i>
 						    	</button>
-						    	<input type="text" style="width: 524px;" id="addr" name="addr" value="${listBtn[0].addr}">
-						    	<input type="text" id="addr_dtl" name="addr_dtl" value="${listBtn[0].addr_dtl}" placeholder="직접입력">
+						    	<input type="text" style="width: 524px;" id="addr" name="addr" value="${list[0].addr}">
+						    	<input type="text" id="addr_dtl" name="addr_dtl" value="${list[0].addr_dtl}" placeholder="직접입력">
 						  	</td>
 						</tr>
 						<tr style=" border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
 							<td class="tg-0lax required">고객상태</td>
 						  	<td class="tg-0lax">
 							    <input type="radio" name="cust_ss_cd" value="${commCd[0].dtl_cd}" id="normal" checked
-							    <c:if test ="${listBtn[0].cust_ss_cd eq commCd[0].dtl_cd}">checked="checked"</c:if>>${commCd[0].dtl_cd_nm}
+							    <c:if test ="${list[0].cust_ss_cd eq commCd[0].dtl_cd}">checked="checked"</c:if>>${commCd[0].dtl_cd_nm}
 							    
 							    <input type="radio" name="cust_ss_cd" value="${commCd[1].dtl_cd}" id="stop"
-							    <c:if test ="${listBtn[0].cust_ss_cd eq commCd[1].dtl_cd}">checked="checked"</c:if>>${commCd[1].dtl_cd_nm}
+							    <c:if test ="${list[0].cust_ss_cd eq commCd[1].dtl_cd}">checked="checked"</c:if>>${commCd[1].dtl_cd_nm}
 							    
 							    <input type="radio" name="cust_ss_cd" value="${commCd[2].dtl_cd}" id="terminate"
-							    <c:if test ="${listBtn[0].cust_ss_cd eq commCd[2].dtl_cd}">checked="checked"</c:if>>${commCd[2].dtl_cd_nm}
+							    <c:if test ="${list[0].cust_ss_cd eq commCd[2].dtl_cd}">checked="checked"</c:if>>${commCd[2].dtl_cd_nm}
+						  		<input type="hidden" name="cncl_cust_ss_cd" id="cncl_cust_ss_cd" value="${list[0].cust_ss_cd}">
 						  	</td>
 						  	<td class="tg-0lax required">매장</td>
 						  	<td class="tg-0lax">
-						    	<input type="text" id="partnerSearchInputCd" name="prt_nm" value="${listBtn[0].prt_nm}"  style="width: 120px;">
+						    	<input type="text" id="partnerSearchInputCd" name="prt_nm" value="${list[0].prt_nm}"  style="width: 93px;">
 						    	<button type="button" onclick="openStore()">
 						     		<i class="fas fa-search"></i>
 						    	</button>
-						    	<input type="text" id="partnerSearchInputName" name="jn_prt_cd" value="${listBtn[0].jn_prt_cd}" style="width: 120px;" readonly>
+						    	<input type="text" id="partnerSearchInputName" name="jn_prt_cd" value="${list[0].jn_prt_cd}" style="width: 120px;" readonly>
 						  	</td>
 							<td class="tg-0lax">가입일자</td>
 							<td class="tg-0lax">
-								<c:if test="${listBtn[0].cust_ss_cd eq commCd[0].dtl_cd}">
-						    		<input type="text" name="js_dt" id="js_dt" value="${listBtn[0].js_dt}" disabled>
+								<c:if test="${list[0].cust_ss_cd eq commCd[0].dtl_cd}">
+						    		<input type="text" name="js_dt" id="js_dt" value="${list[0].js_dt}" disabled>
 						    	</c:if>
-						    	 <c:if test="${listBtn[0].cust_ss_cd eq commCd[1].dtl_cd  || listBtn[0].cust_ss_cd eq commCd[2].dtl_cd}">
-						    		<input type="text" name="js_dt" id="js_dt" value="" disabled>
+						    	<c:if test="${list[0].cust_ss_cd ne commCd[0].dtl_cd}">
+						    		<input type="text" name="js_dt" id="js_dt" value="" placeholder="YYYY-MM-DD" disabled>
 						    	</c:if>
 							</td>
 						</tr>
@@ -199,7 +200,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						    	<p style="margin-right: 40px">최초가입일자</p>
 						  	</td>
 						  	<td class="tg-0lax">
-						    	<input type="text" name="fst_js_dt" id="fst_js_dt" value="${listBtn[0].fst_js_dt}" disabled>
+						    	<input type="text" name="fst_js_dt" id="fst_js_dt" value="${list[0].fst_js_dt}" placeholder="YYYY-MM-DD" disabled>
 						  	</td>
 						</tr>
 						<tr>
@@ -208,15 +209,15 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						<tr style=" border-left:1px solid #cec9c6; border-top: 1px solid #cec9c6; border-bottom: 1px solid #cec9c6; border-right: 1px solid #cec9c6;">
 						  	<td class="tg-0lax">총구매금액</td>
 						  	<td class="tg-0lax">
-						    	<input type="text" name="" id="" value="${listBtn[0].tot_pur_amt}"  style="text-align: right;" disabled>
+						    	<input type="text" name="" id="" value="${list[0].tot_pur_amt}"  style="text-align: right;" placeholder="0" disabled>
 						  	</td>
 						  	<td class="tg-0lax">당월구매금액</td>
 						  	<td class="tg-0lax">
-						    	<input type="text" name="" id="" value="${listBtn[0].tot_pur_mm_amt}"  style="text-align: right;" disabled>
+						    	<input type="text" name="" id="" value="${list[0].tot_pur_mm_amt}"  style="text-align: right;" placeholder="0" disabled>
 						  	</td>
 						  	<td class="tg-0lax">최종구매일</td>
 						  	<td class="tg-0lax">
-						    	<input type="text" name="" id="" value="${listBtn[0].tot_pur_dt}"  style="text-align: right;" disabled>
+						    	<input type="text" name="" id="" value="${list[0].tot_pur_dt}"  style="text-align: right;" placeholder="0" disabled>
 						  	</td>
 						</tr>
 						<tr>
@@ -227,25 +228,25 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						  	<td class="tg-0lax required">이메일수신동의</td>
 						  	<td class="tg-0lax">
 						    	<input type="radio"  name="email_rcv_yn" id="emailY" value="Y"  
-						    	<c:if test ="${listBtn[0].email_rcv_yn eq 'Y'}">checked="checked"</c:if>>예
+						    	<c:if test ="${list[0].email_rcv_yn eq 'Y'}">checked="checked"</c:if>>예
 						    	
 						    	<input type="radio" name="email_rcv_yn" id="emailN" value="N" style="margin-left: 53px;" 
-								<c:if test ="${listBtn[0].email_rcv_yn eq 'N'}">checked="checked"</c:if>>아니오
+								<c:if test ="${list[0].email_rcv_yn eq 'N'}">checked="checked"</c:if>>아니오
 						  	</td>
 						  	<td class="tg-0lax required">SMS수신동의</td>
 						  	<td class="tg-0lax">
 						    	<input type="radio" name="sms_rcv_yn"  id="smsY" value="Y" 
-						     	<c:if test ="${listBtn[0].sms_rcv_yn eq 'Y'}">checked="checked"</c:if>>예
+						     	<c:if test ="${list[0].sms_rcv_yn eq 'Y'}">checked="checked"</c:if>>예
 						    	
 						    	<input type="radio" name="sms_rcv_yn" id="smsN" value="N"  style="margin-left: 53px;"
-						     	<c:if test ="${listBtn[0].sms_rcv_yn eq 'N'}">checked="checked"</c:if>>아니오
+						     	<c:if test ="${list[0].sms_rcv_yn eq 'N'}">checked="checked"</c:if>>아니오
 						  	</td>
 						  	<td class="tg-0lax required">DM수신동의</td>
 						  	<td class="tg-0lax">
 						    	<input type="radio" name="dm_rcv_yn" id="dmY" value="Y"
-						     	<c:if test ="${listBtn[0].dm_rcv_yn eq 'Y'}">checked="checked"</c:if>>예
+						     	<c:if test ="${list[0].dm_rcv_yn eq 'Y'}">checked="checked"</c:if>>예
 						    	<input type="radio" name="dm_rcv_yn" id="dmN" value="N" style="margin-left: 53px;"
-						    	<c:if test ="${listBtn[0].dm_rcv_yn eq 'N'}">checked="checked"</c:if>>아니오
+						    	<c:if test ="${list[0].dm_rcv_yn eq 'N'}">checked="checked"</c:if>>아니오
 						  	</td>
 						</tr>
         			</tbody>
@@ -287,7 +288,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	
 	//datepicker 달력
 	$(function(){
-			 //생년월일
+		//생년월일
 		$("#brdy_dt").datepicker({
 	        showOn: "both",                   
 	        buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif", 
@@ -299,7 +300,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	
 		});
 	
-			 //결혼기념일
+		//결혼기념일
 	    $("#mrrg_dt").datepicker({
 	        showOn: "both",                   
 	        buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif", 
@@ -346,9 +347,27 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
   	<!-- 휴대폰번호 중복체크 -->
   	
 	//휴대폰 번호 keyup 이벤트
-  	$(function(){
+	$(function(){
    		$("#mbl_no_first, #mbl_no_middle, #mbl_no_end").on('keyup',mblcheck);
     })
+  	/* $(function(){
+  		
+	    
+   		 $("#mbl_no_first, #mbl_no_middle, #mbl_no_end").on('keyup',mblcheck);
+   		const mblcheck = $("#mblcheck").val();
+   		
+   		var mbl_no_first = $("#mbl_no_first").val();
+	    var mbl_no_middle = $("#mbl_no_middle").val();
+	    var mbl_no_end = $("#mbl_no_end").val();
+   		
+   		if(mbl_no_first.length < 4 || mbl_no_middle.length < 4 || mbl_no_end.length < 5 ){
+   			$('#mblcheck').val(0);
+   			$("#mblcheck").attr("value", "Y");
+   			return;
+   		} 
+  
+  	
+  	}) */
     
 	
   	//휴대폰중복체크
@@ -492,6 +511,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	 <!-- 수정사항 전송 -->
 	 
 	 $("#detailChgBtn").on("click", function(){
+		 //var cncl_cust_ss_cd = $("#cncl_cust_ss_cd").val();
+		 //var cncl =$('input[id="terminate"]').is(':checked')
 		 var cust_nm = $("#cust_nm").val();
 		 var brdy_dt= $("#brdy_dt").val();
 		 var mbl_no_fist = $("#mbl_no_first").val();
@@ -499,14 +520,16 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		 var mbl_no_end = $("#mbl_no_end").val();
 		 var email_first = $("#email_first").val();
 		 var jn_prt_cd = $("#partnerSearchInputName").val();
-		 var cust_ss_cd = $('input[name="cust_ss_cd"]').is(':checked')
+		 var cust_ss_cd = $('input[name="cust_ss_cd"]:checked').val();
 		 var poc_cd = $("#poc_cd option:selected").val();
 		 var mblcheck= $("#mblcheck").val();
+		 var emailcheck= $("#emailcheck").val();
 		 var email_first= $("#email_first").val();
 		 var emailcheck= $("#emailcheck").val();
+		 //var cncl_cust_ss_cd = $("#cncl_cust_ss_cd").val();c
+		 
 				 
-		 
-		 
+			
 			if(cust_nm == "" || cust_nm.length < 2  ){
 				alert("이름을 입력해주세요.");
 				$("#ucust_nm").focus();
@@ -522,10 +545,23 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				$("#poc_cd").focus();
 				return false;
 			}
+			/* if( $("#cncl_cust_ss_cd").val() == ${commCd[2].dtl_cd} && mbl_no_first !="" 
+				&& mbl_no_middle != "" && mbl_no_end != ""  ){
+				alert("다시확인해주세요");
+				$("#mbl_no_first").focus();
+				return false;
+				
+			} */
 			if(mbl_no_fist == "" || mbl_no_fist.length <3 ){
 				alert("핸드폰번호(앞3자리)를 입력해주세요.");
 				$("#mbl_no_first").focus();
 				return false;
+			}
+			if( mbl_no_fist == '010'
+				|| mbl_no_fist == '011' || mbl_no_fist == '017'|| mbl_no_fist == '019'){
+			alert("010, 011, 017,019는 사용하실 수 없는 번호입니다.");
+			$("#mbl_no_first").focus();
+			return false;
 			}
 			if( mbl_no_middle == "" ||  mbl_no_middle.length <= 2){
 				alert("핸드폰번호(가운데3-4자리)를 입력해주세요.");
@@ -540,9 +576,10 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 			
 			if(mblcheck == '0'){
 				alert("휴대폰 중복 확인이 필요합니다.");
-				$("#mbl_no_end").focus();
+				$("#mblcheck").focus();
 				return false;
 			}
+			
 			if( !$('input[name="cust_ss_cd"]').is(':checked')){
 				alert("고객상태를 확인해주세요");
 				$("#cust_ss_cd").focus();
@@ -568,10 +605,31 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				$("#dm_rcv_yn").focus();
 				return false;
 			}
-			else {
+			
+			
+			/* else {
 				alert("수정합니다.")
 				$("#custUpdateFrm").submit();
-			}
+			} */
+			
+			  $.ajax({
+		             url : "${pageContext.request.contextPath}/customer/updatecustomerDetail",
+		            
+		             type :"POST",
+		             dataType : "text",
+		             data : $("#custUpdateFrm").serialize(),
+		             success : function(data){
+		            	 
+							alert("회원정보수정 성공했습니다.")
+						
+							location.href = "${pageContext.request.contextPath}/customer/CustomerDetail";
+		            	 
+		             },
+		             error: function(xhr, status, error){
+		                 alert("회정보수정 실패했습니다." + error);
+		             }
+		            
+		         });
 		});
 	 
 </script>

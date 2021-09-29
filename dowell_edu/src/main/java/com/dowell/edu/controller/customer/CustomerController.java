@@ -51,7 +51,7 @@ public class CustomerController {
 	}
 	
 	//고객정보조회 -nav바
-	@RequestMapping(value="/customerDetails")
+	@RequestMapping(value="/CustomerDetail")
 	public ModelAndView CustomerDetailView(CodeDetailVO codeDetailVo,ModelAndView mv) throws Exception{
 		List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
 		
@@ -75,7 +75,7 @@ public class CustomerController {
 			List<CustomerVO> list = customerService.selectDetailOne(cust_no);
 		
 		mv.addObject("commCd", listcd);
-		mv.addObject("listBtn", list);
+		mv.addObject("list", list);
 		mv.setViewName("/customer/customerDetail");
 		return mv;
 	}
@@ -404,8 +404,7 @@ public class CustomerController {
 											   ,HttpServletRequest request
 											   ,RedirectAttributes redirectAttr) throws Exception{
 	       
-		   //공통코드사용
-		   List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
+		 
 		   //고객정보 update 전 원본데이터
 		   List<CustomerVO> CustomerList = customerService.selectDetailOne(cust_no);
 		   
@@ -415,6 +414,7 @@ public class CustomerController {
 		   
 		   		   
 		   String js_dt = CustomerList.get(0).getJs_dt();
+		   
 		   String stp_dt = "";
 		   String cncl_dt = "";
 		   
@@ -439,20 +439,33 @@ public class CustomerController {
 			||(CustomerList.get(0).getCust_ss_cd().equals("90") && cust_ss_cd.equals("10"))) {
 			   
 			   js_dt = date;
+			 
+		   // 정상에서 중지로 가는 경우, 중지일자 등록
+		   }else if(CustomerList.get(0).getCust_ss_cd().equals("10") && cust_ss_cd.equals("80")) {
+			   stp_dt = date;
+			  // js_dt = " ";
 			   
-		   // 중지에서 해지로 가는 경우, 핸드폰번호와 이메일 삭제
+			// 중지에서 중지
+		   }else if(CustomerList.get(0).getCust_ss_cd().equals("80") && cust_ss_cd.equals("80")) {
+			   stp_dt = CustomerList.get(0).getStp_dt();
+			  
+			   
+			// 중지에서 해지로 가는 경우, 핸드폰번호와 이메일 삭제
 		   }else if(CustomerList.get(0).getCust_ss_cd().equals("80") && cust_ss_cd.equals("90")){
 			   log.info("고객상태가 해지되었습니다. 핸드폰번호와 이메일 정보를 삭제합니다.");
 			   
 			   mbl_no = " ";
 			   email = "";
 			   cncl_dt = date;
-		   // 정상에서 중지로 가는 경우, 중지일자 등록
-		   }else if(CustomerList.get(0).getCust_ss_cd().equals("10") && cust_ss_cd.equals("80")) {
-			   stp_dt = date;
-			  // js_dt = " ";
-		   }
+			   stp_dt = CustomerList.get(0).getStp_dt();
+			// 해지->해지
+		   }else if(CustomerList.get(0).getCust_ss_cd().equals("80") && cust_ss_cd.equals("80")) {
+			   cncl_dt = CustomerList.get(0).getCncl_dt();
+			   stp_dt = CustomerList.get(0).getStp_dt();
 			   
+			   
+			
+		   }
 
 		   CustomerHistoryVO copyHistoryVO = new CustomerHistoryVO();
 		   copyHistoryVO.setCust_no(cust_no);
@@ -563,8 +576,7 @@ public class CustomerController {
 					throw e;
 		      }
 
-			      
-		      mv.addObject("commCd", listcd);
+
 		      mv.setViewName("/customer/customerDetail");
 				
 			return mv;

@@ -28,23 +28,22 @@
 		        <div class="firtBox">
 		           <table class="th" style="margin-top: 3px;">
 					  <tr>
-					    <td class="th-0lax">매장
-		                            <input type="text" id="partnerSearchInputCd" readonly>
-		                            <input type="text" id="partnerSearchInputName" autofocus tabindex="1">
-		                            <button type="button" onclick="openStore()">
-										<!-- <img src="/resources/images/prtBtn.PNG" alt="btnImages"  id="prtSearchBtnImg" > -->
-										<i class="far fa-newspaper"></i>
-									</button>
+					    <td class="th-0lax">매장</td>
+                        <td class="th-0lax">
+                        	<input type="text" id="partnerSearchInputCd" readonly>
+                      		<input type="text" id="partnerSearchInputName" autofocus tabindex="1">
+                       		<button type="button" onclick="openStore()">
+								<i class="far fa-newspaper"></i>
+							</button>
 					    </td>
-					    <td class="th-0lax">고객번호
-					    	<input type="text" id="customSearchInputNo"  value= "" tabindex="2">
-					    	
-	                            <button type="button" style="margin-left: -7px;" onclick="openCustom()">
-									<i class="fas fa-search"></i>
-									<!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" > -->
-								</button>
-							
-                            <input type="text" id="customSearchInputName" readonly>
+					    <td class="th-0lax">고객번호</td>
+					   	<td class="th-0lax">
+					   		<input type="text" id="customSearchInputNo"  value= "" tabindex="2">
+                            <button type="button" style="margin-left: -7px; width: 21px;" onclick="openCustom()">
+								<i class="fas fa-search"></i>
+								<!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages"  id="custSearchBtn"" > -->
+							</button>
+                         	<input type="text" id="customSearchInputName" readonly>
 					    </td>
 					    <td class="th-0lax">
 					    <c:if test="${member != null}">
@@ -63,14 +62,16 @@
 					  </tr>
 					  <tr>
 					 
-					    <td class="th-0lax"><span class="required">고객상태</span>
+					    <td class="th-0lax"><span class="required">고객상태</span></td>
+					    <td class="th-0lax" colspan="1">
 					    	<input type="radio" id="allStatus" name="status" value="" checked tabindex="3">전체
                             <input type="radio" id="nomalStatus" name="status" value="${custSsCd[0].dtl_cd }" tabindex="4" >정상
                             <input type="radio" id="stopStatus" name="status" value="${custSsCd[1].dtl_cd }" tabindex="5" >중지
                             <input type="radio" id="doneStatus" name="status" value="${custSsCd[2].dtl_cd }" tabindex="6" >해지
 					  
 					    </td>
-					    <td class="th-0lax" ><span class="required">가입날짜</span>
+					    <td class="th-0lax" ><span class="required">가입날짜</span></td>
+					    <td class="th-0lax">
 					    	 <input type="text" name="fromDate" id="fromDate" value="" tabindex="7">
 		                     <input type="text"  name="toDate" id="toDate" value= "" tabindex="8">
 					    </td>
@@ -85,7 +86,7 @@
 		                <thead>
 		                    <tr>
 		                        <th class="tg-0pky" style="width: 204px;">고객번호</th>
-		                        <th class="tg-0pky" style="width: 132px;">고객이름</th>
+		                        <th class="tg-0pky" style="width: 163px;">고객이름</th>
 		                        <th class="tg-0pky">휴대폰번호</th>
 		                        <th class="tg-0pky">고객상태</th>
 		                        <th class="tg-0pky" >가입일자</th>
