@@ -34,7 +34,7 @@ body{
     border-collapse: collapse;
     border-spacing: 0;
     margin-left: 44px;
-    width: 80%;
+    width: 97%;
     height:100px;
     margin-top: 14px;
     
@@ -129,4 +129,8 @@ aside{
     float: right;
     width: 64px;
     margin-left: 8px;
+}
+.scrolltable {
+  display: block;
+  overflow: auto;
 }
