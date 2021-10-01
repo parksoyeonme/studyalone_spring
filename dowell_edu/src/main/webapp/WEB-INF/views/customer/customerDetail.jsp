@@ -382,28 +382,34 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		    var mbl_no_middle = $("#mbl_no_middle").val();
 		    var mbl_no_end = $("#mbl_no_end").val();
 		    var mbl_no = mbl_no_first + mbl_no_middle + mbl_no_end;
+		
+
+		    //활성화
+			if(mbl_no != '${list[0].mbl_no}'){
+				$('#mblcheck').val(0);
+				$("#mblcheck").attr("disabled",false);
+			
+			
+			}
+		    if((mbl_no_first == '010') ||(mbl_no_first == '017')||(mbl_no_first == '011')||(mbl_no_first == '018')){
+		    	
+		    	alert("010, 017, 011, 018은 사용 할 수 없습니다.");
+		    	mbl_no_first.focuse();
+		    }
 		    
-		/*   //핸드폰중복 0:활성화 1: 비활성화
-	   	 	if($('#mblcheck').val() == '0'){
-	            $("#mblcheck").attr("disabled",false);
-	        }
-	    	if($('#mblcheck').val() == '1'){
-	              $("#mblcheck").attr("disabled",true);
-	        }  */
-		    
-		if(mbl_no != '${list[0].mbl_no}'){
-			$('#mblcheck').val(0);
-			$("#mblcheck").attr("disabled",false);
-			//$("#mblcheck").prop("disabled",true);
-		}else{
-			$('#mblcheck').val(1);
-			$("#mblcheck").attr("disabled",true);
-		//	$("#mblcheck").prop("disabled",false);
-		}
+			if(mbl_no == '00000000000'){
+				alert("해당 번호는 사용 할 수 없습니다.");
+				mbl_no_first.focuse();
+			}
+			else{
+				$('#mblcheck').val(1);
+				$("#mblcheck").attr("disabled",true);
+			}
 				
 			
 	});
-		//휴대폰중복체크
+	
+	//휴대폰중복체크
 	function mbl_check(){
 		var cust_no = $("#cust_no").val();
 	    var mbl_no_first = $("#mbl_no_first").val();
@@ -491,7 +497,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	//숫자만 체크
 	function SetNum(obj) {
 	 
-	 if ('010'||'011'||'019'||'017'||(event.keyCode <= 27) || (event.keyCode >= 33 && event.keyCode <= 46) 
+	 if ((event.keyCode <= 27) || (event.keyCode >= 33 && event.keyCode <= 46) 
 		|| (event.keyCode >= 91 && event.keyCode <= 93) || (event.keyCode >= 112 && event.keyCode <= 145)) {
 	  return false;
 	 }
