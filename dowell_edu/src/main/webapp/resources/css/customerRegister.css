@@ -95,7 +95,9 @@
 #brdy_dt{
     width: 121px;
     margin-left: 28px;
-    background-color: #f0e9e9;
+    background-color: #f3f3f3;
+    border: 1px solid gray;
+    
 }
 #sexF{
     margin-left: 61px;
@@ -111,5 +113,29 @@
 #mrrg_dt{
     width: 117px;
     margin-left: 53px;
-    background-color: #f0e9e9;
+    background-color: #f3f3f3;
+    border: 1px solid gray;
+   
+}
+#zip_cd{
+	width: 63px;
+	margin-left: 52px;
+	background-color: #f3f3f3;
+    border: 1px solid gray;
+}
+#addr{
+	width: 235px;
+	background-color: #f3f3f3;
+    border: 1px solid gray;
+}
+#partnerSearchInputCd{
+	width: 56px;
+	margin-left: 53px;
+	background-color: #f3f3f3;
+    border: 1px solid gray;
+}
+#partnerSearchInputName{
+	width: 78px;
+	background-color: #f3f3f3;
+    border: 1px solid gray;
 }

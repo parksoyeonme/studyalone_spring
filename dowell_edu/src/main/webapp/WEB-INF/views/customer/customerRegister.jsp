@@ -100,12 +100,12 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                       <tr>
 									<td class="tg-0lax" colspan='2'>
 		                               <p style="float:left; margin-top: 6px; margin-left: 46px;">주소</p>
-		                               <input type="text" id="zip_cd" name="zip_cd" style="width: 63px; margin-left: 52px; background-color: #f0e9e9;">
+		                               <input type="text" id="zip_cd" name="zip_cd">
 		                               <button type="button" style="width: 33px;">
 		                               		<i class="fas fa-search"></i>
 		                                   <!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;"> -->
 		                               </button>
-		                               <input type="text" id="addr" name="addr" style="width: 235px; background-color: #f0e9e9;">
+		                               <input type="text" id="addr" name="addr">
 		                               <input type="text" id="addr_dtl" name="addr_dtl" placeholder="직접입력">
 		                           </td>
 		                       </tr>
@@ -116,12 +116,12 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                            </td>
 		                           <td class="tg-0lax">
 		                               <p class="required" style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
-		                               <input type="text" style="width: 56px; margin-left: 53px; background-color: #f0e9e9;" id="partnerSearchInputCd" name="partnerSearchInputCd">
+		                               <input type="text"  id="partnerSearchInputCd" name="partnerSearchInputCd">
 		                               <button type="button" style="width: 33px;" onclick="prtBtn()">
 		                               		<i class="fas fa-search"></i>
 		                                   <!-- <img src="/resources/images/search_btn.jpeg" alt="btnImages" style="width: 16px;"> -->
 		                               </button>
-		                               <input type="text" style="width: 78px; background-color: #f0e9e9;" id="partnerSearchInputName" name="jn_prt_cd">
+		                               <input type="text"  id="partnerSearchInputName" name="jn_prt_cd">
 		                           </td>
 		                       </tr>
 		                   </tbody>

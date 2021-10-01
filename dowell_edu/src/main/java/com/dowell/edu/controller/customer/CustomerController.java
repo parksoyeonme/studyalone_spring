@@ -72,7 +72,7 @@ public class CustomerController {
 		List<CodeDetailVO> listcd = customerService.selectcommCd(codeDetailVo);
 	
 		
-			List<CustomerVO> list = customerService.selectDetailOne(cust_no);
+		List<CustomerVO> list = customerService.selectDetailOne(cust_no);
 		
 		mv.addObject("commCd", listcd);
 		mv.addObject("list", list);
@@ -454,7 +454,7 @@ public class CustomerController {
 		   }else if(CustomerList.get(0).getCust_ss_cd().equals("80") && cust_ss_cd.equals("90")){
 			   log.info("고객상태가 해지되었습니다. 핸드폰번호와 이메일 정보를 삭제합니다.");
 			   
-			   mbl_no = " ";
+			   mbl_no = "00000000000";
 			   email = "";
 			   cncl_dt = date;
 			   stp_dt = CustomerList.get(0).getStp_dt();

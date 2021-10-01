@@ -47,7 +47,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 					    <tr>
 					      <td class="tg-0lax" >고객번호</td>
 					      <td class="tg-0lax">
-					        <input type="text" value="${list[0].cust_no}" id="customSearchInputNo" name="cust_no">
+					        <input type="text" value="${list[0].cust_no}" id="customSearchInputNo" name="cust_no" autofocus>
 					        <button class="custSearchBtn" onclick="openCustom()">
 					          <i class="fas fa-search"></i>
 					        </button>
@@ -114,8 +114,10 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 							</td>
 						  	<td class="tg-0lax required">직업코드</td>
 						  	<td class="tg-0lax">
-						    	<select id="poc_cd" name="poc_cd" style="width: 144px" > 
-						     		<option value="" disabled selected>선택</option> 
+						    	<select id="poc_cd" name="poc_cd" style="width: 144px">
+						    		<c:if test="${list[0].cust_no == null}"> 
+						     			<option value="" disabled selected>선택</option>
+						     		</c:if>
 					     			<c:forEach var="commCd" items="${commCd}" begin="3" end="10">
 						     			<option value="${commCd.dtl_cd}"
 						     			<c:if test ="${list[0].poc_cd eq commCd.dtl_cd}">selected="selected"</c:if>>${commCd.dtl_cd_nm}</option> 
@@ -129,7 +131,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						    	<input type="text" name="mbl_no_first" id="mbl_no_first" value="${list[0].mbl_no_first}" maxlength="3" onKeyup="SetNum(this)" style="width: 90px;">
 						    	<input type="text" name="mbl_no_middle" id="mbl_no_middle" value="${list[0].mbl_no_middle}" maxlength="4" onKeyup="SetNum(this)" style="width: 90px;">
 						    	<input type="text" name="mbl_no_end" id="mbl_no_end" value="${list[0].mbl_no_end}" maxlength="4" onKeyup="SetNum(this)" style="width: 90px;">
-						    	<button type="button" id="mblcheck" onclick="mbl_check()" value="0">변경</button>
+						    	<button type="button" id="mblcheck" onclick="mbl_check()" value="1">변경</button>
 						  	</td>
 							<td class="tg-0lax" ></td>
 							<td class="tg-0lax" colspan="1"></td>
@@ -141,7 +143,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						<tr style=" border-left: 1px solid #cec9c6; border-right:1px solid #cec9c6;">
 							<td class="tg-0lax">우편물수령</td>
 						  	<td class="tg-0lax">
-						    	<input type="radio" name="psmt_grc_cd" value="${commCd[11].dtl_cd}" id="home" checked 
+						    	<input type="radio" name="psmt_grc_cd" value="${commCd[11].dtl_cd}" id="home" 
 								<c:if test ="${list[0].psmt_grc_cd eq commCd[11].dtl_cd}">checked="checked"</c:if>>
 								<label for="home">${commCd[11].dtl_cd_nm}</label>
 								<input type="radio" name="psmt_grc_cd" value="${commCd[12].dtl_cd}" id="office"
@@ -205,7 +207,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						</tr>
 						<tr style="border-left: 1px solid #cec9c6; border-right: 1px solid #cec9c6; border-bottom: 1px solid #cec9c6;">
 						  	<td class="tg-0lax" colspan='5' style="text-align: right;" >
-						    	<p style="margin-right: 40px">최초가입일자</p>
+						    	<p>최초가입일자</p>
 						  	</td>
 						  	<td class="tg-0lax">
 						    	<input type="text" name="fst_js_dt" id="fst_js_dt" value="${list[0].fst_js_dt}" placeholder="YYYY-MM-DD" disabled>
@@ -225,7 +227,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						  	</td>
 						  	<td class="tg-0lax">최종구매일</td>
 						  	<td class="tg-0lax">
-						    	<input type="text" name="" id="" value="${list[0].tot_pur_dt}"  style="text-align: right;" placeholder="0" disabled>
+						    	<input type="text" name="" id="" value="${list[0].tot_pur_dt}"  style="text-align: left;" placeholder="0" disabled>
 						  	</td>
 						</tr>
 						<tr>
@@ -266,7 +268,9 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
         			</tbody>
       			</table>
 				<div class="btndiv">
+				
 					<button type="button" id="detailChgBtn">저장</button>
+				
 				</div>
      		</form>
     	</div>
@@ -279,21 +283,29 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
      </aside>
 </body>
 <script>
-	
-	console.log("${list[0]}");
-	
+
+		
 	$(document).ready(function(){
 		 
 	    /*고객상태변경 정상 -> 중지
 	  			   정상 <- 중지 -> 해지
 	  			   정상 <- 해지
 	    */
-	        if($("input[name=cust_ss_cd]:checked").val() == ${commCd[0].dtl_cd}){
-	            $("#terminate").attr("disabled",true);
-	        }
-	    	if($("input[name=cust_ss_cd]:checked").val() == ${commCd[2].dtl_cd}){
-	              $("#stop").attr("disabled",true);
-	        }
+        if($("input[name=cust_ss_cd]:checked").val() == ${commCd[0].dtl_cd}){
+            $("#terminate").attr("disabled",true);
+        }
+    	if($("input[name=cust_ss_cd]:checked").val() == ${commCd[2].dtl_cd}){
+              $("#stop").attr("disabled",true);
+        }
+    	
+    	//핸드폰중복 0:활성화 1: 비활성화
+   	 	if($('#mblcheck').val() == '0'){
+            $("#mblcheck").attr("disabled",false);
+        }
+    	if($('#mblcheck').val() == '1'){
+              $("#mblcheck").attr("disabled",true);
+        } 
+	    
 	});
 
 
@@ -360,18 +372,40 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
        		"childStorePopForm", "width=650, height=650, resizable = no, scrollbars = no");    
       }
 	
-  	<!-- 휴대폰번호 중복체크 -->
-  	
+	<!-- 휴대폰번호 중복체크 -->
+	
+		
 	//휴대폰 번호 keyup 이벤트 : 한번이라도 휴대폰번호 수정시 다시 중복검사
 	
-    $('#mbl_no_first, #mbl_no_middle, #mbl_no_end').keyup(function (mblcheck) {
-    	
-   			$('#mblcheck').val(0);
-   		
+	$('#mbl_no_first, #mbl_no_middle, #mbl_no_end').keyup(function (mblcheck) {
+		 var mbl_no_first = $("#mbl_no_first").val();
+		    var mbl_no_middle = $("#mbl_no_middle").val();
+		    var mbl_no_end = $("#mbl_no_end").val();
+		    var mbl_no = mbl_no_first + mbl_no_middle + mbl_no_end;
+		    
+		/*   //핸드폰중복 0:활성화 1: 비활성화
+	   	 	if($('#mblcheck').val() == '0'){
+	            $("#mblcheck").attr("disabled",false);
+	        }
+	    	if($('#mblcheck').val() == '1'){
+	              $("#mblcheck").attr("disabled",true);
+	        }  */
+		    
+		if(mbl_no != '${list[0].mbl_no}'){
+			$('#mblcheck').val(0);
+			$("#mblcheck").attr("disabled",false);
+			//$("#mblcheck").prop("disabled",true);
+		}else{
+			$('#mblcheck').val(1);
+			$("#mblcheck").attr("disabled",true);
+		//	$("#mblcheck").prop("disabled",false);
+		}
+				
+			
 	});
-  	//휴대폰중복체크
-    function mbl_check(){
-    	var cust_no = $("#cust_no").val();
+		//휴대폰중복체크
+	function mbl_check(){
+		var cust_no = $("#cust_no").val();
 	    var mbl_no_first = $("#mbl_no_first").val();
 	    var mbl_no_middle = $("#mbl_no_middle").val();
 	    var mbl_no_end = $("#mbl_no_end").val();
@@ -405,9 +439,9 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	            }
 	        }
 	    })
-    
-	} 
 	
+	} 
+  	
 	<!-- 이메일 중복체크 -->
  	//이메일 중복체크 - keyup이벤트
 	$(function(){
@@ -457,7 +491,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	//숫자만 체크
 	function SetNum(obj) {
 	 
-	 if ((event.keyCode <= 27) || (event.keyCode >= 33 && event.keyCode <= 46) 
+	 if ('010'||'011'||'019'||'017'||(event.keyCode <= 27) || (event.keyCode >= 33 && event.keyCode <= 46) 
 		|| (event.keyCode >= 91 && event.keyCode <= 93) || (event.keyCode >= 112 && event.keyCode <= 145)) {
 	  return false;
 	 }
@@ -512,6 +546,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	 $("#detailChgBtn").on("click", function(){
 		 //var cncl_cust_ss_cd = $("#cncl_cust_ss_cd").val();
 		 //var cncl =$('input[id="terminate"]').is(':checked')
+		 var search_cust_no = $("#customSearchInputNo").val();
+		 var cust_no = $("#cust_no").val();
 		 var cust_nm = $("#cust_nm").val();
 		 var brdy_dt= $("#brdy_dt").val();
 		 var mbl_no_fist = $("#mbl_no_first").val();
@@ -526,8 +562,13 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		 var email_first= $("#email_first").val();
 		 var emailcheck= $("#emailcheck").val();
 		 var cncl_cust_ss_cd = '${list[0].cust_ss_cd}';
+		console.log(cust_nm);
 			
-			
+		 	if(search_cust_no != cust_no){
+		 		alert("검색결과가 올바르지 않습니다. 다시 검색해주세요.")
+		 		return false;
+		 	}
+		 	
 			if(cust_nm == "" || cust_nm.length < 2  ){
 				alert("이름을 입력해주세요.");
 				$("#cust_nm").focus();
@@ -555,12 +596,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				$("#mbl_no_first").focus();
 				return false;
 			}
-			if( mbl_no_fist == '010'
-				|| mbl_no_fist == '011' || mbl_no_fist == '017'|| mbl_no_fist == '019'){
-			alert("010, 011, 017,019는 사용하실 수 없는 번호입니다.");
-			$("#mbl_no_first").focus();
-			return false;
-			}
+			
 			if( mbl_no_middle == "" ||  mbl_no_middle.length <= 2){
 				alert("핸드폰번호(가운데3-4자리)를 입력해주세요.");
 				$("#mbl_no_middle").focus();
@@ -604,11 +640,10 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				return false;
 			}
 			
-			
-			/* else {
-				alert("수정합니다.")
-				$("#custUpdateFrm").submit();
-			} */
+			if(noUpdate()){
+		 		alert("변경사항이 없습니다.")
+		 		return false;
+		 	}
 			
 			  $.ajax({
 		             url : "${pageContext.request.contextPath}/customer/updatecustomerDetail",
@@ -619,17 +654,89 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		             success : function(data){
 		            	 
 							alert("회원정보수정 성공했습니다.")
-						
-							location.href = "${pageContext.request.contextPath}/customer/CustomerDetail";
-		            	 
+							window.location.reload();
+							location.href = "${pageContext.request.contextPath}/customer/customerDetail?cust_no=" + data.list[0].cust_no;
 		             },
 		             error: function(xhr, status, error){
-		                 alert("회정보수정 실패했습니다." + error);
+		                 alert("회원정보수정 실패했습니다." + error);
 		             }
 		            
 		         });
+			  
+			  
+			  
 		});
 
-	 
+	 //변경이력있는지 확인
+		function noUpdate(){
+    	 
+    	 if(`${list[0].cust_nm}` != $("#cust_nm").val()){
+    		 return false;
+    	 }
+		
+    	 if(`${list[0].brdy_dt}` != $("#brdy_dt").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].sex_cd}` != $('input[name="sex_cd"]:checked').val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].scal_yn}` != $('input[name="scal_yn"]:checked').val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].mrrg_dt}` != $("#mrrg_dt").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].poc_cd}` != $("#poc_cd option:selected").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].mbl_no_first}` != $("#mbl_no_first").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].mbl_no_middle}` != $("#mbl_no_middle").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].mbl_no_end}` != $("#mbl_no_end").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].psmt_grc_cd}` != $('input[name="psmt_grc_cd"]:checked').val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].email_start}` != $("#email_first").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].email_end}` != $("#email_end").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].zip_cd}` != $("#zip_cd").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].addr}` != $("#addr").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].addr_dtl}` != $("#addr_dtl").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].cust_ss_cd}` != $('input[name="cust_ss_cd"]:checked').val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].prt_nm}` != $("#partnerSearchInputCd").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].jn_prt_cd}` != $("#partnerSearchInputName").val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].email_rcv_yn}` != $('input[name="email_rcv_yn"]:checked').val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].sms_rcv_yn}` != $('input[name="sms_rcv_yn"]:checked').val()){
+    		 return false;
+    	 }
+    	 if(`${list[0].dm_rcv_yn}` != $('input[name="dm_rcv_yn"]:checked').val()){
+    		 return false;
+    	 }
+    	
+    		return true;
+    	 
+     }; 
 </script>
 </html>

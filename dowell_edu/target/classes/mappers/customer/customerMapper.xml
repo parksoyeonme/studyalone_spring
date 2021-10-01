@@ -253,7 +253,7 @@
 		                                           AND csmt.sex_cd = cddt.dtl_cd 		-- 고객관리의 셩별코드(sex_cd) 동일 코드상세의 세부코드(dtl_cd)
 		    ) aa
 		         WHERE aa.cust_no = #{cust_no}
-         ORDER BY chg_dt asc ,chg_seq asc
+         ORDER BY lst_upd_dt_time desc ,chg_seq asc
 	
 	</select>
 
@@ -368,17 +368,18 @@
 	<!-- 고객정보조회(수정update) 휴대폰 중복체크 -->
 	<select id="mblCheckDetail" resultType="Integer">
 		SELECT 					
-		   	 count(*) 				<!-- 휴대폰번호 -->
+		   	 count(*) 						<!-- 휴대폰번호 -->
 		   	
 		FROM
-		   	 cs_cust01_mt 			<!-- 고객관리 테이블  -->
+		   	 cs_cust01_mt 					<!-- 고객관리 테이블  -->
 		WHERE
-		   							<!-- 현재 조회한 고객 말고 다른 고객들이 이 핸드폰번호 가지고 있을 때 체크 -->
-		   	 mbl_no = #{mbl_no} 	<!-- 고객관리 테이블의 휴대폰번호 -->
+		   									<!-- 현재 조회한 고객 말고 다른 고객들이 이 핸드폰번호 가지고 있을 때 체크 -->
+		   	 mbl_no = #{mbl_no} 			<!-- 고객관리 테이블의 휴대폰번호 -->
+		   	 
 									
-	     	and   					<!-- 현재 조회한 고객이 갖고 있는 핸드폰번호 체크 -->
-		     <![CDATA[
-			     mbl_no <> (
+	     	and   							<!-- 현재 조회한 고객이 갖고 있는 핸드폰번호 체크 -->
+		     
+			     mbl_no <![CDATA[<> ]]> (
 					     	SELECT
 					     		MBL_NO
 					     	FROM 
@@ -386,7 +387,8 @@
 					     	WHERE
 					     		CUST_NO = #{cust_no}
 					     )
-		     ]]>
+			
+		   
 	     
 	    
 	</select>
@@ -402,8 +404,8 @@
 			EMAIL = #{email} 		<!-- 고객관리 테이블의 email -->
 									
 			AND						<!-- 현재 조회한 고객이 가지고 있는 이메일 체크 -->
-			<![CDATA[
-		     EMAIL <> (			
+			
+		     EMAIL <![CDATA[<>]]> (			
 				        SELECT
 				            EMAIL 					
 				        FROM
@@ -411,7 +413,7 @@
 				        WHERE
 				            CUST_NO = #{cust_no}
 				      )
-			]]>
+			
 
 	</select>
 	
@@ -447,16 +449,16 @@
 		    ,CUMT.MBL_NO 																<!-- 휴대폰번호 -->
 		    ,SUBSTR(CUMT.MBL_NO, 1,3) MBL_NO_FIRST										<!-- 휴대폰번호 앞 3자리 -->
 		    																			<!-- 휴대폰 11자리이상 가운데 4자리, 아닐시 3자리 -->
-		    <![CDATA[ 																	
+		     																	
 		    ,CASE 
-		        WHEN LENGTH(CUMT.MBL_NO) > 10 THEN SUBSTR(CUMT.MBL_NO,4,4)	
+		        WHEN LENGTH(CUMT.MBL_NO)<![CDATA[ > ]]>10 THEN SUBSTR(CUMT.MBL_NO,4,4)	
 		        ELSE SUBSTR(CUMT.MBL_NO, 4,3) 								
 		   	END MBL_NO_MIDDLE
 		    ,CASE
-		    	WHEN LENGTH(CUMT.MBL_NO) > 10 THEN SUBSTR(CUMT.MBL_NO,8,4) 
+		    	WHEN LENGTH(CUMT.MBL_NO)<![CDATA[ > ]]>10 THEN SUBSTR(CUMT.MBL_NO,8,4) 
 		        ELSE SUBSTR(CUMT.MBL_NO, 7,4)
 		    END MBL_NO_END
-		    ]]>																			<!-- 휴대폰 11자리이상 끝자리 4자리 -->
+		    																		<!-- 휴대폰 11자리이상 끝자리 4자리 -->
 		    ,CUMT.PSMT_GRC_CD 															<!-- 우편물수령코드 -->
 		    ,CUMT.EMAIL 																<!-- 이메일 -->
 		    ,SUBSTR(CUMT.EMAIL,1,INSTR(CUMT.EMAIL,'@',1,1)-1) EMAIL_START 				<!-- 이메일 ID부 -->
@@ -479,19 +481,31 @@
 		    ,TO_CHAR(TO_DATE(CUMT.CNCL_DT, 'YYYYMMDD'), 'YYYY-MM-DD') CNCL_DT 			<!-- 해지일자 -->
 		    ,(
 		        SELECT 																	<!-- 총구매금액 3자리 숫자로 끊어서 , 표시 -->
-		            TO_CHAR( SUM(TOT_SAL_AMT) , '999,999,999,999,999') 					<!-- 총구매금액 : TOT_PUR_AMT -->
+		            TO_CHAR(SUM
+		            			(
+							        CASE
+							            WHEN SAL_TP_CD = 'SAL' THEN TOT_SAL_AMT 
+							            WHEN SAL_TP_CD = 'RTN' THEN TOT_SAL_AMT *(- 1) 
+							        END
+							    ), 'FM999,999,999,999,999') 					<!-- 총구매금액 : TOT_PUR_AMT -->
 		        FROM
 		            CS_SAL01_MT
 		        WHERE 
-		        	CUST_NO = #{cust_no}
+		        	CUST_NO = CUMT.CUST_NO
 	    	 ) AS TOT_PUR_AMT
 	    	,(
 		        SELECT 																	<!-- 당월구매금액 3자리 숫자로 끊어서, 표시 -->
-		           TO_CHAR( SUM(TOT_SAL_AMT) , '999,999,999,999,999') 					<!-- 당월구매금액 : TOT_PUR_MM_AMT -->
+		            TO_CHAR(SUM
+		            			(
+							        CASE
+							            WHEN SAL_TP_CD = 'SAL' THEN TOT_SAL_AMT 
+							            WHEN SAL_TP_CD = 'RTN' THEN TOT_SAL_AMT *(- 1) 
+							        END
+							    ), 'FM999,999,999,999,999')					<!-- 당월구매금액 : TOT_PUR_MM_AMT -->
 		        FROM
 		            CS_SAL01_MT
 		        WHERE 
-		        	CUST_NO = #{cust_no}
+		        	CUST_NO = CUMT.CUST_NO
 		        	AND SUBSTR(SAL_DT, 1, 6) = TO_CHAR(SYSDATE, 'YYYYMM')
 		     ) AS TOT_PUR_MM_AMT
 		    ,(
@@ -500,8 +514,8 @@
 		        FROM
 		            CS_SAL01_MT
 		        WHERE
-		        	CUST_NO = #{cust_no}
-		        	AND SUBSTR(SAL_DT, 1, 6) = to_char(SYSDATE, 'YYYYMM')
+		        	CUST_NO = CUMT.CUST_NO
+		        	
 		     ) AS TOT_PUR_DT
 		FROM
 		    CS_CUST01_MT CUMT 															<!-- 고객관리table 별칭 CUMT 매장코드(JN_PRT_CD) 동일-->
@@ -536,9 +550,8 @@
 						WHEN CUST_SS_CD ='10' THEN TO_CHAR(TO_DATE(#{js_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 		<!-- 고객상태가 10일경우 가입일자(JS_DT)는 20000101형태 -->
 						ELSE #{js_dt} 																			<!-- 아닐시 공백 -->
 					END 
-			,STP_DT = TO_CHAR(TO_DATE(#{stp_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 
-															<!-- 중지일자 -->
-			,cncl_dt = 	 	TO_CHAR(TO_DATE(#{cncl_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')		<!-- 해지일자 -->
+			,STP_DT = TO_CHAR(TO_DATE(#{stp_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 			<!-- 중지일자 -->
+			,cncl_dt = TO_CHAR(TO_DATE(#{cncl_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')			<!-- 해지일자 -->
 			,LST_UPD_DT = SYSDATE 														<!-- 최종수정일자 -->
 			,LST_UPD_ID = #{user_id} 													<!-- 최종수정자 -->
 	 WHERE CUST_NO = #{cust_no} 														<!-- 조건절: 고객번호 -->

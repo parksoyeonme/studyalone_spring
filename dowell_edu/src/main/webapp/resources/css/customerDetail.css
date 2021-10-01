@@ -139,3 +139,9 @@
 #office{
 	margin-left: 33px;
 }
+#zip_cd , #partnerSearchInputCd, #partnerSearchInputName
+,#addr, #addr_dtl{
+	background-color: #f3f3f3;;
+    border: 1px solid gray;
+}
+
