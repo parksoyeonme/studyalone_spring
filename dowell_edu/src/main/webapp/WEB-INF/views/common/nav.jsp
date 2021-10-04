@@ -212,6 +212,16 @@
 					</a>
 				</c:if>
 			</li>
+			<li >
+				
+				
+					<a href= "${pageContext.request.contextPath}/sales/customerSalesList">
+						<i class="fa fa-gift"></i>
+						<strong>고객판매관리</strong>
+						<small >판매조회</small>
+					</a>
+				
+			</li>
 			<li>
 				<c:if test="${member != null}">
 					<strong>
