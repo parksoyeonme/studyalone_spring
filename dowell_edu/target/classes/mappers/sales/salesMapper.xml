@@ -79,7 +79,9 @@
 	FROM
 	     MA_CODE_DT
 	WHERE
-		 CODE_CD in('SAL_TP_CD')
+		 CODE_CD in('SAL_TP_CD'
+		 			,'CRD_CO_CD')
+	ORDER BY DTL_CD ASC
 	
 	</select>
 </mapper>

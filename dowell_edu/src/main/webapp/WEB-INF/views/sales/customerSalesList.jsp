@@ -88,7 +88,7 @@
                		</tbody>
              	</table>
             </div>
-            <div class="totaldiv" style="width:82%; height:58px;">
+            <!-- <div class="totaldiv" style="width:82%; height:58px;">
 				<table class="tk">
 					<thead>
 		            	<tr>
@@ -97,11 +97,11 @@
 		              		<td class="tk-0pky">판매금액</td>
 		              		<td class="tk-0pky">현금 </td>
 		              		<td class="tk-0pky">카드</td>
-		              		<td class="tk-0lax">포인트</td>
+		              		<td class="tk-0pky">포인트</td>
 		            	</tr>
 		          	</thead>
 		        </table>
-			</div>
+			</div> -->
      	</div>
     </section>
   	<aside>
@@ -203,6 +203,12 @@ $(function () {
 	        	"toDate" : toDate
 	         },
 	         success : function(data){
+	        	 var tot_sal_qty = 0;
+	        	 var tot_sal_amt = 0;
+	        	 var csh_stlm_amt = 0;
+	        	 var crd_stlm_amt = 0;
+	        	 var pnt_stlm_amt = 0;
+	        	 
 	        	 var tbody = $('#salseListTBody');
 					tbody.empty();
 					console.log(data);
@@ -228,7 +234,23 @@ $(function () {
 			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].user_nm +'</td>';
 			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].lst_upd_dt_time +'</td>';
 			        		 tbodyHtml += '</tr>';
+			        		 
+			        		 tot_sal_qty += data.list[i].tot_sal_qty;
+			        		 tot_sal_amt += data.list[i].tot_sal_amt;
+				        	 csh_stlm_amt += data.list[i].csh_stlm_amt;
+				        	 crd_stlm_amt += data.list[i].crd_stlm_amt;
+				        	 pnt_stlm_amt += data.list[i].pnt_stlm_amt;
 			        	 }
+			        	 console.log("$$$$$$$$$$$ =" + tot_sal_qty);
+			        	 console.log("$$$$$$$$$$$ =" + tot_sal_amt);
+			        	 console.log("$$$$$$$$$$$ =" + csh_stlm_amt);
+			        	 console.log("$$$$$$$$$$$ =" + crd_stlm_amt);
+			        	 console.log("$$$$$$$$$$$ =" + pnt_stlm_amt);
+			        	 	tbodyHtml += ' <tr>';
+			        	 	tbodyHtml += '<td class="tk-0pky" colspan="5">합계</td>'
+			        	 	tbodyHtml += '<td class="tk-0pky" colspan="7">판매수량' + tot_sal_qty + '/판매금액' + tot_sal_amt + '/현금' + csh_stlm_amt + '/카드' + crd_stlm_amt + '/포인트' + pnt_stlm_amt + '</td>'
+			        	 	tbodyHtml += '</tr>';
+			        	 	
 					 }
 		        	 tbody.append(tbodyHtml);
 		        	 
@@ -242,25 +264,18 @@ $(function () {
 	
 	//salesDetail
 	//고객정보조회(상세버튼)
-	  /* 	function salesDetail(cust_no){
+	   	function salesDetail(cust_no){
 	  		var cust_no = cust_no;
 	  		console.log("#####상세버튼클리후넘긴디아" + cust_no);
 	  		
-	  		$.ajax({
-	  	        
-	  	        type:"post",
-	  	        url:"${pageContext.request.contextPath}/sales/customerDetail",
-		  	    data : {
-			        "cust_no" : cust_no
-			       },
-	  	        success:function(data){
-	  	            location.href = "${pageContext.request.contextPath}/customer/customerDetail?cust_no=" + cust_no;
-	  	           
-	  	        }                
-	  	    });
+	  		 window.name = "HistoryPopForm";
+		  	 var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory?cust_no=" + cust_no;
+		  	 window.open(custHistoryUrl,
+		              "childForm", "width=780, height=702, resizable = no, scrollbars = no");
 	  		
-	  		//location.href = "${pageContext.request.contextPath}/customerDetail?cust_no=" + cust_no;
-		} */
+	  
+		} 
+	
 	
 </script>
 </html>

@@ -44,17 +44,24 @@ public class SalesController {
 		List<CodeDetailVO> list = salesService.selectSaltpCd(codeDetailVo);
 		
 		
-		mv.addObject("SaltpCd", list);
+		mv.addObject("CommonCd", list);
 		mv.setViewName("/sales/customerSalesRegister");
 		return mv;
 	}
 	//매장재고조회 팝업 view
-		@RequestMapping(value="/partnerInventoryInquiry")
-		public ModelAndView partnerInventoryInquiry(ModelAndView mv) throws Exception{
-			
-			mv.setViewName("/sales/partnerInventoryInquiry");
-			return mv;
-		}
+	@RequestMapping(value="/partnerInventoryInquiry")
+	public ModelAndView partnerInventoryInquiry(ModelAndView mv) throws Exception{
+		
+		mv.setViewName("/sales/partnerInventoryInquiry");
+		return mv;
+	}
+	//매장실적조회팝업 view
+	@RequestMapping(value="/salesHistory")
+	public ModelAndView salesHistory(ModelAndView mv) throws Exception{
+		
+		mv.setViewName("/sales/salesHistory");
+		return mv;
+	}
 		
 		
 	//salesAllSearchList	

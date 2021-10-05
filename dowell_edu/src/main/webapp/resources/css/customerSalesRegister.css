@@ -179,7 +179,11 @@ body {
     }
     #adddeletBtn{
         width: 103px;
-        margin-left: 76%;  
+        margin-left: 89%;
+        margin-top: 8px;  
+    }
+    #addRow, #delRow{
+    width: 28px
     }
     .closeDev{
     border: 1px solid rgb(179, 171, 171);

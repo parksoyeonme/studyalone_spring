@@ -52,6 +52,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                    <th class="tg-0lax">상품코드</th>
 		                    <th class="tg-0lax">상품명</th>
 		                    <th class="tg-0lax">재고수량</th>
+		                    <th class="tg-0lax">소비자가</th>
 	                    </tr>
 	                </thead>
 	                <tbody id="searchTbody">

@@ -46,8 +46,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
                     <td class="th-0lax">
                         <select id="" name="" style="width: 159px;"> 
                             <option value="" disabled selected >전체</option> 
-                            <option value="${SaltpCd[1].dtl_cd}">${SaltpCd[1].dtl_cd_nm}</option>
-                            <option disabled value="${SaltpCd[0].dtl_cd}">${SaltpCd[0].dtl_cd_nm}</option>
+                            <option value="${CommonCd[5].dtl_cd}">${CommonCd[5].dtl_cd_nm}</option>
+                            <option disabled value="${CommonCd[4].dtl_cd}">${CommonCd[4].dtl_cd_nm}</option>
                         </select>
                     </td>
                     <td class="th-0lax">
@@ -101,10 +101,9 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
                     <td class="th-0lax">
                         <select id="" name="" style="width: 159px;"> 
                             <option value="" disabled selected >선택</option> 
-                            <option value="">가</option>
-                            <option value="">나</option>
-                            <option value="">다</option>
-                            <option value="">라</option>
+                            <c:forEach var="CommonCd" items="${CommonCd}" begin="0" end="3">
+                            	<option value="${CommonCd.dtl_cd}">${CommonCd.dtl_cd_nm}</option> 
+                            </c:forEach>
                         </select>
                     </td>
                     <td class="th-0lax">카드번호</td>
@@ -125,11 +124,14 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
         </div>
         <!--버튼 누르면 테이블 행 추가 삭제-->
         <div id="adddeletBtn">
-            <input type='button' value='행추가' id="addRow" onclick='addRow()'/>
-            <input type='button' value='행삭제' onclick='delRow()'/>
-           
+            <button type='button' value='' id="addRow" onclick='addRow()'>
+            	<i class="fas fa-plus"></i>
+            </button>
+            <button type='button' value='' id="delRow" onclick='delRow()'>
+            	<i class="fas fa-minus"></i>
+            </button>
         </div>
-        <div style="margin-top: 15px; width:95%; height:301px; overflow-y:auto;overflow-x:hidden;">
+        <div style="width:95%; height:301px; overflow-y:auto;overflow-x:hidden;">
             <table class="tg" id="salTable">
                 <thead>
                     <tr class="title">
