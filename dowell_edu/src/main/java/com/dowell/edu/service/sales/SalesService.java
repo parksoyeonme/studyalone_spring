@@ -1,6 +1,16 @@
 package com.dowell.edu.service.sales;
 
+import java.util.List;
+import java.util.Map;
+
+import com.dowell.edu.vo.common.CodeDetailVO;
+import com.dowell.edu.vo.sales.SalesMasterVO;
+
 public interface SalesService {
+
+	List<SalesMasterVO> selectslaesAllSearchList(Map<String, Object> param)throws Exception;
+
+	List<CodeDetailVO> selectSaltpCd(CodeDetailVO codeDetailVo) throws Exception;
 
 	/*
 	 * //고객조회(팝업)

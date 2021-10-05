@@ -1,8 +1,19 @@
+<%@page import="com.dowell.edu.vo.member.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+ //Object obj = session.getAttribute("LOGIN");
+MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 정보를 받아온다.
+ 
+ if(member == null){
+  System.out.println("로그인 안한 사용자");
+ }else{
+  System.out.println("로그인한 사용자");
+ }
+%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +32,8 @@
             <div class="container">
                 <div style="float: left; margin-left: 5%;">
                     <span>매장</span>
-                    <input type="text" name="prt_nm" id="prt_nm" value="" onkeypress="show_enter(event)">
+                    <input type="text" name="prt_nm" id="prt_nm" value="${member.prt_nm}" readonly onkeypress="show_enter(event)">
+                    <input type="hidden" value="${member.prt_cd}">
                     <br>
                     <div style="margin-top: 8px;">
                         <span>상품(코드+명)</span>

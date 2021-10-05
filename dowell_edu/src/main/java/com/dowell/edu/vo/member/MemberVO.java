@@ -27,4 +27,5 @@ public class MemberVO {
 	private Date lst_upd_dt;
 	private String lst_upd_id;
 
+	private String prt_nm;
 }

@@ -1,8 +1,19 @@
+<%@page import="com.dowell.edu.vo.member.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+ //Object obj = session.getAttribute("LOGIN");
+MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 정보를 받아온다.
+ 
+ if(member == null){
+  System.out.println("로그인 안한 사용자");
+ }else{
+  System.out.println("로그인한 사용자");
+ }
+%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,17 +40,14 @@
                 <tr>
                     <td class="th-0lax required">판매일자</td>
                     <td class="th-0lax">
-                        <input type="text" name="fromDate" id="fromDate">
-                        <input type="text" name="toDate" id="toDate">
+                    	<input type="date" id="now_date" readonly>
                     </td>
                     <td class="th-0lax required">판매구분</td>
                     <td class="th-0lax">
                         <select id="" name="" style="width: 159px;"> 
-                            <option value="" disabled selected >선택</option> 
-                            <option value="">가</option>
-                            <option value="">나</option>
-                            <option value="">다</option>
-                            <option value="">라</option>
+                            <option value="" disabled selected >전체</option> 
+                            <option value="${SaltpCd[1].dtl_cd}">${SaltpCd[1].dtl_cd_nm}</option>
+                            <option disabled value="${SaltpCd[0].dtl_cd}">${SaltpCd[0].dtl_cd_nm}</option>
                         </select>
                     </td>
                     <td class="th-0lax">
@@ -59,6 +67,9 @@
                     <td class="th-0lax required"><span>고객번호</span></td>
                     <td class="th-0lax">
                         <input type="text" id="customSearchInputNo" value="">
+                        <button type="button" style="margin-left: -7px; width: 21px;" onclick="openCustom()">
+							<i class="fas fa-search"></i>
+						</button>
                         <input type="text" id="customSearchInputName" readonly>
                     </td>
                     <td class="th-0lax"></td>
@@ -114,7 +125,7 @@
         </div>
         <!--버튼 누르면 테이블 행 추가 삭제-->
         <div id="adddeletBtn">
-            <input type='button' value='행추가' onclick='addRow()'/>
+            <input type='button' value='행추가' id="addRow" onclick='addRow()'/>
             <input type='button' value='행삭제' onclick='delRow()'/>
            
         </div>
@@ -131,7 +142,26 @@
                         <th class="tg-0lax">판매금액</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="salTabletbody">
+                <tr>
+	                <td>
+	                	<input type="checkbox">
+	                </td>
+
+	           		<td class="tg-0lax" id="count">1
+	           		</td>
+	            	<td class="tg-0lax">
+	            		<input type="text" name="prd_cd" id="prd_cd">
+	            		<button type="button" onclick="partnerInventory()">
+	            			<i class="fas fa-search"></i>
+	            		</button>
+	            	</td>
+		            <td class="tg-0lax">상품명</td>
+		            <td class="tg-0lax">100</td>
+		            <td class="tg-0lax">
+		            	<input type="text" name="" id="">
+		            </td>
+		            <td class="tg-0lax">100000</td></tr>
                 </tbody>
                 
             </table>
@@ -161,92 +191,71 @@
 </body>
 
 <script>
-  //제이쿼리 달력  
-  $(function () {
-    //시작일.
-    $('#fromDate').datepicker({
-      showOn: "both",
-      buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
-      dateFormat: "yy-mm-dd",
-      changeMonth: true,
-      changeYear: true,
-      yearRange: 'c-30:c+50',
-      //-30 현제 년도에서 30년전 +50 현재년도 50년후
-      onClose: function (selectedDate) {
-        if ($("#toDate").val() < selectedDate) {
-          $("#toDate").val(selectedDate);
-        }
-      }
-    });
 
+	//현재날짜
+	document.getElementById('now_date').valueAsDate = new Date();
 
-    //종료일
-    $('#toDate').datepicker({
-      showOn: "both",
-      buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
-      dateFormat: "yy-mm-dd",
-      changeMonth: true,
-      changeYear: true,
-      yearRange: 'c-100:c+10',
-      onClose: function (selectedDate) {
-        if ($("#fromDate").val() > selectedDate) {
-          $("#fromDate").val(selectedDate);
-        }
-      }
-
-    });
-
-    //초기값을 오늘 날짜로 설정
-    $('#fromDate').datepicker('setDate', '-7D');
-    $('#toDate').datepicker('setDate', 'today');
-
-
-
-  });
-
-  function addRow() {
-    // table element 찾기
-    const table = document.getElementById('tableAddDelete');
-    
-    // 새 행(Row) 추가
-   // const newRow = table.insertRow();
-    
-    // 새 행(Row)에 Cell 추가
-    //const newCell1 = newRow.insertCell(0);
-   // const newCell2 = newRow.insertCell(1);
-    
-    // Cell에 텍스트 추가
-    $("#salTable").append(
-        '<tr><td><input type="checkbox"></td>'
-            +'<td class="tg-0lax">1</td>'
-            +'<td class="tg-0lax"><input type="text" name="prd_cd" id="prd_cd"><button type="button" onclick="partnerInventory()"><i class="fas fa-search"></i></button></td>'
-            +'<td class="tg-0lax">상품명</td>'
-            +'<td class="tg-0lax">100</td>'
-            +'<td class="tg-0lax"><input type="text" name="" id=""></td>'
-            +'<td class="tg-0lax">100000</td></tr>'
-
-
-    )
-  
-  }
-
-  function delRow(){
-    $("#salTable > tbody:last > tr:last").remove();
-   
-
-  }
-  
-	//매장팝업
-	function partnerInventory(){
-
-     // window.name = "부모창 이름"; 
-     window.name = "storePopForm";
-     var storeSearchUrl = "${pageContext.request.contextPath}/sales/partnerInventoryInquiry";
-     // window.open("open할 window", "자식창 이름", "팝업창 옵션");
-     window.open(storeSearchUrl,
-     		"childStorePopForm", "width=650, height=650, resizable = no, scrollbars = no");    
-    }
 	
+	  //function addRow() {
+		  
+	    // table element 찾기
+	    //const table = document.getElementById('tableAddDelete');
+	    
+	    // 새 행(Row) 추가
+	   // const newRow = table.insertRow();
+		var i = 1;
+		var html = '';
+		   
+		function addRow() {
+		
+	    
+	     html = '';
+         ++i;
+         if (i > 10) {
+        	 alert("최대 10개까지만 등록이 가능합니다.");
+        	 return;
+         }
+	    // Cell에 텍스트 추가
+	     $("#salTable").append(
+	        '<tr><td><input type="checkbox"></td>'
+	            +'<td class="tg-0lax" id=count' + i + '>' + i +'</td>'
+	            +'<td class="tg-0lax"><input type="text" name="prd_cd" id="prd_cd"><button type="button" onclick="partnerInventory()"><i class="fas fa-search"></i></button></td>'
+	            +'<td class="tg-0lax">상품명</td>'
+	            +'<td class="tg-0lax">100</td>'
+	            +'<td class="tg-0lax"><input type="text" name="" id=""></td>'
+	            +'<td class="tg-0lax">100000</td></tr>'
+
+	    ) 
+	   
+	  }
+
+	  function delRow(){
+	    $("#salTable > tbody:last >tr:not(:first):last ").remove();
+	   
+	
+	  }
+	  
+		//매장팝업
+		function partnerInventory(){
+	
+	     // window.name = "부모창 이름"; 
+	     window.name = "storePopForm";
+	     var storeSearchUrl = "${pageContext.request.contextPath}/sales/partnerInventoryInquiry";
+	     // window.open("open할 window", "자식창 이름", "팝업창 옵션");
+	     window.open(storeSearchUrl,
+	     		"childStorePopForm", "width=650, height=650, resizable = no, scrollbars = no");    
+	    }
+	
+		//고객번호팝업
+		function openCustom(){
+			 
+			 window.name = "CustomPopForm";
+			 var custInquiryUrl = "${pageContext.request.contextPath}/customer/customerInquiry"
+			 
+			 window.open(custInquiryUrl,
+		         "childCustomPopForm", "width=700, height=650, resizable = no, scrollbars = no");
+		
+		}
 
 </script>
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sales"> <!-- parameterType은 생략가능, 생략됨 -->
+	
+	<resultMap type="com.dowell.edu.vo.sales.SalesMasterVO" id="SalesMasterVO">
+    	<result column="prt_cd" property="prt_cd"/>
+    	<result column="prt_nm" property="prt_nm"/>
+    	<result column="cust_no" property="cust_no"/>
+    	<result column="cust_nm" property="cust_nm"/>
+    	<result column="sal_no" property="sal_no"/>
+    	<result column="tot_sal_qty" property="tot_sal_qty"/>
+    	<result column="tot_sal_amt" property="tot_sal_amt"/>
+    	<result column="csh_stlm_amt" property="csh_stlm_amt"/>
+    	<result column="crd_stlm_amt" property="crd_stlm_amt"/>
+    	<result column="pnt_stlm_amt" property="pnt_stlm_amt"/>
+   		<result column="lst_upd_id" property="lst_upd_id"/>
+   		<result column="user_nm" property="user_nm"/>
+   		<result column="lst_upd_dt_time" property="lst_upd_dt_time"/>
+	</resultMap>
+	
+	<select id="selectslaesAllSearchList" resultMap="SalesMasterVO">
+	SELECT
+		    PRTMT.PRT_CD,
+		    PRTMT.PRT_NM,
+		    samt.sal_dt,
+		    SAMT.cust_no,
+		    CSMT.cust_nm,
+		    samt.sal_no,
+		    samt.tot_sal_qty,
+		    samt.tot_sal_amt,
+		    samt.csh_stlm_amt,
+		    samt.crd_stlm_amt,
+		    samt.pnt_stlm_amt,
+		    samt.lst_upd_id,
+		    (
+		        SELECT 																
+		            usmt.user_nm
+		        FROM
+		            ma_user_mt usmt
+		        WHERE
+		            samt.lst_upd_id = usmt.user_id
+		     ) user_nm,
+		    to_char(samt.lst_upd_dt, 'YYYY-MM-DD HH24MISS') AS lst_upd_dt_time
+	FROM
+		    cs_sal01_mt    samt
+		    LEFT JOIN CS_CUST01_MT   CSMT ON csmt.cust_no = samt.cust_no
+		    LEFT JOIN MA_PRT_MT      PRTMT ON samt.prt_cd = PRTMT.prt_cd
+		    LEFT JOIN ma_user_mt     usmt ON samt.lst_upd_id = usmt.user_id
+	    
+	WHERE
+		1 = 1
+   														
+   				and SAL_DT between to_date(#{fromDate},'YYYY-MM-DD') 				<!-- 가입날짜(_js_dt)는 fromDate 날짜와 사이에 toDate날짜 사이에 위치 --> 
+       								and to_date(#{toDate},'YYYY-MM-DD')
+       			
+		        <if test="jn_prt_cd.equals('') and !cust_no.equals('')">			<!-- 고객번호(cust_no) 존재, 매장코드(jn_prt_cd) 없는경우 -->
+		            and samt.cust_no = #{cust_no}
+		        </if>
+		        
+		        <if test="cust_no.equals('') and !jn_prt_cd.equals('')"> 				<!-- 매장코드 존재, 고객번호가 없는경우  -->
+		            and prtmt.prt_cd = #{jn_prt_cd}
+		        </if>
+		        
+		        <if test="!cust_no.equals('') and !jn_prt_cd.equals('')"> 				<!--  매장코드, 고객번호 둘다 존재 --> 
+		        	and samt.cust_no = #{cust_no}
+		        	and prtmt.prt_cd = #{jn_prt_cd}
+		        </if>
+			
+			order by SAL_DT DESC,SAMT.SAL_NO ASC
+	</select>
+	
+	<select id="selectSaltpCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
+	SELECT
+	      CODE_CD
+	     ,DTL_CD
+	     ,DTL_CD_NM
+	FROM
+	     MA_CODE_DT
+	WHERE
+		 CODE_CD in('SAL_TP_CD')
+	
+	</select>
+</mapper>

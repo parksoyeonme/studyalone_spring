@@ -385,12 +385,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		
 
 		    //활성화
-			if(mbl_no != '${list[0].mbl_no}'){
-				$('#mblcheck').val(0);
-				$("#mblcheck").attr("disabled",false);
 			
-			
-			}
 		    if((mbl_no_first == '010') ||(mbl_no_first == '017')||(mbl_no_first == '011')||(mbl_no_first == '018')){
 		    	
 		    	alert("010, 017, 011, 018은 사용 할 수 없습니다.");
@@ -400,6 +395,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 			if(mbl_no == '00000000000'){
 				alert("해당 번호는 사용 할 수 없습니다.");
 				mbl_no_first.focuse();
+			}
+			if(!(mbl_no == '${list[0].mbl_no}')){
+				$('#mblcheck').val(0);
+				$("#mblcheck").attr("disabled",false);
+
 			}
 			else{
 				$('#mblcheck').val(1);
@@ -568,6 +568,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		 var email_first= $("#email_first").val();
 		 var emailcheck= $("#emailcheck").val();
 		 var cncl_cust_ss_cd = '${list[0].cust_ss_cd}';
+		 var mbl_no = mbl_no_first + mbl_no_middle + mbl_no_end;
 		console.log(cust_nm);
 			
 		 	if(search_cust_no != cust_no){
@@ -594,9 +595,15 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				alert("고객상태를 확인해주세요.");
 				$('input:radio[id="normal"]').prop("checked", true);
 				$('input:radio[id="terminate"]').prop("checked", false);
+				$("#mbl_no_first").val('');
+				$("#mbl_no_middle").val('');
+				$("#mbl_no_end").val('');
+				$("#mbl_no_first").focus();
+				$('#mblcheck').val(0);
+				$("#mblcheck").attr("disabled",false);
 				return false;
 				
-			} 
+			}
 			if(mbl_no_fist == "" || mbl_no_fist.length <3 ){
 				alert("핸드폰번호(앞3자리)를 입력해주세요.");
 				$("#mbl_no_first").focus();

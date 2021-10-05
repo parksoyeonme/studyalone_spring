@@ -7,11 +7,14 @@
 	<!-- 로그인 -->
 	<select id="loginUser" resultType="com.dowell.edu.vo.member.MemberVO">
 		SELECT
-		   	 user_id, 					<!-- 사용자Id -->
-		   	 use_pwd, 					<!-- 비밀번호 -->
-		   	 user_nm 					<!-- 사용자 명 -->
+		   	  user_id 					<!-- 사용자Id -->
+		   	 ,use_pwd 					<!-- 비밀번호 -->
+		   	 ,user_nm 					<!-- 사용자 명 -->
+		   	 ,usmt.prt_cd 				<!-- 거래처코드 -->
+		   	 ,prtmt.prt_nm 				<!-- 거래처코드 명 -->
 		FROM
-		   	 ma_user_mt 				<!-- 사용자 table -->
+		   	 ma_user_mt usmt				<!-- 사용자 table -->
+		   	 LEFT JOIN ma_prt_mt    prtmt ON usmt.prt_cd = prtmt.prt_cd
 		WHERE
 		   	 user_id = #{user_id} 		<!-- 사용자id =  입력id -->
 		   	 AND use_pwd = #{use_pwd} 	<!-- 사용자pwd = 입력pwd -->
