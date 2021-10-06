@@ -40,5 +40,7 @@ public class SalesIvcoMasterVO {
 	*/
 	private String prd_nm;
 	private int prd_csmr_upr;
-	
+	private String prd_tp_cd;
+	private String tax_cs_cd;
+	private String prd_ss_cd;
 }

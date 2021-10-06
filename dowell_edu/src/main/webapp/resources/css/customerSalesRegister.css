@@ -203,6 +203,10 @@ body {
         width: 90px;
         height: 41px;
     }
-#prd_nm, #ivco_qty{
+#prd_nm1, #ivco_qty1{
 	border: none;
+}
+
+#partnerInventory{
+    margin-left: -6px;
 }

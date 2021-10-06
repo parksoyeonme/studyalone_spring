@@ -149,21 +149,21 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                <td>
 		                	<input type="checkbox">
 		                </td>
-		           		<td class="tg-0lax" id="count">1</td>
+		           		<td class="tg-0lax" id="count1">1</td>
 		            	<td class="tg-0lax">
-		            		<input type="text" name="prd_cd" id="prd_cd" value="">
-		            		<button type="button" onclick="partnerInventory()">
+		            		<input type="text" name="prd_cd1" id="prd_cd1" value="">
+		            		<button type="button" id="partnerInventory" onclick="partnerInventory(1)">
 		            			<i class="fas fa-search"></i>
 		            		</button>
 		            	</td>
 			            <td class="tg-0lax">
-			            	<input type="text" name="prd_nm" id="prd_nm" value="">
+			            	<input type="text" name="prd_nm1" id="prd_nm1" value="">
 			            </td>
 			            <td class="tg-0lax">
-			            	<input type="text" name="ivco_qty" id="ivco_qty" value="">
+			            	<input type="text" name="ivco_qty1" id="ivco_qty1" value="">
 			            </td>
 			            <td class="tg-0lax">
-			            	<input type="text" name="" id="" value="">
+			            	<input type="number" min="0"  name="tot_sal1" id="tot_sal1" value="">
 			            </td>
 			            <td class="tg-0lax">금액넣어야</td>
 					</tr>
@@ -200,7 +200,34 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	//현재날짜
 	document.getElementById('now_date').valueAsDate = new Date();
 
+	//max(this)
+	/* function myFunction(val) {
+		var max = $("#ivco_qty1").val();
+		//$("#cust_nm").val();
+		
+		if(val > $("#ivco_qty1").val()){
+			alert("매장재고 값을 문제.");
+		}else if(val< 0){
+			alert("매장재고값을 확인해주세요.");
+		}
+		  
+	} */
 	
+	$('#tot_sal1').keyup(function (mblcheck) {
+		 var tot_sal1 = $("#tot_sal1").val();
+		 var max = $("#ivco_qty1").val(); 
+		    //활성화
+			
+		 if(tot_sal1 > max){
+				alert("매장재고 값을 문제.");
+			}else if(tot_sal1< 0){
+				alert("매장재고값을 확인해주세요.");
+			}
+				
+			
+	});
+	
+
 	  //function addRow() {
 		  
 	    // table element 찾기
@@ -213,21 +240,22 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		   
 		function addRow() {
 		
-	    
+		//var max = $("#ivco_qty'+ i + '").val();
 	     html = '';
          ++i;
          if (i > 10) {
         	 alert("최대 10개까지만 등록이 가능합니다.");
         	 return;
          }
+         
 	    // Cell에 텍스트 추가
 	     $("#salTable").append(
 	        '<tr><td><input type="checkbox"></td>'
 	            +'<td class="tg-0lax" id=count' + i + '>' + i +'</td>'
-	            +'<td class="tg-0lax"><input type="text" name="prd_cd'+ i + '" id="prd_cd'+ i +'"><button type="button" onclick="partnerInventory()"><i class="fas fa-search"></i></button></td>'
+	            +'<td class="tg-0lax"><input type="text" name="prd_cd'+ i + '" id="prd_cd'+ i +'"><button type="button" onclick="partnerInventory(' + i + ')"><i class="fas fa-search"></i></button></td>'
 	            +'<td class="tg-0lax"><input type="text" style="border: none;" name="prd_nm'+ i + '" id="prd_nm'+ i + '" value=""></td>'
 	            +'<td class="tg-0lax"><input type="text" style="border: none;" name="ivco_qty'+ i + '" id="ivco_qty'+ i + '" value=""></td>'
-	            +'<td class="tg-0lax"><input type="text" name="" id="" value=""></td>'
+	            +'<td class="tg-0lax"><input type="number" min="0" max="" name="tot_sal' + i + '" id="tot_sal' + i + '" value=""></td>'
 	            +'<td class="tg-0lax">금액넣어야지</td></tr>'
 
 	    ) 
@@ -241,11 +269,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	  }
 	  
 		//매장팝업
-		function partnerInventory(){
-	
+		function partnerInventory(countNo){
+		
 	     // window.name = "부모창 이름"; 
 	     window.name = "storePopForm";
-	     var storeSearchUrl = "${pageContext.request.contextPath}/sales/partnerInventoryInquiry";
+	     var storeSearchUrl = "${pageContext.request.contextPath}/sales/partnerInventoryInquiry?countNo=" +countNo;
 	     // window.open("open할 window", "자식창 이름", "팝업창 옵션");
 	     window.open(storeSearchUrl,
 	     		"childStorePopForm", "width=650, height=650, resizable = no, scrollbars = no");    

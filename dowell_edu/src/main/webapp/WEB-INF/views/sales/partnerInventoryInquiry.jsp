@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<% String countNo = request.getParameter("countNo"); %>
 <%
  //Object obj = session.getAttribute("LOGIN");
 MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 정보를 받아온다.
@@ -70,6 +71,25 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 
     </body>
 <script>
+/* console.log('${countNo}');
+var y = ${countNo};
+console.log(y); */
+function getParameter(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var countNo = getParameter("countNo");
+
+<%-- 위에 이거 선언해있어서 아래에서
+ <% String countNo = request.getParameter("countNo"); %>
+ <%=countNo%>이런식으로 쓰면된다. 
+ https://bumcrush.tistory.com/122
+ --%>
+
+
 	//엔터이벤트 -  작성 후 엔터 누르면 custSearch()작동
 	 function show_enter(e){
 		 var prt_nm = document.getElementById("prd_cd").value;
@@ -136,8 +156,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		
 	   <!-- 전달하기 버튼-->
 	   function goSalesRegisText(){
-		   var i = 1;
-		  // ++i;
+		   var i = 0;
+		   ++i;
+		   
+		   
+		  
 		   if($("input:checkbox[type=checkbox]").is(":checked") == false){
 				  alert("상품을 선택해주세요");
 			}
@@ -171,20 +194,20 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				  tdArr.push(prdCsmrUpr);
 	
 			  })
-				  
+				   
 				  //자식창의 체크값의 배열중 0, 1번째를 부모창으로 보낸다.
 				 //opener.document.getElementById("prd_cd" + "i").value = tdArr[0]
-	
-			 /*  opener.document.getElementById("prd_cd").value = tdArr[0]
-				  opener.document.getElementById("prd_nm").value = tdArr[1]
-				  opener.document.getElementById("ivco_qty").value = tdArr[2] */
+				//console.log(${countNo});
+			   		opener.document.getElementById("prd_cd"+countNo).value = tdArr[0]
+				  opener.document.getElementById("prd_nm"+countNo).value = tdArr[1]
+				  opener.document.getElementById("ivco_qty" + countNo).value = tdArr[2] 
 			  
-				  for(int i= 0; i <=10; i++ ){
+				  /* for(int i= 0; i <=10; i++ ){
 					  opener.document.getElementById("prd_cd").value = tdArr[0]
 					  opener.document.getElementById("prd_nm").value = tdArr[1]
 					  opener.document.getElementById("ivco_qty").value = tdArr[2]
 					  
-				  }
+				  } */
 				  
 				  
 			  console.log(tdArr[1]);
