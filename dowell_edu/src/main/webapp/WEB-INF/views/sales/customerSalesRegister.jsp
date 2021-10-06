@@ -145,25 +145,28 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
                     </tr>
                 </thead>
                 <tbody id="salTabletbody">
-                <tr>
-	                <td>
-	                	<input type="checkbox">
-	                </td>
-
-	           		<td class="tg-0lax" id="count">1
-	           		</td>
-	            	<td class="tg-0lax">
-	            		<input type="text" name="prd_cd" id="prd_cd">
-	            		<button type="button" onclick="partnerInventory()">
-	            			<i class="fas fa-search"></i>
-	            		</button>
-	            	</td>
-		            <td class="tg-0lax">상품명</td>
-		            <td class="tg-0lax">100</td>
-		            <td class="tg-0lax">
-		            	<input type="text" name="" id="">
-		            </td>
-		            <td class="tg-0lax">100000</td></tr>
+	                <tr>
+		                <td>
+		                	<input type="checkbox">
+		                </td>
+		           		<td class="tg-0lax" id="count">1</td>
+		            	<td class="tg-0lax">
+		            		<input type="text" name="prd_cd" id="prd_cd" value="">
+		            		<button type="button" onclick="partnerInventory()">
+		            			<i class="fas fa-search"></i>
+		            		</button>
+		            	</td>
+			            <td class="tg-0lax">
+			            	<input type="text" name="prd_nm" id="prd_nm" value="">
+			            </td>
+			            <td class="tg-0lax">
+			            	<input type="text" name="ivco_qty" id="ivco_qty" value="">
+			            </td>
+			            <td class="tg-0lax">
+			            	<input type="text" name="" id="" value="">
+			            </td>
+			            <td class="tg-0lax">금액넣어야</td>
+					</tr>
                 </tbody>
                 
             </table>
@@ -221,11 +224,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	     $("#salTable").append(
 	        '<tr><td><input type="checkbox"></td>'
 	            +'<td class="tg-0lax" id=count' + i + '>' + i +'</td>'
-	            +'<td class="tg-0lax"><input type="text" name="prd_cd" id="prd_cd"><button type="button" onclick="partnerInventory()"><i class="fas fa-search"></i></button></td>'
-	            +'<td class="tg-0lax">상품명</td>'
-	            +'<td class="tg-0lax">100</td>'
-	            +'<td class="tg-0lax"><input type="text" name="" id=""></td>'
-	            +'<td class="tg-0lax">100000</td></tr>'
+	            +'<td class="tg-0lax"><input type="text" name="prd_cd'+ i + '" id="prd_cd'+ i +'"><button type="button" onclick="partnerInventory()"><i class="fas fa-search"></i></button></td>'
+	            +'<td class="tg-0lax"><input type="text" style="border: none;" name="prd_nm'+ i + '" id="prd_nm'+ i + '" value=""></td>'
+	            +'<td class="tg-0lax"><input type="text" style="border: none;" name="ivco_qty'+ i + '" id="ivco_qty'+ i + '" value=""></td>'
+	            +'<td class="tg-0lax"><input type="text" name="" id="" value=""></td>'
+	            +'<td class="tg-0lax">금액넣어야지</td></tr>'
 
 	    ) 
 	   

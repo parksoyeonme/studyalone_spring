@@ -33,11 +33,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
                 <div style="float: left; margin-left: 5%;">
                     <span>매장</span>
                     <input type="text" name="prt_nm" id="prt_nm" value="${member.prt_nm}" readonly onkeypress="show_enter(event)">
-                    <input type="hidden" value="${member.prt_cd}">
+                    <input type="hidden" name="prt_cd" id="prt_cd" value="${member.prt_cd}">
                     <br>
                     <div style="margin-top: 8px;">
                         <span>상품(코드+명)</span>
-                        <input type="text" name="" id="" value="" onkeypress="show_enter(event)">
+                        <input type="text" name="prd_cd" id="prd_cd" value="" onkeypress="show_enter(event)">
                     </div>
                 </div>
                 <button type="button" id="searchBtn" value="" onclick="partnerInventorySearch()">
@@ -64,7 +64,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
         <footer>
         	<div class="closeDev">
 	            <input type="button" class="closeBtn" value="닫기" onclick="window.close()">
-	            <input type="button" class="submitBtn" value="적용" onclick="goStoreText()">
+	            <input type="button" class="submitBtn" value="적용" onclick="goSalesRegisText()">
        	 	</div>
         </footer>
 
@@ -72,25 +72,30 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 <script>
 	//엔터이벤트 -  작성 후 엔터 누르면 custSearch()작동
 	 function show_enter(e){
-		 var prt_nm = document.getElementById("prt_nm").value;
-	
+		 var prt_nm = document.getElementById("prd_cd").value;
+		 var prt_nm = document.getElementById("prt_cd").value;
 	       
 	       if(e.keyCode == 13){
-	       	partnerSearch();
+	    	   partnerInventorySearch();
 	       }
 	    }
 	
 	
 	 function partnerInventorySearch(){
 	
-		var prt_nm = $("#prt_nm").val();
-	
+		var prt_cd = $("#prt_cd").val();
+		//prd_cd
+		var prd_cd= $("#prd_cd").val();
+		
+		console.log(prt_cd);
+		console.log(prd_cd);
 		$.ajax({
-			url: "<c:url value='/sales/partnerInquiryList'/>",
+			url: "<c:url value='/sales/partnerInvenInqList'/>",
 			 type: 'POST',
 			 dataType: "json",
 	         data : {
-	        	"prt_nm" : prt_nm,
+	        	"prt_cd" : prt_cd,
+	        	"prd_cd" : prd_cd
 	        	
 	         },
 	         success : function(data){
@@ -103,10 +108,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				 }else{
 		        	 for(var i =0; i < data.list.length; i++){
 		        		 tbodyHtml += ' <tr>';
-		        		 tbodyHtml += '<td class="tg-0lax"><input type="checkbox" name="partnerCheck" id="partnerCheck" value="'+ data.list[i].prt_cd+'" onclick="checkOnly(this)"></td>';
-		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prt_cd + '</td>';
-		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prt_nm + '</td>';
-		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prt_ss_cd + '</td>';
+		        		 tbodyHtml += '<td class="tg-0lax"><input type="checkbox" name="prdCheck" id="prdCheck" value="'+ data.list[i].prd_cd+'" onclick="checkOnly(this)"></td>';
+		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_cd + '</td>';
+		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_nm + '</td>';
+		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].ivco_qty + '</td>';
+		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_csmr_upr + '</td>';
 		        		 tbodyHtml += '</tr>';
 		        	 }
 				 }
@@ -126,17 +132,19 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		   document.querySelectorAll(`input[type=checkbox]`).forEach(el => el.checked = false);
 		   target.checked = true;
 		}
-		   
+		
+		
 	   <!-- 전달하기 버튼-->
-	   function goStoreText(){
-		  
+	   function goSalesRegisText(){
+		   var i = 1;
+		  // ++i;
 		   if($("input:checkbox[type=checkbox]").is(":checked") == false){
-				  alert("매장을 선택해주세요");
+				  alert("상품을 선택해주세요");
 			}
 			else{
 			  var rowData = new Array();
 			  var tdArr = new Array();
-			  var checkbox = $("input:checkbox[id=partnerCheck]:checked");
+			  var checkbox = $("input:checkbox[id=prdCheck]:checked");
 			  
 			  //체크된 체크박스 값을 가져온다
 			  checkbox.each(function(i){
@@ -150,22 +158,39 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				  rowData.push(tr.text());
 				  
 				  //td.eq(0)은 체크박스이므로 rd.eq(1)의 값부터 가져온다.
-				  var prtCd = td.eq(1).text();
-				  var prtNm = td.eq(2).text();
-				  var prtSsCd = td.eq(3).text();
+				  var prdCd = td.eq(1).text();
+				  var prdNm = td.eq(2).text();
+				  var ivcoQty = td.eq(3).text();
+				  var prdCsmrUpr = td.eq(4).text();
 				  
-				  
+				
 				  //가저온 값을 배열에 넣는다.
-				  tdArr.push(prtCd);
-				  tdArr.push(prtNm);
-				  tdArr.push(prtSsCd);
+				  tdArr.push(prdCd);
+				  tdArr.push(prdNm);
+				  tdArr.push(ivcoQty);
+				  tdArr.push(prdCsmrUpr);
 	
 			  })
 				  
 				  //자식창의 체크값의 배열중 0, 1번째를 부모창으로 보낸다.
-				  opener.document.getElementById("prd_cd").value = tdArr[1]
-				  //opener.document.getElementById("prd_nm").value = tdArr[0]
-				  window.close()
+				 //opener.document.getElementById("prd_cd" + "i").value = tdArr[0]
+	
+			 /*  opener.document.getElementById("prd_cd").value = tdArr[0]
+				  opener.document.getElementById("prd_nm").value = tdArr[1]
+				  opener.document.getElementById("ivco_qty").value = tdArr[2] */
+			  
+				  for(int i= 0; i <=10; i++ ){
+					  opener.document.getElementById("prd_cd").value = tdArr[0]
+					  opener.document.getElementById("prd_nm").value = tdArr[1]
+					  opener.document.getElementById("ivco_qty").value = tdArr[2]
+					  
+				  }
+				  
+				  
+			  console.log(tdArr[1]);
+			  console.log(tdArr[0]);
+			  console.log(tdArr[2]);
+			  //window.close()
 		   	}
 	   	}
 		   

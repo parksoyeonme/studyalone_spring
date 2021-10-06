@@ -1,16 +1,16 @@
- body{
-    width:100%;
-    height: 768px;
-    overflow: auto;
-  }
-  *{
-    font-family: 'Noto Sans KR', sans-serif;
-    list-style:none;
-    text-decoration: none;
-    border-collapse: collapse;
-    margin: 0px;
-    padding:0px;
-    color:#000;
+body{
+   width:100%;
+   height: 768px;
+   overflow: auto;
+ }
+ *{
+   font-family: 'Noto Sans KR', sans-serif;
+   list-style:none;
+   text-decoration: none;
+   border-collapse: collapse;
+   margin: 0px;
+   padding:0px;
+   color:#000;
     
 }
     .tg {
@@ -76,47 +76,47 @@
 	border: none;
     background: white;
 }
-    .searchBtn button{
-      width: 67px;
-      height: 60px;
-      margin-top: 8px;
-    }
-    h4{
-      margin-top: 14px;
-      margin-left: 38px;
-      color: gray;
-    }
-    .detail01 {
-      margin-left: 38px;
-      margin-top: 10px;
-    }
-    .detail02{
-      margin-left: 38px;
-      margin-top: 10px;
-    }
-    .detail03{
-      margin-left: 38px;
-      margin-top: 10px;
-    }
-    .btndiv{
-      margin-top: 13px;
-      margin-left: 42px;
-      width: 80%;
-    }
-    #detailChgBtn{
-      float: right;
-      width: 196px;
-      height: 40px;
+  .searchBtn button{
+    width: 67px;
+    height: 60px;
+    margin-top: 8px;
   }
-  button{
-    width: 33px;
+  h4{
+    margin-top: 14px;
+    margin-left: 38px;
+    color: gray;
   }
-  aside{
+  .detail01 {
+    margin-left: 38px;
+    margin-top: 10px;
+  }
+  .detail02{
+    margin-left: 38px;
+    margin-top: 10px;
+  }
+  .detail03{
+    margin-left: 38px;
+    margin-top: 10px;
+  }
+.btndiv{
+  margin-top: 13px;
+  margin-left: 42px;
+  width: 80%;
+}
+#detailChgBtn{
+  float: right;
+  width: 196px;
+  height: 40px;
+}
+ button{
+   width: 33px;
+}
+ aside{
 	float: right;
-    height: 204px;
-    margin-right: -413px;
-    margin-top: -600px;
-    width: 10%;
+	height: 204px;
+	margin-right: -413px;
+	margin-top: -600px;
+	width: 10%;
 }
 .required:before {
 	content: "*";

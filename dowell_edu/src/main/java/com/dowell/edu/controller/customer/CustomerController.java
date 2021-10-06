@@ -405,6 +405,7 @@ public class CustomerController {
 											   ,RedirectAttributes redirectAttr) throws Exception{
 	       
 		 
+		   System.out.println(brdy_dt);
 		   //고객정보 update 전 원본데이터
 		   List<CustomerVO> CustomerList = customerService.selectDetailOne(cust_no);
 		   
@@ -428,6 +429,10 @@ public class CustomerController {
 			  email ="";
 		   }
 		   
+		   String brdy_dt2 = brdy_dt.replaceAll("-", "");
+		
+		   //brdy_dt.replaceAll("-", ""); 
+		   System.out.println("dddddddddddddddddddddd" + brdy_dt2);
 		   
 		   String pattern = "yyyyMMdd";
 		   SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -480,10 +485,10 @@ public class CustomerController {
 			   customerHistoryVO.setChg_cd("CUST_NM");
 			   CustomerHistoryList.add(customerHistoryVO);
 		   }
-		   if(!CustomerList.get(0).getBrdy_dt().equals(brdy_dt)) {
+		   if(!CustomerList.get(0).getBrdy_dt().equals(brdy_dt2)) {
 			   customerHistoryVO = (CustomerHistoryVO) copyHistoryVO.clone();
-			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getBrdy_dt());
-			   customerHistoryVO.setChg_aft_cnt(brdy_dt);
+			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getBrdy_dt().replaceAll("-", ""));
+			   customerHistoryVO.setChg_aft_cnt(brdy_dt2);
 			   //변경항목 : 생년월일
 			   customerHistoryVO.setChg_cd("BRDY_DT");
 			   CustomerHistoryList.add(customerHistoryVO);
@@ -534,7 +539,7 @@ public class CustomerController {
 		   Map<String, Object> updateParam= new HashMap<>();
 		      updateParam.put("cust_nm",cust_nm);
 		      updateParam.put("cust_no",cust_no);
-		      updateParam.put("brdy_dt",brdy_dt);
+		      updateParam.put("brdy_dt",brdy_dt2);
 		      updateParam.put("sex_cd",sex_cd);
 		      updateParam.put("scal_yn",scal_yn);
 		      updateParam.put("mrrg_dt",mrrg_dt);

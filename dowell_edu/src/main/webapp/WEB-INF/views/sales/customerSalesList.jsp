@@ -88,20 +88,23 @@
                		</tbody>
              	</table>
             </div>
-            <!-- <div class="totaldiv" style="width:82%; height:58px;">
-				<table class="tk">
-					<thead>
-		            	<tr>
-		              		<td class="tk-0pky">합계</td>
+             <div class="totaldiv" style="width:82%; height:58px;">
+				<table class="tk" id="totalAmount">
+					<thead id="totalAmountThead">
+		            	<!-- <tr>
+		              		<td class="tk-0pky">
+		              			합계
+		              			<input type="text" value="0" id="sal">
+		              		</td>
 		              		<td class="tk-0pky">판매수량</td>
 		              		<td class="tk-0pky">판매금액</td>
 		              		<td class="tk-0pky">현금 </td>
 		              		<td class="tk-0pky">카드</td>
 		              		<td class="tk-0pky">포인트</td>
-		            	</tr>
+		            	</tr> -->
 		          	</thead>
 		        </table>
-			</div> -->
+			</div> 
      	</div>
     </section>
   	<aside>
@@ -126,8 +129,6 @@ $(function () {
         }
       }
     });
-
-
     //종료일
     $('#toDate').datepicker({
       showOn: "both",
@@ -141,15 +142,10 @@ $(function () {
           $("#fromDate").val(selectedDate);
         }
       }
-
     });
-
     //초기값을 오늘 날짜로 설정
     $('#fromDate').datepicker('setDate', '-7D');
     $('#toDate').datepicker('setDate', 'today');
-
-
-
   });
   
   //판매등록
@@ -208,6 +204,10 @@ $(function () {
 	        	 var csh_stlm_amt = 0;
 	        	 var crd_stlm_amt = 0;
 	        	 var pnt_stlm_amt = 0;
+	        	
+	        	 var $amount = $('#totalAmountThead');
+	        	 $amount.empty();
+	        	 var amountHtml = '';
 	        	 
 	        	 var tbody = $('#salseListTBody');
 					tbody.empty();
@@ -246,14 +246,17 @@ $(function () {
 			        	 console.log("$$$$$$$$$$$ =" + csh_stlm_amt);
 			        	 console.log("$$$$$$$$$$$ =" + crd_stlm_amt);
 			        	 console.log("$$$$$$$$$$$ =" + pnt_stlm_amt);
-			        	 	tbodyHtml += ' <tr>';
-			        	 	tbodyHtml += '<td class="tk-0pky" colspan="5">합계</td>'
-			        	 	tbodyHtml += '<td class="tk-0pky" colspan="7">판매수량' + tot_sal_qty + '/판매금액' + tot_sal_amt + '/현금' + csh_stlm_amt + '/카드' + crd_stlm_amt + '/포인트' + pnt_stlm_amt + '</td>'
-			        	 	tbodyHtml += '</tr>';
-			        	 	
+			        	 
 					 }
 		        	 tbody.append(tbodyHtml);
-		        	 
+		        	
+		        	 console.log("1111111111111 =" + tot_sal_qty);
+		        	// $amount.find($("#sal")).val(tot_sal_amt);
+		        	  amountHtml += ' <tr>';
+		        	  amountHtml += '<td class="tk-0pky" colspan="5">합계</td>';
+		        	  amountHtml += '<td class="tk-0pky" colspan="7">판매수량' + tot_sal_qty + '/판매금액' + tot_sal_amt + '/현금' + csh_stlm_amt + '/카드' + crd_stlm_amt + '/포인트' + pnt_stlm_amt + '</td>';
+		        	  amountHtml += '</tr>'; 
+		        	  $amount.append(amountHtml);
 		         },
 		         error(xhr, status, err){
 	    			  console.log(xhr, status, err);
@@ -264,17 +267,17 @@ $(function () {
 	
 	//salesDetail
 	//고객정보조회(상세버튼)
-	   	function salesDetail(cust_no){
-	  		var cust_no = cust_no;
-	  		console.log("#####상세버튼클리후넘긴디아" + cust_no);
-	  		
-	  		 window.name = "HistoryPopForm";
-		  	 var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory?cust_no=" + cust_no;
-		  	 window.open(custHistoryUrl,
-		              "childForm", "width=780, height=702, resizable = no, scrollbars = no");
-	  		
-	  
-		} 
+   	function salesDetail(cust_no){
+  		var cust_no = cust_no;
+  		console.log("#####상세버튼클리후넘긴디아" + cust_no);
+  		
+  		 window.name = "HistoryPopForm";
+	  	 var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory?cust_no=" + cust_no;
+	  	 window.open(custHistoryUrl,
+	              "childForm", "width=780, height=702, resizable = no, scrollbars = no");
+  		
+  
+	} 
 	
 	
 </script>

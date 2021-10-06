@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dowell.edu.vo.common.CodeDetailVO;
+import com.dowell.edu.vo.sales.SalesIvcoMasterVO;
 import com.dowell.edu.vo.sales.SalesMasterVO;
 
 @Repository
@@ -24,6 +25,11 @@ public class SalesDAOImpl implements SalesDAO {
 	@Override
 	public List<CodeDetailVO> selectSaltpCd(CodeDetailVO codeDetailVo) throws Exception {
 		return sqlsSession.selectList("sales.selectSaltpCd",codeDetailVo);
+	}
+
+	@Override
+	public List<SalesIvcoMasterVO> selectpartnerInvenInqList(Map<String, Object> param) throws Exception {
+		return sqlsSession.selectList("sales.selectpartnerInvenInqList",param);
 	}
 	
 	/*

@@ -189,7 +189,7 @@
 		                    '직업'
 	                    WHEN csht.chg_cd = 'CUST_SS_CD'   THEN 				--이력테이블의 변경코드가 CUST_SS_CD일때 고객상태으로 변경
 	                    	'고객상태'
-		                ELSE
+		                WHEN csht.chg_cd = 'BRDY_DT'   THEN 
 		                    '생년월일' 			
 		            END AS code_nm
 		            ,( 														 
@@ -204,6 +204,8 @@
 		            ,CASE
 		                WHEN csht.chg_cd = 'MBL_NO'    THEN 					-- 변경코드(chg_cd)가 mbl_no 일시 000-0000-000
 		                    regexp_replace(csht.chg_bf_cnt, '(.{3})(.+)(.{4})', '\1-\2-\3')
+		                WHEN CSHT.CHG_CD = 'BRDY_DT'   THEN
+		                	to_char(to_date(csht.chg_bf_cnt,'YY/MM/DD'), 'YYYY-MM-DD')
 		                WHEN csht.chg_cd = 'JN_PRT_CD' THEN 					
 		                    (
 		                        SELECT
@@ -228,6 +230,8 @@
 		            ,CASE
 		                WHEN csht.chg_cd = 'MBL_NO'    THEN
 		                    regexp_replace(csht.chg_aft_cnt, '(.{3})(.+)(.{4})', '\1-\2-\3') 	-- 변경코드(chg_cd)가 mbl_no 일시 000-0000-000
+		                WHEN CSHT.CHG_CD = 'BRDY_DT'   THEN
+		                	to_char(to_date(csht.chg_aft_cnt,'YY/MM/DD'), 'YYYY-MM-DD')
 		                WHEN csht.chg_cd = 'JN_PRT_CD' THEN
 		                    (
 		                        SELECT
@@ -253,7 +257,7 @@
 		                                           AND csmt.sex_cd = cddt.dtl_cd 		-- 고객관리의 셩별코드(sex_cd) 동일 코드상세의 세부코드(dtl_cd)
 		    ) aa
 		         WHERE aa.cust_no = #{cust_no}
-         ORDER BY lst_upd_dt_time desc ,chg_seq asc
+         ORDER BY lst_upd_dt_time desc ,chg_seq asc, chg_dt desc
 	
 	</select>
 
@@ -532,7 +536,7 @@
 			CUST_NM = #{cust_nm} 														<!-- 고객명 -->
 			,SEX_CD = #{sex_cd} 														<!-- 성별 -->
 			,SCAL_YN = #{scal_yn} 														<!-- 양음력구분 -->
-			,BRDY_DT = TO_CHAR(TO_DATE(#{brdy_dt}, 'YYYY-MM-DD'), 'YYYYMMDD')  			<!-- 생년월일 -->
+			,BRDY_DT = #{brdy_dt}  			<!-- 생년월일 -->
 			,MRRG_DT = TO_CHAR(TO_DATE(#{mrrg_dt}, 'YYYY-MM-DD'), 'YYYYMMDD') 			<!-- 결혼기념일 -->
 			,POC_CD = #{poc_cd} 														<!-- 직업코드 -->
 			,PSMT_GRC_CD = #{psmt_grc_cd} 												<!-- 우편물수령코드 -->

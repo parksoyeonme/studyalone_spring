@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dowell.edu.dao.sales.SalesDAO;
 import com.dowell.edu.vo.common.CodeDetailVO;
+import com.dowell.edu.vo.sales.SalesIvcoMasterVO;
 import com.dowell.edu.vo.sales.SalesMasterVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,11 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public List<CodeDetailVO> selectSaltpCd(CodeDetailVO codeDetailVo) throws Exception {
 		return salesDao.selectSaltpCd(codeDetailVo);
+	}
+
+	@Override
+	public List<SalesIvcoMasterVO> selectpartnerInvenInqList(Map<String, Object> param) throws Exception {
+		return salesDao.selectpartnerInvenInqList(param);
 	}
 	
 	/*

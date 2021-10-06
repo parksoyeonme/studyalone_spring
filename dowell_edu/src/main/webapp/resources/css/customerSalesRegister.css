@@ -1,20 +1,20 @@
 body {
-      width: 100%;
-      height: 768px;
-      overflow: auto;
-    }
+  width: 100%;
+  height: 768px;
+  overflow: auto;
+}
 
-    * {
-      font-family: 'Noto Sans KR', sans-serif;
-      list-style: none;
-      text-decoration: none;
-      border-collapse: collapse;
-      margin: 0px;
-      padding: 0px;
-      color: #000;
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+  list-style: none;
+  text-decoration: none;
+  border-collapse: collapse;
+  margin: 0px;
+  padding: 0px;
+  color: #000;
 
-    }
-
+}
+ 
 
 
     .mainTitle {
@@ -183,7 +183,7 @@ body {
         margin-top: 8px;  
     }
     #addRow, #delRow{
-    width: 28px
+    width: 28px;
     }
     .closeDev{
     border: 1px solid rgb(179, 171, 171);
@@ -203,3 +203,6 @@ body {
         width: 90px;
         height: 41px;
     }
+#prd_nm, #ivco_qty{
+	border: none;
+}

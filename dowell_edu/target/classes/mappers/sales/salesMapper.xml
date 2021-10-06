@@ -20,6 +20,7 @@
    		<result column="lst_upd_dt_time" property="lst_upd_dt_time"/>
 	</resultMap>
 	
+	<!-- 판매전체조회 -->
 	<select id="selectslaesAllSearchList" resultMap="SalesMasterVO">
 	SELECT
 		    PRTMT.PRT_CD,
@@ -71,6 +72,7 @@
 			order by SAL_DT DESC,SAMT.SAL_NO ASC
 	</select>
 	
+	<!-- 고객판매수금등록(팝업)의 공통코드 sal_tp_cd(판매구분), crd_co_cd(카드회사) -->
 	<select id="selectSaltpCd" resultType="com.dowell.edu.vo.common.CodeDetailVO">
 	SELECT
 	      CODE_CD
@@ -84,4 +86,30 @@
 	ORDER BY DTL_CD ASC
 	
 	</select>
+
+	<!-- selectpartnerInvenInqList -->
+	<select id="selectpartnerInvenInqList" resultType="com.dowell.edu.vo.sales.SalesIvcoMasterVO">
+	SELECT
+	   	 IVCMT.PRT_CD,
+	   	 IVCMT.PRD_CD,
+	   	 PRDMT.PRD_NM,
+	   	 IVCMT.IVCO_QTY,
+	   	 PRDMT.PRD_CSMR_UPR
+	FROM
+	   	 SD_IVCO01_MT   IVCMT
+	   	 LEFT JOIN MA_PRD01_MT    PRDMT ON IVCMT.PRD_CD = PRDMT.PRD_CD
+	WHERE
+		1 =1
+	   	 AND PRT_CD = #{prt_cd}
+	  	<if test="prd_cd != ''">
+	  		and IVCMT.PRD_CD like '%' || #{prd_cd} || '%'
+	  		or prd_nm like '%' || #{prd_cd} || '%'
+	  	</if>
+
+	</select>
+
+
+
+
+
 </mapper>

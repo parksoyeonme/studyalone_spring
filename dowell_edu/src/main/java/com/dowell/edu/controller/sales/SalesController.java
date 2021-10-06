@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dowell.edu.service.sales.SalesService;
 import com.dowell.edu.vo.common.CodeDetailVO;
+import com.dowell.edu.vo.sales.SalesIvcoMasterVO;
 import com.dowell.edu.vo.sales.SalesMasterVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -98,4 +99,29 @@ public class SalesController {
 	     return resp;
 	}
 
+	//매장재고조회(팝업)
+	 @ResponseBody
+	 @RequestMapping(value="/partnerInvenInqList", method = {RequestMethod.POST, RequestMethod.GET }, 
+	 				produces ="application/text; charset=utf8")
+	 public String partnerInvenInqList(@RequestParam(value="prt_cd",required=false) String prt_cd 
+			 						  ,@RequestParam(value="prd_cd",required=false) String prd_cd) throws Exception{
+
+		 System.out.println(prd_cd);
+		System.out.println(prt_cd);
+			
+		 Map<String, Object> param= new HashMap<>();
+		 param.put("prd_cd",prd_cd);
+		 param.put("prt_cd",prt_cd);
+		 
+		 List<SalesIvcoMasterVO> list = salesService.selectpartnerInvenInqList(param);
+		
+		 JSONObject obj = new JSONObject();
+	     obj.put("list", list);
+	     
+	     String resp = obj.toString();
+		
+		return resp;
+		 
+		 
+	 }
 }
