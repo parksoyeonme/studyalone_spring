@@ -53,13 +53,26 @@ margin-left: 38%;
 	width: 90px;
     height: 41px;
 }
-#prt_nm{
+/* #prt_nm{
 	margin-left: 68px;
     height: 15px;
-}
+} */
 #searchBtn{
     width: 56px;
     height: 51px;
     margin-left: 222px;
     margin-top: 4px;
 }
+#searchBtnDiv{
+	width: 45px;
+    /* border: 2px solid; */
+    margin-top: -50px;
+    margin-left: 287px;
+
+}
+.hide {
+
+    display:none;
+
+}
+

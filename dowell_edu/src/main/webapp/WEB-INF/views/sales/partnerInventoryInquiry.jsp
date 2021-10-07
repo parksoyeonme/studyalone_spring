@@ -32,18 +32,29 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
         <section>
             <div class="container">
                 <div style="float: left; margin-left: 5%;">
-                    <span>매장</span>
-                    <input type="text" name="prt_nm" id="prt_nm" value="${member.prt_nm}" readonly onkeypress="show_enter(event)">
-                    <input type="hidden" name="prt_cd" id="prt_cd" value="${member.prt_cd}">
-                    <br>
-                    <div style="margin-top: 8px;">
-                        <span>상품(코드+명)</span>
-                        <input type="text" name="prd_cd" id="prd_cd" value="" onkeypress="show_enter(event)">
-                    </div>
+                    <table class="th">
+						<tbody>
+						  <tr>
+						    <td class="th-0lax">매장</td>
+						    <td class="th-0lax">
+						    	<input type="text"  id="prt_nm" value="${member.prt_nm}" readonly onkeypress="show_enter(event)">
+						    	<input type="hidden" name="prt_cd" id="prt_cd" value="${member.prt_cd}">
+						    </td>
+						  </tr>
+						  <tr>
+						    <td class="th-0lax">상품(코드+명)</td>
+						    <td class="th-0lax">
+						    	<input type="text" name="prd_cd" id="prd_cd" value="" onkeypress="show_enter(event)">
+						    </td>
+						  </tr>
+						</tbody>
+					</table>
+					<div id="searchBtnDiv">
+		                <button id="searchBtn" value="" onclick="partnerInventorySearch()">
+		                	<i class="fas fa-search fa-2x"></i>
+		                </button>
+                	</div>
                 </div>
-                <button type="button" id="searchBtn" value="" onclick="partnerInventorySearch()">
-                	<i class="fas fa-search fa-2x"></i>
-                </button>
             </div>
             <div style="margin-left: 25px; margin-top: 15px; height: 359px; overflow:auto;">
                 <table class="tg" style="width: 100%;">
@@ -71,6 +82,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 
     </body>
 <script>
+	
+	
 /* console.log('${countNo}');
 var y = ${countNo};
 console.log(y); */
@@ -124,19 +137,51 @@ var countNo = getParameter("countNo");
 					
 				var tbodyHtml = '';
 				 if (data.list.length == 0) {
-					
+				
 				 }else{
 		        	 for(var i =0; i < data.list.length; i++){
-		        		 tbodyHtml += ' <tr>';
-		        		 tbodyHtml += '<td class="tg-0lax"><input type="checkbox" name="prdCheck" id="prdCheck" value="'+ data.list[i].prd_cd+'" onclick="checkOnly(this)"></td>';
-		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_cd + '</td>';
-		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_nm + '</td>';
-		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].ivco_qty + '</td>';
-		        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_csmr_upr + '</td>';
-		        		 tbodyHtml += '</tr>';
+		        		
+		        		 if(data.list[i].prd_ss_cd == 'C'){
+			        		 tbodyHtml += ' <tr style="background-color: yellow;">';
+			        		 tbodyHtml += '<td class="tg-0lax"><input type="checkbox" disabled name="prdCheck" id="prdCheck" value="'+ data.list[i].prd_cd+'" onclick="checkOnly(this)"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_cd + '<input type="hidden" id="prd_tp_cd" value="' + data.list[i].prd_tp_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_nm + '<input type="hidden" id="tax_cs_cd" value="' + data.list[i].tax_cs_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].ivco_qty + '<input type="hidden" id="prd_ss_cd" value="' + data.list[i].prd_ss_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_csmr_upr + '</td>';
+			        		 tbodyHtml += '</tr>';
+		        	 	}
+		        		 if( data.list[i].prd_tp_cd == '20' ){
+			        		 tbodyHtml += ' <trstyle="display:none;">';
+			        		 tbodyHtml += '<td class="tg-0lax"><input type="checkbox" disabled name="prdCheck" id="prdCheck" value="'+ data.list[i].prd_cd+'" onclick="checkOnly(this)"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_cd + '<input type="hidden" id="prd_tp_cd" value="' + data.list[i].prd_tp_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_nm + '<input type="hidden" id="tax_cs_cd" value="' + data.list[i].tax_cs_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].ivco_qty + '<input type="hidden" id="prd_ss_cd" value="' + data.list[i].prd_ss_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_csmr_upr + '</td>';
+			        		 tbodyHtml += '</tr>';
+		        	 	}
+		        		 if(data.list[i].ivco_qty == '0'){
+			        		 tbodyHtml += ' <tr>';
+			        		 tbodyHtml += '<td class="tg-0lax"><input type="checkbox" disabled name="prdCheck" id="prdCheck" value="'+ data.list[i].prd_cd+'" onclick="checkOnly(this)"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_cd + '<input type="hidden" id="prd_tp_cd" value="' + data.list[i].prd_tp_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_nm + '<input type="hidden" id="tax_cs_cd" value="' + data.list[i].tax_cs_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].ivco_qty + '<input type="hidden" id="prd_ss_cd" value="' + data.list[i].prd_ss_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_csmr_upr + '</td>';
+			        		 tbodyHtml += '</tr>';
+		        	 	} 
+		        		
+		        	 	else if (!(data.list[i].prd_ss_cd == 'C' || data.list[i].prd_tp_cd == '20' ||data.list[i].ivco_qty == '0')){
+		        	 		 tbodyHtml += ' <tr>';
+			        		 tbodyHtml += '<td class="tg-0lax"><input type="checkbox" name="prdCheck" id="prdCheck" value="'+ data.list[i].prd_cd+'" onclick="checkOnly(this)"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_cd + '<input type="hidden" id="prd_tp_cd" value="' + data.list[i].prd_tp_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_nm + '<input type="hidden" id="tax_cs_cd" value="' + data.list[i].tax_cs_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].ivco_qty + '<input type="hidden" id="prd_ss_cd" value="' + data.list[i].prd_ss_cd + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_csmr_upr + '</td>';
+			        		 tbodyHtml += '</tr>';
+		        	 	} 
 		        	 }
 				 }
 	        	 tbody.append(tbodyHtml);
+	        	
 	         },
 	         
 	         error(xhr, status, err){
@@ -151,19 +196,23 @@ var countNo = getParameter("countNo");
 	
 		   document.querySelectorAll(`input[type=checkbox]`).forEach(el => el.checked = false);
 		   target.checked = true;
+		   
+		   
 		}
-		
-		
+		$('#hide').attr('style', "display:none;");
+
 	   <!-- 전달하기 버튼-->
 	   function goSalesRegisText(){
 		   var i = 0;
 		   ++i;
-		   
-		   
-		  
-		   if($("input:checkbox[type=checkbox]").is(":checked") == false){
+		 
+		   if($("input:checkbox[id=prdCheck]").is(":checked") == false){
 				  alert("상품을 선택해주세요");
+				  return false;
 			}
+		   
+		
+		   
 			else{
 			  var rowData = new Array();
 			  var tdArr = new Array();
@@ -176,28 +225,47 @@ var countNo = getParameter("countNo");
 				  var tr = checkbox.parent().parent().eq(i);
 				  //checkbox.parent().parent() : td의 부모 tr
 				  var td = tr.children();
-				  
+				  var prd_tp_cd = tr.children().children("#prd_tp_cd").val();
+				  var prd_ss_cd = tr.children().children("#prd_ss_cd").val();
+				  console.log(prd_tp_cd);
+				  console.log(prd_ss_cd);
 				  //체크된 row의 모든 값을 배열에 담는다
 				  rowData.push(tr.text());
-				  
+				  rowData.push(prd_tp_cd);
+				  rowData.push(prd_ss_cd);
+				  console.log(rowData);
 				  //td.eq(0)은 체크박스이므로 rd.eq(1)의 값부터 가져온다.
 				  var prdCd = td.eq(1).text();
 				  var prdNm = td.eq(2).text();
 				  var ivcoQty = td.eq(3).text();
 				  var prdCsmrUpr = td.eq(4).text();
 				  
-				
+				 
 				  //가저온 값을 배열에 넣는다.
 				  tdArr.push(prdCd);
 				  tdArr.push(prdNm);
 				  tdArr.push(ivcoQty);
 				  tdArr.push(prdCsmrUpr);
+				  
+				 
 	
 			  })
-				   
+			  //console.log("느아아아아ㅏㅇ + " + rowData[1]);
+			  //prd_tp_cd상품유형코드 20: 견본품은 판매x
+			 /*  if(rowData[1] == '20'){
+				  alert("해당 상품은 구매하실 수 없습니다.(견본품)");
+				  return false;
+			  }
+			  if(rowData[2] == 'C'){
+				  alert("해당 상품은 구매하실 수 없습니다.(해지)");
+				  return false;
+			  }
+			  if(tdArr[2]  == '0'){
+				  alert("해당 상품은 구매하실 수 없습니다.(재고부족)");
+				  return false;
+			  }  */
+			  //prd_ss_cd 상품상태코드 C: 해지 판매x
 				  //자식창의 체크값의 배열중 0, 1번째를 부모창으로 보낸다.
-				 //opener.document.getElementById("prd_cd" + "i").value = tdArr[0]
-				//console.log(${countNo});
 			   		opener.document.getElementById("prd_cd"+countNo).value = tdArr[0]
 				  opener.document.getElementById("prd_nm"+countNo).value = tdArr[1]
 				  opener.document.getElementById("ivco_qty" + countNo).value = tdArr[2] 
@@ -210,9 +278,9 @@ var countNo = getParameter("countNo");
 				  } */
 				  
 				  
-			  console.log(tdArr[1]);
+			  /* console.log(tdArr[1]);
 			  console.log(tdArr[0]);
-			  console.log(tdArr[2]);
+			  console.log(tdArr[2]); */
 			  //window.close()
 		   	}
 	   	}

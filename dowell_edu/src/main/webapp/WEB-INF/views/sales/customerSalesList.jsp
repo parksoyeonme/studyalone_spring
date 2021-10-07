@@ -62,7 +62,7 @@
 				</table>
 			</div>
 	        <button id="newCust" onclick="salesRegister();">판매등록</button>
-	        <div style="width:82%; height:501px; overflow:auto">
+	        <div style="width: 82%; float:left;">
 				<table class="tg">
               		<thead>
 	                	<tr>
@@ -83,12 +83,12 @@
 	                   		<th class="tg-0pky">포인트</th>
                  		</tr>
                		</thead>
-               		<tbody id="salseListTBody">
+               		<tbody id="salseListTBody" style="overflow-y:auto;overflow-x:hidden;">
                  	
                		</tbody>
              	</table>
-            </div>
-             <div class="totaldiv" style="width:82%; height:58px;">
+            <!-- </div> -->
+             <!-- <div class="totaldiv" style="width:82%; height:58px;"> -->
 				<table class="tk" id="totalAmount">
 					<thead id="totalAmountThead">
 		            	<!-- <tr>
@@ -104,7 +104,7 @@
 		            	</tr> -->
 		          	</thead>
 		        </table>
-			</div> 
+			 </div> 
      	</div>
     </section>
   	<aside>
@@ -188,6 +188,10 @@ $(function () {
 	   var fromDate = $("#fromDate").val();
 	   var toDate = $("#toDate").val();
 	
+	   if(jn_prt_cd == ''){
+		   alert("매장을 선택해주세요");
+		   return false;
+	   }
 	   $.ajax({
 		   url: "<c:url value='/sales/salesAllSearchList'/>",
 			 type: 'POST',
@@ -223,15 +227,15 @@ $(function () {
 			        		 tbodyHtml += ' <tr>';
 			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].sal_dt  +'</td>';
 			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].cust_no + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].cust_nm + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].sal_no + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax"><input type="button" id="salesDetail"  value="상세" onclick="salesDetail('+ data.list[i].cust_no +')" /></td>';
-			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].tot_sal_qty +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].tot_sal_amt +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].csh_stlm_amt +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].crd_stlm_amt +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].pnt_stlm_amt +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].user_nm +'</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: left;">'+ data.list[i].cust_nm + '</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="border-right: 1px solid #ffffff; text-align: left;">' + data.list[i].sal_no + '</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right; width: 5px;"><input type="button" style="width: 39px;" id="salesDetail"  value="상세" onclick="salesDetail('+ data.list[i].cust_no +')" /></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].tot_sal_qty +'</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].tot_sal_amt +'</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].csh_stlm_amt +'</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].crd_stlm_amt +'</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].pnt_stlm_amt +'</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].user_nm +'</td>';
 			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].lst_upd_dt_time +'</td>';
 			        		 tbodyHtml += '</tr>';
 			        		 

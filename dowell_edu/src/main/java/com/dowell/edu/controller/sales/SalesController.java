@@ -124,4 +124,28 @@ public class SalesController {
 		 
 		 
 	 }
+	
+	
+//	 @RequestMapping(value="/partnerInvenInqList", method = {RequestMethod.POST, RequestMethod.GET }, 
+//	 				produces ="application/text; charset=utf8")
+//	 public ModelAndView partnerInvenInqList(@RequestParam(value="prt_cd",required=false) String prt_cd 
+//			 						  ,@RequestParam(value="prd_cd",required=false) String prd_cd
+//			 						  ,ModelAndView mv) throws Exception{
+//
+//		 System.out.println(prd_cd);
+//		System.out.println(prt_cd);
+//			
+//		 Map<String, Object> param= new HashMap<>();
+//		 param.put("prd_cd",prd_cd);
+//		 param.put("prt_cd",prt_cd);
+//		 
+//		 List<SalesIvcoMasterVO> list = salesService.selectpartnerInvenInqList(param);
+//		
+//		 mv.addObject("list", list);
+//		mv.setViewName("/sales/partnerInventoryInquiry");
+//		
+//		return mv;
+//		 
+//		 
+//	 }
 }

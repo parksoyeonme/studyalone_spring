@@ -196,7 +196,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 </body>
 
 <script>
-
+	
 	//현재날짜
 	document.getElementById('now_date').valueAsDate = new Date();
 
@@ -236,6 +236,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	    // 새 행(Row) 추가
 	   // const newRow = table.insertRow();
 		var i = 1;
+		//var j = 1;
 		var html = '';
 		   
 		function addRow() {
@@ -247,10 +248,10 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
         	 alert("최대 10개까지만 등록이 가능합니다.");
         	 return;
          }
-         
+        // var j = i.length;
 	    // Cell에 텍스트 추가
 	     $("#salTable").append(
-	        '<tr><td><input type="checkbox"></td>'
+	        '<tr><td><input type="checkbox" id="checkbox'+ i + '"></td>'
 	            +'<td class="tg-0lax" id=count' + i + '>' + i +'</td>'
 	            +'<td class="tg-0lax"><input type="text" name="prd_cd'+ i + '" id="prd_cd'+ i +'"><button type="button" onclick="partnerInventory(' + i + ')"><i class="fas fa-search"></i></button></td>'
 	            +'<td class="tg-0lax"><input type="text" style="border: none;" name="prd_nm'+ i + '" id="prd_nm'+ i + '" value=""></td>'
@@ -262,11 +263,51 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	   
 	  }
 
-	  function delRow(){
-	    $("#salTable > tbody:last >tr:not(:first):last ").remove();
-	   
+	/*   function delRow(){
+	    $("#salTable > tbody:last >tr:not(:first):last ").remove(); 
+	}
+	    */
+	   /*  function delRow(){          
+	    	var checkbox = $("input:checkbox[type=checkbox]:checked");
+	    	//var checkbox = $("input:checkbox[id=prdCheck]:checked");
+	    	//checkvbox.parent() : checkbox의 부모 td
+			 // var tr = checkbox.parent().parent().eq(i);
+			  //checkbox.parent().parent() : td의 부모 tr
+            if($("input:checkbox[type=checkbox]").is(":checked") == true){ //체크된 요소가 있으면               
+                var i = checkbox.parents("tr");
+            console.log("idddddddddddddd" + i);
+                   //var e = i.next("tr");                     
+                   i.remove();
+                  // e.remove();
+            }
+       } */
+       
+       function delRow(){ 
+		  //체크된 행이 없을 경우.
+        if($("input:checkbox[type=checkbox]").is(":checked") == false){  
+        
+              alert("삭제할 행을 선택하여 주십시오.");  
+            
+        } else {                  
+            
+        	$("input:checkbox[type=checkbox]:checked").each(function(index){               
+                       
+                         
+                     //체크박스를 포함하고 있는 행 제거 
+                     var clickedRow = $(this).parent().parent();   
+                     //var clickedRowNext = clickedRow.next("tr");                     
+                     clickedRow.remove();
+                     
+                    // clickedRowNext.remove();     
+                    
+                    
+                                       
+              });                    
+        }            
 	
-	  }
+       }
+       
+       
 	  
 		//매장팝업
 		function partnerInventory(countNo){

@@ -25,15 +25,27 @@
 	SELECT
 		    PRTMT.PRT_CD,
 		    PRTMT.PRT_NM,
-		    samt.sal_dt,
+		    to_char(to_date(samt.sal_dt, 'YYMMDD'), 'YYYY-MM-DD') sal_dt,
 		    SAMT.cust_no,
 		    CSMT.cust_nm,
+		    samt.sal_tp_cd,
 		    samt.sal_no,
-		    samt.tot_sal_qty,
-		    samt.tot_sal_amt,
-		    samt.csh_stlm_amt,
-		    samt.crd_stlm_amt,
-		    samt.pnt_stlm_amt,
+		    case when samt.sal_tp_cd = 'RTN' then samt.tot_sal_qty *(-1)
+		    	else samt.tot_sal_qty
+		    	end tot_sal_qty,
+		    case when samt.sal_tp_cd = 'RTN' then samt.tot_sal_amt *(-1)
+		    	else samt.tot_sal_amt
+		    	end tot_sal_amt,
+		    case when samt.sal_tp_cd = 'RTN' then samt.csh_stlm_amt *(-1)
+		    	else samt.csh_stlm_amt
+		    	end csh_stlm_amt,
+		   case when samt.sal_tp_cd = 'RTN' then samt.crd_stlm_amt *(-1)
+		    	else samt.crd_stlm_amt
+		    	end crd_stlm_amt,
+		    case when samt.sal_tp_cd = 'RTN' then samt.pnt_stlm_amt *(-1)
+		    	else samt.pnt_stlm_amt
+		    	end pnt_stlm_amt,
+		    
 		    samt.lst_upd_id,
 		    (
 		        SELECT 																
@@ -43,7 +55,7 @@
 		        WHERE
 		            samt.lst_upd_id = usmt.user_id
 		     ) user_nm,
-		    to_char(samt.lst_upd_dt, 'YYYY-MM-DD HH24MISS') AS lst_upd_dt_time
+		    to_char(samt.lst_upd_dt, 'YYYY-MM-DD') AS lst_upd_dt_time
 	FROM
 		    cs_sal01_mt    samt
 		    LEFT JOIN CS_CUST01_MT   CSMT ON csmt.cust_no = samt.cust_no
@@ -55,19 +67,11 @@
    														
    				and SAL_DT between to_date(#{fromDate},'YYYY-MM-DD') 				<!-- 가입날짜(_js_dt)는 fromDate 날짜와 사이에 toDate날짜 사이에 위치 --> 
        								and to_date(#{toDate},'YYYY-MM-DD')
-       			
-		        <if test="jn_prt_cd.equals('') and !cust_no.equals('')">			<!-- 고객번호(cust_no) 존재, 매장코드(jn_prt_cd) 없는경우 -->
+       			and prtmt.prt_cd = #{jn_prt_cd}
+		        <if test="cust_no != ''">			<!-- 고객번호(cust_no) 존재, 매장코드(jn_prt_cd) 없는경우 -->
 		            and samt.cust_no = #{cust_no}
 		        </if>
-		        
-		        <if test="cust_no.equals('') and !jn_prt_cd.equals('')"> 				<!-- 매장코드 존재, 고객번호가 없는경우  -->
-		            and prtmt.prt_cd = #{jn_prt_cd}
-		        </if>
-		        
-		        <if test="!cust_no.equals('') and !jn_prt_cd.equals('')"> 				<!--  매장코드, 고객번호 둘다 존재 --> 
-		        	and samt.cust_no = #{cust_no}
-		        	and prtmt.prt_cd = #{jn_prt_cd}
-		        </if>
+
 			
 			order by SAL_DT DESC,SAMT.SAL_NO ASC
 	</select>

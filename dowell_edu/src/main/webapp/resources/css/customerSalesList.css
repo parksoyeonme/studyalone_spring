@@ -36,15 +36,15 @@ body {
   margin-left: 44px;
   width: 97%;
   height: 100px;
-  margin-top: 14px;
+  margin-top: 13px;
 
 }
 
 .tk {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 96%;
-  margin-left: 51px;
+  width: 97%;
+  margin-left: 45px;
 }
 
 .tk td {
@@ -73,7 +73,12 @@ body {
 .tk .tk-0pky {
   border-color: inherit;
   text-align: left;
-  vertical-align: top
+  vertical-align: top;
+ padding-left: 223px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #f6b966;
+    color: #ff5722
 }
 
 .tk .tk-0lax {
@@ -86,8 +91,9 @@ body {
   border-style: solid;
   border-width: 1px;
   overflow: hidden;
-  padding: 10px 5px;
+  padding: 8px 5px;
   word-break: normal;
+  
 }
 
 .tg th {
@@ -153,7 +159,7 @@ body {
 
 #newCust {
   float: right;
-  margin-top: 6px;
+  margin-top: 12px;
   width: 171px;
   height: 33px;
   margin-right: 391px;
@@ -164,6 +170,6 @@ aside {
   float: right;
   height: 204px;
   margin-right: 75px;
-  margin-top: -667px;
+  margin-top: -136px;
   width: 10%;
 }
