@@ -115,7 +115,45 @@
 
 	</select>
 
-
+	<select id="selectprdInventorySearch" resultType="com.dowell.edu.vo.sales.SalesIvcoMasterVO">
+	SELECT
+	   	 IVCMT.PRT_CD
+	   	 ,IVCMT.PRD_CD
+	   	 ,PRDMT.PRD_NM
+	   	 ,IVCMT.IVCO_QTY
+	   	 ,PRDMT.PRD_CSMR_UPR
+	   	 ,PRDMT.PRD_TP_CD
+	   	 ,PRDMT.TAX_CS_CD
+	   	 ,PRDMT.PRD_SS_CD
+	FROM
+	   	 SD_IVCO01_MT   IVCMT
+	   	 LEFT JOIN MA_PRD01_MT    PRDMT ON IVCMT.PRD_CD = PRDMT.PRD_CD
+	WHERE
+		1 =1
+	   	 AND PRT_CD = #{prt_cd}
+	  	and IVCMT.PRD_CD = #{prd_cd}
+	  	
+	</select>
+	<select id="selectprdInventoryNm" resultType="com.dowell.edu.vo.sales.SalesIvcoMasterVO">
+	SELECT
+	   	 IVCMT.PRT_CD
+	   	 ,IVCMT.PRD_CD
+	   	 ,PRDMT.PRD_NM
+	   	 ,IVCMT.IVCO_QTY
+	   	 ,PRDMT.PRD_CSMR_UPR
+	   	 ,PRDMT.PRD_TP_CD
+	   	 ,PRDMT.TAX_CS_CD
+	   	 ,PRDMT.PRD_SS_CD
+	FROM
+	   	 SD_IVCO01_MT   IVCMT
+	   	 LEFT JOIN MA_PRD01_MT    PRDMT ON IVCMT.PRD_CD = PRDMT.PRD_CD
+	WHERE
+		1 =1
+	   	 AND PRT_CD = #{prt_cd}
+	  	
+	  	and prd_nm = #{prd_cd}
+	  	
+	</select>
 
 
 

@@ -124,7 +124,70 @@ public class SalesController {
 		 
 		 
 	 }
-	
+	 
+	//sales/prdInventorySearch
+	 @ResponseBody
+	 @RequestMapping(value="/prdInventorySearch", method = {RequestMethod.POST, RequestMethod.GET }, 
+	 				produces ="application/text; charset=utf8")
+	 public String prdInventorySearch(@RequestParam(value="prt_cd",required=false) String prt_cd 
+			  						,@RequestParam(value="prd_cd",required=false) String prd_cd) throws Exception{
+		 System.out.println(prd_cd);
+			System.out.println(prt_cd);
+				
+//			 for(int i=0 ; i<prd_cd.length() ; i++) {
+//                 char a = prd_cd.charAt(i); // 숫자가 아닌 다른 수를 입력했을 경우 찾기
+//                 int asc = (int)a; // 아스키코드로 변경
+//                 if(asc<48 || asc>57) {
+//                     System.out.println("숫자만 입력해주세요.");
+//                     b=true;
+//                     break;
+//             }
+			Map<String, Object> param= new HashMap<>();
+			 param.put("prd_cd",prd_cd);
+			 param.put("prt_cd",prt_cd);
+			
+			
+			 
+			 boolean isNumber = true; //숫자맞다
+			 
+			 for(int i=0 ; i < prd_cd.length() ; i++) {
+				char a = prd_cd.charAt(i);
+				System.out.println("느아아ㅏ앙아아아 =" + a );
+				int asc = (int)a;
+				if(asc<48 || asc>57) {
+					
+					isNumber = false;
+					break;
+				}
+				
+			}
+			 
+			 
+			 JSONObject obj = new JSONObject();
+			 
+			if(isNumber) {
+				List<SalesIvcoMasterVO> list = salesService.selectprdInventorySearch(param);
+				obj.put("list", list);
+				
+			}else {
+				List<SalesIvcoMasterVO> listNM = salesService.selectprdInventoryNm(param);
+				obj.put("listnm", listNM);
+			}
+			
+			 
+				
+				
+			     
+			     
+		 
+		 //List<SalesIvcoMasterVO> list = salesService.selectprdInventorySearch(param);
+			 String resp = obj.toString();
+			 System.out.println("나와랏 뿅 =" + resp );
+		
+		return resp;
+		 
+		 
+	 } 
 	
 //	 @RequestMapping(value="/partnerInvenInqList", method = {RequestMethod.POST, RequestMethod.GET }, 
 //	 				produces ="application/text; charset=utf8")

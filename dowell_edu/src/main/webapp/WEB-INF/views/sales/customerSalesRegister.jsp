@@ -151,13 +151,14 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                </td>
 		           		<td class="tg-0lax" id="count1">1</td>
 		            	<td class="tg-0lax">
-		            		<input type="text" name="prd_cd1" id="prd_cd1" value="">
+		            		<input type="text" name="prd_cd1" id="prd_cd1" value="" onkeypress="show_enter()">
+		            		<input type="hidden" name="prt_cd" id="prt_cd" value="${member.prt_cd}">
 		            		<button type="button" id="partnerInventory" onclick="partnerInventory(1)">
 		            			<i class="fas fa-search"></i>
 		            		</button>
 		            	</td>
 			            <td class="tg-0lax">
-			            	<input type="text" name="prd_nm1" id="prd_nm1" value="">
+			            	<input type="text" name="prd_nm1" id="prd_nm1" value=""  >
 			            </td>
 			            <td class="tg-0lax">
 			            	<input type="text" name="ivco_qty1" id="ivco_qty1" value="">
@@ -213,7 +214,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		  
 	} */
 	
-	$('#tot_sal1').keyup(function (mblcheck) {
+	/* $('#tot_sal1').keyup(function () {
 		 var tot_sal1 = $("#tot_sal1").val();
 		 var max = $("#ivco_qty1").val(); 
 		    //활성화
@@ -225,9 +226,74 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 			}
 				
 			
-	});
-	
+	}); */
+	 function show_enter(){
+		 //var prd_cd = document.getElementById("prd_cd1").value;
+		 //var prt_nm = document.getElementById("prt_cd").value;
+	       
+	       if(event.keyCode == 13){
+	    	   //alert("성공")
+	    	   prdInventorySearch();
+	    	   //console.log("나와아아아ㅏ" + prd_cd);
+	       }
+	    }
 
+	function prdInventorySearch(){
+		var prd_cd = $("#prd_cd" + i).val();
+		var prt_cd = $("#prt_cd").val();
+		console.log(prd_cd);
+		
+		$.ajax({
+            url : "${pageContext.request.contextPath}/sales/prdInventorySearch",
+            type :"POST",
+            dataType : "json",
+            data : {
+            	"prt_cd" : prt_cd,
+	        	"prd_cd" : prd_cd
+            	
+            },
+            success : function(data){
+           	 
+					//alert("성공?.");
+					//console.log(data);
+					const $frm = $(salTabletbody);
+					
+					if(data.listnm){
+						 if(data.listnm.length == 0){
+							alert("해당상품은 존재하지 않습니다.");
+						} 
+						if(data.listnm[0].prd_ss_cd =='C' || data.listnm[0].prd_tp_cd =='20' ||data.listnm[0].ivco_qty =='0'){
+							alert("상품상태가 정상이 아닙니다.")
+							return false;
+						}
+						$frm.find($("#prd_cd" + i)).val(data.listnm[0].prd_cd);
+						$frm.find($("#prd_nm" + i)).val(data.listnm[0].prd_nm);
+						$frm.find($("#ivco_qty" + i)).val(data.listnm[0].ivco_qty);
+						
+					}
+					if(data.list){
+						if(data.list.length == 0){
+							alert("해당상품은 존재하지 않습니다.");
+						}
+						if(data.list[0].prd_ss_cd =='C' || data.list[0].prd_tp_cd =='20' ||data.list[0].ivco_qty =='0'){
+							alert("상품상태가 정상이 아닙니다.")
+							return false;
+						}
+						$frm.find($("#prd_cd" + i)).val(data.list[0].prd_cd);
+						$frm.find($("#prd_nm" + i)).val(data.list[0].prd_nm);
+						$frm.find($("#ivco_qty" + i)).val(data.list[0].ivco_qty);
+						
+					}
+					
+					
+           	 
+            },
+            error: function(xhr, status, error){
+                alert("등록실패했습니다." + error);
+            }
+           
+        });
+	}
 	  //function addRow() {
 		  
 	    // table element 찾기
@@ -253,7 +319,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	     $("#salTable").append(
 	        '<tr><td><input type="checkbox" id="checkbox'+ i + '"></td>'
 	            +'<td class="tg-0lax" id=count' + i + '>' + i +'</td>'
-	            +'<td class="tg-0lax"><input type="text" name="prd_cd'+ i + '" id="prd_cd'+ i +'"><button type="button" onclick="partnerInventory(' + i + ')"><i class="fas fa-search"></i></button></td>'
+	            +'<td class="tg-0lax"><input type="text" name="prd_cd'+ i + '" id="prd_cd'+ i +'"  onkeypress="show_enter(event)"><button type="button" onclick="partnerInventory(' + i + ')"><i class="fas fa-search"></i></button></td>'
 	            +'<td class="tg-0lax"><input type="text" style="border: none;" name="prd_nm'+ i + '" id="prd_nm'+ i + '" value=""></td>'
 	            +'<td class="tg-0lax"><input type="text" style="border: none;" name="ivco_qty'+ i + '" id="ivco_qty'+ i + '" value=""></td>'
 	            +'<td class="tg-0lax"><input type="number" min="0" max="" name="tot_sal' + i + '" id="tot_sal' + i + '" value=""></td>'
@@ -304,7 +370,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
                                        
               });                    
         }            
-	
+	//$("#salTable > tbody:last >tr:not(:first):last ").remove();
        }
        
        

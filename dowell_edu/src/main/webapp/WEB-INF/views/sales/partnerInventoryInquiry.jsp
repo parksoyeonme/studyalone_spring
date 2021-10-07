@@ -93,16 +93,12 @@ function getParameter(name) {
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-
 var countNo = getParameter("countNo");
-
 <%-- 위에 이거 선언해있어서 아래에서
  <% String countNo = request.getParameter("countNo"); %>
  <%=countNo%>이런식으로 쓰면된다. 
  https://bumcrush.tistory.com/122
  --%>
-
-
 	//엔터이벤트 -  작성 후 엔터 누르면 custSearch()작동
 	 function show_enter(e){
 		 var prt_nm = document.getElementById("prd_cd").value;
@@ -200,7 +196,6 @@ var countNo = getParameter("countNo");
 		   
 		}
 		$('#hide').attr('style', "display:none;");
-
 	   <!-- 전달하기 버튼-->
 	   function goSalesRegisText(){
 		   var i = 0;

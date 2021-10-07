@@ -36,6 +36,18 @@ public class SalesServiceImpl implements SalesService {
 	public List<SalesIvcoMasterVO> selectpartnerInvenInqList(Map<String, Object> param) throws Exception {
 		return salesDao.selectpartnerInvenInqList(param);
 	}
+
+	
+	@Override
+	public List<SalesIvcoMasterVO> selectprdInventorySearch(Map<String, Object> param) throws Exception {
+		return salesDao.selectprdInventorySearch(param);
+	}
+
+	@Override
+	public List<SalesIvcoMasterVO> selectprdInventoryNm(Map<String, Object> param) throws Exception {
+		// TODO Auto-generated method stub
+		return salesDao.selectprdInventoryNm(param);
+	}
 	
 	/*
 	 * @Override 

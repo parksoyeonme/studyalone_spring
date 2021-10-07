@@ -15,6 +15,10 @@ public interface SalesService {
 
 	List<SalesIvcoMasterVO> selectpartnerInvenInqList(Map<String, Object> param) throws Exception;
 
+	List<SalesIvcoMasterVO> selectprdInventorySearch(Map<String, Object> param) throws Exception;
+
+	List<SalesIvcoMasterVO> selectprdInventoryNm(Map<String, Object> param) throws Exception;
+
 	/*
 	 * //고객조회(팝업)
 	List<CustomerVO> selectcustSearchList(Map<String, Object> param) throws Exception;
