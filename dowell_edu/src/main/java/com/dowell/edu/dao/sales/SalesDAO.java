@@ -20,6 +20,10 @@ public interface SalesDAO {
 
 	List<SalesIvcoMasterVO> selectprdInventoryNm(Map<String, Object> param) throws Exception;
 
+	List<SalesMasterVO> salesDetailList(Map<String, Object> param) throws Exception;
+
+	List<SalesMasterVO> selectSalesDetailHead(Map<String, Object> param) throws Exception;
+
 	/*
 	 * 
 	 * List<CustomerVO> selectcustSearchList(Map<String, Object> param) throws Exception;

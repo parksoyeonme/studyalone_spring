@@ -48,6 +48,16 @@ public class SalesServiceImpl implements SalesService {
 		// TODO Auto-generated method stub
 		return salesDao.selectprdInventoryNm(param);
 	}
+
+	@Override
+	public List<SalesMasterVO> salesDetailList(Map<String, Object> param) throws Exception {
+		return salesDao.salesDetailList(param);
+	}
+
+	@Override
+	public List<SalesMasterVO> selectSalesDetailHead(Map<String, Object> param) throws Exception {
+		return salesDao.selectSalesDetailHead(param);
+	}
 	
 	/*
 	 * @Override 

@@ -223,13 +223,13 @@ $(function () {
 					 }else{
 			        	 for(var i =0; i < data.list.length; i++){
 			        		 console.log(i);
-							
+			        		 //console.log("$$$$$$$$$$$ =" + data.list[i].prt_cd);
 			        		 tbodyHtml += ' <tr>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].sal_dt  +'</td>';
+			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].sal_dt  +'<input type="hidden" id="sal_dt" value="'+data.list[i].sal_dt+'"></td>';
 			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].cust_no + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: left;">'+ data.list[i].cust_nm + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="border-right: 1px solid #ffffff; text-align: left;">' + data.list[i].sal_no + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right; width: 5px;"><input type="button" style="width: 39px;" id="salesDetail"  value="상세" onclick="salesDetail('+ data.list[i].cust_no +')" /></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: left;">'+ data.list[i].cust_nm + '<input type="hidden" id="prt_cd" value="'+data.list[i].prt_cd+'"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="border-right: 1px solid #ffffff; text-align: left;">' + data.list[i].sal_no + '<input type="hidden" id="sal_no" value="' + data.list[i].sal_no + '"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right; width: 5px;"><input type="button" style="width: 39px;" id="salesDetail"  value="상세" onclick="salesDetail('+ data.list[i].sal_no +','+'\''+ data.list[i].cust_no +'\''+','+'\''+ data.list[i].sal_dt +'\''+','+'\''+ data.list[i].prt_cd +'\''+')" /></td>';
 			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].tot_sal_qty +'</td>';
 			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].tot_sal_amt +'</td>';
 			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].csh_stlm_amt +'</td>';
@@ -269,20 +269,63 @@ $(function () {
 	   
 	  	}
 	
+	
+	  /* window.name = "salesHistoryPopForm";   //salesHistory
+	  	 var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory?cust_no=" + cust_no;
+	  			 
+	  	 window.open(custHistoryUrl,
+	            "childForm", "width=780, height=702, resizable = no, scrollbars = no");
+	    */
+	
 	//salesDetail
 	//고객정보조회(상세버튼)
-   	function salesDetail(cust_no){
-  		var cust_no = cust_no;
-  		console.log("#####상세버튼클리후넘긴디아" + cust_no);
+   	function salesDetail(sal_no,cust_no,sal_dt,prt_cd){
   		
-  		 window.name = "HistoryPopForm";
-	  	 var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory?cust_no=" + cust_no;
+	    	
+	    	 console.log("셀넘버 =" + sal_no);
+	    	 console.log("날짜 =" + sal_dt);
+	    	 console.log("매장 =" + prt_cd);
+	    	 console.log("고객번호 =" + cust_no);
+ 		
+ 		
+  		/* var sal_no = $("#sal_no").val();
+  		 var prt_cd = $("#prt_cd").val();
+  		var sal_dt = $("#sal_dt").val(); */
+  		 
+  		 window.name = "salesHistoryPopForm";
+           var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory?sal_no="+sal_no+"&cust_no=" +cust_no+"&sal_dt="+sal_dt+"&prt_cd="+prt_cd;
 	  	 window.open(custHistoryUrl,
-	              "childForm", "width=780, height=702, resizable = no, scrollbars = no");
+	             "childForm", "width=780, height=600, resizable = no, scrollbars = no");
+  		  
   		
-  
-	} 
+   	 /*  var prt_cd = $("#prt_cd").val();
+  		var sal_dt = $("#sal_dt").val();
+  		
+	  	
+	  	  $.ajax({
+  	        
+  	        type:"post",
+  	        url:"${pageContext.request.contextPath}/sales/salesHistoryList",
+	  	    data : {
+		        "cust_no" : cust_no,
+		        "prt_cd" : prt_cd,
+		        "sal_dt" : sal_dt
+		       },
+  	        success:function(data){
+  	        	alert("#####성고오오옹");
+  	        	
+  	        	
+  	            //location.href = "${pageContext.request.contextPath}/sales/salesHistory";
+  	            
+  	            window.name = "salesHistoryPopForm";
+  	            var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory";
+  		  	 window.open(custHistoryUrl,
+  		             "childForm", "width=780, height=702, resizable = no, scrollbars = no");
+  		  	 
+  	        }                
+  	    });   */  
 	
+	}
 	
 </script>
 </html>

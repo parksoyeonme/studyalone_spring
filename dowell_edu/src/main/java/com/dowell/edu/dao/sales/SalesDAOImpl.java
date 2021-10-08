@@ -44,6 +44,17 @@ public class SalesDAOImpl implements SalesDAO {
 		// TODO Auto-generated method stub
 		return sqlsSession.selectList("sales.selectprdInventoryNm",param);
 	}
+
+	@Override
+	public List<SalesMasterVO> salesDetailList(Map<String, Object> param) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlsSession.selectList("sales.salesDetailList",param);
+	}
+
+	@Override
+	public List<SalesMasterVO> selectSalesDetailHead(Map<String, Object> param) throws Exception {
+		return sqlsSession.selectList("sales.selectSalesDetailHead",param);
+	}
 	
 	/*
 	 * @Override

@@ -40,7 +40,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
                 <tr>
                     <td class="th-0lax required">판매일자</td>
                     <td class="th-0lax">
-                    	<input type="date" id="now_date" readonly>
+                    	<input type="date" id="sal_dt" readonly>
+                    	<input type="hidden" name="prt_cd" id="prt_cd" value="${member.prt_cd}">
                     </td>
                     <td class="th-0lax required">판매구분</td>
                     <td class="th-0lax">
@@ -79,21 +80,23 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 
             </table>
         </div>
+       <!--  <form id="salesRegFrm" name="salesRegFrm"> -->
         <!--두번째 시작-->
         <div class="secondBox">
+        
             <table class="th" style="margin-top: 3px;">
                 <tr>
                     <td class="th-0lax" style="padding: 17px;">현금</td>
                     <td class="th-0lax">
-                        <input type="text" name="" id="">
+                        <input type="text" name="" id="csh_stlm_amt" value="">
                     </td>
                     <td class="th-0lax">카드금액</td>
                     <td class="th-0lax">
-                        <input type="text" name="" id="">
+                        <input type="text" name="" id="crd_stlm_amt" value="">
                     </td>
                     <td class="th-0lax">유효일자</td>
                     <td class="th-0lax">
-                        <input type="text" name="" id="">
+                        <input type="text" name="" id="vld_ym" value="">
                     </td>
                 </tr>
                 <tr>
@@ -108,16 +111,16 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
                     </td>
                     <td class="th-0lax">카드번호</td>
                     <td class="th-0lax">
-                        <input type="text" name="" id="">
+                        <input type="text" name="" id="crd_no1" value="">
                     </td>
                     <td class="th-0lax">
-                        <input type="text" name="" id="">
+                        <input type="text" name="" id="crd_no2" value="">
                     </td>
                     <td class="th-0lax">
-                        <input type="text" name="" id="">
+                        <input type="text" name="" id="crd_no3" value="">
                     </td>
                     <td class="th-0lax">
-                        <input type="text" name="" id="">
+                        <input type="text" name="" id="crd_no4" value="">
                     </td>
                 </tr>
             </table>
@@ -149,41 +152,59 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                <td>
 		                	<input type="checkbox">
 		                </td>
-		           		<td class="tg-0lax" id="count1">1</td>
+		           		<td class="tg-0lax" ><span name="count">1</span></td>
 		            	<td class="tg-0lax">
-		            		<input type="text" name="prd_cd1" id="prd_cd1" value="" onkeypress="show_enter()">
-		            		<input type="hidden" name="prt_cd" id="prt_cd" value="${member.prt_cd}">
+		            		<input type="text" name="prd_cd" id="prd_cd1" value="" onkeypress="show_enter()">
+		            		<input type="hidden" name="prt_cd"  value="${member.prt_cd}">
 		            		<button type="button" id="partnerInventory" onclick="partnerInventory(1)">
 		            			<i class="fas fa-search"></i>
 		            		</button>
 		            	</td>
 			            <td class="tg-0lax">
-			            	<input type="text" name="prd_nm1" id="prd_nm1" value=""  >
+			            	<!-- <input type="text" name="prd_nm"  id="prd_nm1" value=""  > -->
+			            	<label name="prd_nm" id="prd_nm1"></label>
 			            </td>
 			            <td class="tg-0lax">
-			            	<input type="text" name="ivco_qty1" id="ivco_qty1" value="">
+			            	<!-- <input type="text" name="ivco_qty" id="ivco_qty1"  value=""> -->
+			            	<label name="ivco_qty" id="ivco_qty1"></label>
+			            </td>
+			            <!-- 판매수량 -->
+			            <td class="tg-0lax">
+			            	<input type="number" min="0"  name="buy_sal" id="buy_sal1" onblur="losFocus(id);" onkeydown="return showKeyCode(event, id)" value="">
+			            	<!-- 단가 -->
+	                		<input type="hidden" id="prd_csmr_upr1">
 			            </td>
 			            <td class="tg-0lax">
-			            	<input type="number" min="0"  name="tot_sal1" id="tot_sal1" value="">
+			           		 <label id = 'tot_sal1'></label>
 			            </td>
-			            <td class="tg-0lax">금액넣어야</td>
 					</tr>
                 </tbody>
-                
             </table>
+            
         </div>
-        
+        <!-- </form> -->
          <div class="totaldiv" style="width:94%; height:58px;">
             <table class="tk">
             <thead>
                 <tr>
                 <td class="tk-0pky" colspan="4" style="width: 46%;">합계</td>
-                <td class="tk-0pky">판매수량</td>
-                <td class="tk-0lax">판매금액</td>
+                <td class="tk-0pky">
+	                판매수량 : 
+	                <!-- <div id="tot_sal_qty"></div> -->
+	                <label id = 'tot_sal_qty'></label>
+	                <input type="hidden" id="tot_sal_qty">
+	                
+                </td>
+                <td class="tk-0lax">
+                	판매금액 : 
+                	<label id = 'tot_sal_amt'></label>
+                	<input type="hidden" id="tot_sal_amt">
+                </td>
                 </tr>
             </thead>
             </table>
-        </div> 
+        </div>
+        
     </div>
     </section>
     <aside>
@@ -191,15 +212,46 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
     <footer>
         <div class="closeDev">
             <input type="button" class="closeBtn" value="닫기" onclick="window.close()">
-            <input type="button" class="submitBtn" value="적용" onclick="goStoreText()">
+            <input type="button" class="submitBtn" value="적용" onclick="goStoreSalesReg()">
             </div>
     </footer>
 </body>
 
 <script>
-	
+	//수량
+	function losFocus(id) { 
+		//ID 형식 : txt + "_" + OOO(축약어) + "_" + index 
+		//ivco_qty1 + i(index)
+		//따라서 앞에 고정 문자열의 개수는 8개(txt_ooo_) 
+	//var pDefault_lenght = 8; 
+	//전달받은 ID의 끝자리 Index를 추출해서 //동일 Index를 가지고 있는 ID의 이름에 Index 를 붙여줌. 
+	//var pIndex = String(id.substring(pDefault_lenght, id.length)); 
+	//var pri_name = "prd_csmr_upr" + pIndex; //가격 컬럼의 ID 
+	//var qty_name = "txt_qty_" + pIndex; //수량 컬럼의 ID 
+	//var tot_name = tot_sal_qty; //총 금액 컬럼의 ID 
+	var buy_sal = document.getElementById('buy_sal'+i).value; //해당 수량컬럼의 값을 qty 에 저장 
+	console.log("1111111 =" + buy_sal);
+	var prd_csmr_upr = document.getElementById('prd_csmr_upr'+i).value; //해당 가격컬럼의 값을 pri 에 저장 
+	console.log("222222 =" + prd_csmr_upr);
+	var tot_amt = buy_sal.replace(",", "") * prd_csmr_upr.replace(",", ""); //수량, 또는 금액 값에 ","" 가 입력되있을 때 오류를 방지하기 위해 .replace 로 "," 제거 
+	console.log("3333333 =" + tot_amt);
+	document.getElementById('tot_sal'+i).innerText =  tot_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+//document.getElementById(tot_name).innerHTML
+//document.getElementById(tot_sal_qty).innerHTML
+	//총 금액컬럼에 계산된 금액 입력. 3자리마다 "," 입력. 
+	} 
+	function showKeyCode(event, name) { 
+		event = event || window.event; 
+		var keyID = (event.which) ? event.which : event.keyCode; 
+	if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 || keyID == 188) {
+		return; 
+	} else { 
+		return false; 
+		} 
+	}
+
 	//현재날짜
-	document.getElementById('now_date').valueAsDate = new Date();
+	document.getElementById('sal_dt').valueAsDate = new Date();
 
 	//max(this)
 	/* function myFunction(val) {
@@ -227,12 +279,34 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 				
 			
 	}); */
+	//$("input[name=search_value]")
+	/* $("input[name=buy_sal]").keyup(function(){
+		
+		calcSum();
+	});
+	
+	function calcSum() {
+	  // table element 찾기
+	  const table = document.getElementByName('buy_sal');
+	  
+	  // 합계 계산
+	  var sum = 0;
+	  for(var j = 0; j < table.rows.length; j++)  {
+	    sum += parseInt(table.rows[j].cells[5].value);
+	  }
+	  
+	  // 합계 출력
+	  document.getElementById('tot_sal_qty').value = sum;
+	  
+	} */
+	
 	 function show_enter(){
 		 //var prd_cd = document.getElementById("prd_cd1").value;
 		 //var prt_nm = document.getElementById("prt_cd").value;
 	       
 	       if(event.keyCode == 13){
 	    	   //alert("성공")
+	    	   
 	    	   prdInventorySearch();
 	    	   //console.log("나와아아아ㅏ" + prd_cd);
 	       }
@@ -242,7 +316,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		var prd_cd = $("#prd_cd" + i).val();
 		var prt_cd = $("#prt_cd").val();
 		console.log(prd_cd);
-		
+		console.log("뿌잉 =  " + prd_cd);
 		$.ajax({
             url : "${pageContext.request.contextPath}/sales/prdInventorySearch",
             type :"POST",
@@ -257,18 +331,31 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 					//alert("성공?.");
 					//console.log(data);
 					const $frm = $(salTabletbody);
-					
+					//console.log("노아아아아앙 2=" + data.listnm[0].prd_cd);
 					if(data.listnm){
-						 if(data.listnm.length == 0){
+						//동일한 물건이 이미있을경우
+						/* if(data.listnm[0].prd_cd == $("#prd_cd" + i).val()){
+							console.log("노아아아아앙 =" + data.listnm[0].prd_cd);
+							console.log("꾸이이이잉이 =  " + prd_cd);
+							alert("이미 추가된 상품입니다.")
+							return false;
+						} */
+						
+						//상품이 존재하지 않을때
+						if(data.listnm.length == 0){
 							alert("해당상품은 존재하지 않습니다.");
-						} 
+						}
+						
+						
 						if(data.listnm[0].prd_ss_cd =='C' || data.listnm[0].prd_tp_cd =='20' ||data.listnm[0].ivco_qty =='0'){
 							alert("상품상태가 정상이 아닙니다.")
 							return false;
 						}
 						$frm.find($("#prd_cd" + i)).val(data.listnm[0].prd_cd);
-						$frm.find($("#prd_nm" + i)).val(data.listnm[0].prd_nm);
-						$frm.find($("#ivco_qty" + i)).val(data.listnm[0].ivco_qty);
+						$frm.find($("#prd_nm" + i)).text(data.listnm[0].prd_nm);
+						//$frm.find(document.getElementById('buy_sal'+i)).innerText(data.listnm[0].prd_nm);
+						$frm.find($("#ivco_qty" + i)).text(data.listnm[0].ivco_qty);
+						//$frm.find(document.getElementById('ivco_qty'+i)).innerText(data.listnm[0].ivco_qty);
 						
 					}
 					if(data.list){
@@ -280,8 +367,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 							return false;
 						}
 						$frm.find($("#prd_cd" + i)).val(data.list[0].prd_cd);
-						$frm.find($("#prd_nm" + i)).val(data.list[0].prd_nm);
-						$frm.find($("#ivco_qty" + i)).val(data.list[0].ivco_qty);
+						$frm.find($("#prd_nm" + i)).text(data.list[0].prd_nm);
+						$frm.find($("#ivco_qty" + i)).text(data.list[0].ivco_qty);
 						
 					}
 					
@@ -317,13 +404,13 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
         // var j = i.length;
 	    // Cell에 텍스트 추가
 	     $("#salTable").append(
-	        '<tr><td><input type="checkbox" id="checkbox'+ i + '"></td>'
-	            +'<td class="tg-0lax" id=count' + i + '>' + i +'</td>'
-	            +'<td class="tg-0lax"><input type="text" name="prd_cd'+ i + '" id="prd_cd'+ i +'"  onkeypress="show_enter(event)"><button type="button" onclick="partnerInventory(' + i + ')"><i class="fas fa-search"></i></button></td>'
-	            +'<td class="tg-0lax"><input type="text" style="border: none;" name="prd_nm'+ i + '" id="prd_nm'+ i + '" value=""></td>'
-	            +'<td class="tg-0lax"><input type="text" style="border: none;" name="ivco_qty'+ i + '" id="ivco_qty'+ i + '" value=""></td>'
-	            +'<td class="tg-0lax"><input type="number" min="0" max="" name="tot_sal' + i + '" id="tot_sal' + i + '" value=""></td>'
-	            +'<td class="tg-0lax">금액넣어야지</td></tr>'
+	        '<tr><td><input type="checkbox" name="checkbox"></td>'
+	            +'<td class="tg-0lax"><span name="count">' + i +'</spna></td>'
+	            +'<td class="tg-0lax"><input type="text" name="prd_cd"  id="prd_cd'+i+'" onkeypress="show_enter(event)"><button type="button" onclick="partnerInventory(' + i + ')"><i class="fas fa-search"></i></button></td>'
+	            +'<td class="tg-0lax"><label name="prd_nm" id="prd_nm' + i + '"></label></td>'
+	            +'<td class="tg-0lax"><label name="ivco_qty" id="ivco_qty' + i + '"></label></td>'
+	            +'<td class="tg-0lax"><input type="number" min="0"  name="buy_sal" id="buy_sal' + i + '" onblur="losFocus(id);" onkeydown="return showKeyCode(event, id)" value=""><input type="hidden" id="prd_csmr_upr' + i + '"></td>'
+	            +'<td class="tg-0lax"><label id ="tot_sal' + i + '"></label></td></tr>'
 
 	    ) 
 	   
@@ -396,7 +483,63 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		         "childCustomPopForm", "width=700, height=650, resizable = no, scrollbars = no");
 		
 		}
+	//goStoreSalesReg
+	$("#goStoreSalesReg").on("click", function(){
+		//판매일자, 총판매슈량, 총판매금액, 총공금가액, 총부가세액, 현금결제금액,
+		//카드결제금액, 고객번호, 카드번호, 유효년월, 카드회사
+		
+		//날짜는 안가져가고 sysdate 찍어도될듯
+		//var sal_dt = $("#").val();
+		var prt_cd = $("#prt_cd").val();
+		var tot_sal_amt = $("#tot_sal_amt").val();
+		var tot_sal_qty = $("#tot_sal_qty").val();
+		var tot_vos_amt = $("#tot_vos_amt").val();
+		var tot_vat_amt = $("#tot_vat_amt").val();
+		var csh_stlm_amt = $("#csh_stlm_amt").val();
+		var crd_stlm_amt = $("#crd_stlm_amt").val();
+		var crd_no1 = $("#crd_no1").val();
+		var crd_no2 = $("#crd_no2").val();
+		var crd_no3 = $("#crd_no3").val();
+		var crd_no4 = $("#crd_no4").val();
+		var vld_ym = $("#vld_ym").val();
+		var crd_co_cd = $("#crd_co_cd option:selected").val();
+	
+		
+		$.ajax({
+            url : "${pageContext.request.contextPath}/sales/salesRegisterEnroll",
+            type :"POST",
+            dataType : "text",
+            data : {
+            	"prt_cd" : prt_cd,
+            	"tot_sal_amt" : tot_sal_amt,
+            	"tot_sal_qty" : tot_sal_qty,
+            	"tot_vos_amt" : tot_vos_amt,
+            	"tot_vat_amt" : tot_vat_amt,
+            	"csh_stlm_amt" : csh_stlm_amt,
+            	"crd_stlm_amt" : crd_stlm_amt,
+            	"crd_no1" : crd_no1,
+            	"crd_no2" : crd_no2,
+            	"crd_no3" : crd_no3,
+            	"crd_no4" : crd_no4,
+            	"vld_ym" : vld_ym,
+            	"crd_co_cd" : crd_co_cd
 
+            },
+           
+            success : function(data){
+           	 
+					alert("회원등록되었습니다.")
+				
+                window.close();
+           	 
+            },
+            error: function(xhr, status, error){
+                alert("등록실패했습니다." + error);
+            }
+           
+        });
+		
+	});
 </script>
 
 </html>

@@ -228,13 +228,16 @@ var countNo = getParameter("countNo");
 				  rowData.push(tr.text());
 				  rowData.push(prd_tp_cd);
 				  rowData.push(prd_ss_cd);
-				  console.log(rowData);
+				  console.log("dddddd",rowData);
 				  //td.eq(0)은 체크박스이므로 rd.eq(1)의 값부터 가져온다.
 				  var prdCd = td.eq(1).text();
 				  var prdNm = td.eq(2).text();
 				  var ivcoQty = td.eq(3).text();
 				  var prdCsmrUpr = td.eq(4).text();
-				  
+				  console.log("나와줘4 = " + prdCd);
+	        		 console.log("나와줘5 = " + prdNm);
+	         		console.log("나와줘7 = " + ivcoQty);
+	         		console.log("나와줘8 = " + prdCsmrUpr);
 				 
 				  //가저온 값을 배열에 넣는다.
 				  tdArr.push(prdCd);
@@ -262,8 +265,9 @@ var countNo = getParameter("countNo");
 			  //prd_ss_cd 상품상태코드 C: 해지 판매x
 				  //자식창의 체크값의 배열중 0, 1번째를 부모창으로 보낸다.
 			   		opener.document.getElementById("prd_cd"+countNo).value = tdArr[0]
-				  opener.document.getElementById("prd_nm"+countNo).value = tdArr[1]
-				  opener.document.getElementById("ivco_qty" + countNo).value = tdArr[2] 
+				  opener.document.getElementById("prd_nm"+countNo).innerText = tdArr[1]
+				  opener.document.getElementById("ivco_qty" + countNo).innerText = tdArr[2]
+			  opener.document.getElementById("prd_csmr_upr" + countNo).value = tdArr[3]
 			  
 				  /* for(int i= 0; i <=10; i++ ){
 					  opener.document.getElementById("prd_cd").value = tdArr[0]

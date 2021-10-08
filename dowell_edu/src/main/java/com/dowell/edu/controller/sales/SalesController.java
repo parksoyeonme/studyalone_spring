@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dowell.edu.service.sales.SalesService;
 import com.dowell.edu.vo.common.CodeDetailVO;
@@ -56,12 +60,52 @@ public class SalesController {
 		mv.setViewName("/sales/partnerInventoryInquiry");
 		return mv;
 	}
-	//매장실적조회팝업 view
-	@RequestMapping(value="/salesHistory")
-	public ModelAndView salesHistory(ModelAndView mv) throws Exception{
+	
+	//매장실적조회팝업 view - History
+	@ResponseBody
+	@RequestMapping(value="/salesHistory", method = { RequestMethod.POST, RequestMethod.GET },
+   			produces ="application/text; charset=utf8")
+	public ModelAndView salesHistoryList(Model model
+			, ModelAndView mv
+			,@RequestParam(value="cust_no", required=false) String cust_no
+			,@RequestParam(value="sal_dt", required=false) String sal_dt
+			,@RequestParam(value="prt_cd", required=false) String prt_cd
+			,@RequestParam(value="sal_no", required=false) String sal_no
+			) throws Exception{
 		
-		mv.setViewName("/sales/salesHistory");
-		return mv;
+		
+		System.out.println("1 = " + cust_no);
+		System.out.println("2 = " + sal_dt);
+		System.out.println("3 = " + prt_cd);
+		System.out.println("4 = " + sal_no);
+		
+		String sal_dt1 = sal_dt.replaceAll("-", "");
+		
+		   //brdy_dt.replaceAll("-", ""); 
+		   System.out.println("dddddddddddddddddddddd = " + sal_dt1);
+		   
+		   
+		   
+		Map<String, Object> param= new HashMap<>();
+		param.put("cust_no",cust_no);
+		param.put("sal_dt",sal_dt1);
+		param.put("prt_cd",prt_cd);
+		param.put("sal_no",sal_no);
+		
+		//히스토리 타이틀 찾아오기salesHistoryHead
+		 List<SalesMasterVO> salesHistoryHead = salesService.selectSalesDetailHead(param);
+	      System.out.println(salesHistoryHead);
+		
+		//리스트나열
+		 List<SalesMasterVO> salesHistorylist = salesService.salesDetailList(param);
+	      System.out.println(salesHistorylist);
+	      
+	     // model.addAttribute("list", salesHistorylist);
+		
+	      mv.addObject("listHead", salesHistoryHead);
+	      mv.addObject("list", salesHistorylist);
+	      mv.setViewName("/sales/salesHistory");
+			return mv;
 	}
 		
 		
@@ -188,7 +232,22 @@ public class SalesController {
 		 
 		 
 	 } 
-	
+	// /sales/salesReturn
+//	 @ResponseBody
+//	 @RequestMapping(value="/salesReturn", method = { RequestMethod.POST, RequestMethod.GET },
+//			 produces = "application/text; charset=utf8")
+//		public String custRegister(ModelAndView mv
+//									,SalesMasterVO salesMasterVo) throws Exception{
+//			      
+//		 
+//		 System.out.println("뭐라 나오나요..? =" + salesMasterVo);
+//		 JSONObject json = new JSONObject();
+//		 return json.toString(); 
+//		 }
+
+//	 
+	 
+	 
 //	 @RequestMapping(value="/partnerInvenInqList", method = {RequestMethod.POST, RequestMethod.GET }, 
 //	 				produces ="application/text; charset=utf8")
 //	 public ModelAndView partnerInvenInqList(@RequestParam(value="prt_cd",required=false) String prt_cd 
@@ -211,4 +270,60 @@ public class SalesController {
 //		 
 //		 
 //	 }
+	 
+	 // /sales/salesRegisterEnroll
+//	 @ResponseBody
+//	 @RequestMapping(value="/salesRegisterEnroll", method = {RequestMethod.POST, RequestMethod.GET }, 
+//	 				produces ="application/text; charset=utf8")
+//	 public String salesRegisterEnroll(HttpServletRequest request,
+//			 					@RequestParam SalesMasterVO salesMasteVo
+//			 			) throws Exception{
+//		
+//		 String [] prdCdArray = request.getParameter(salesMasteVo.setPrt_cd("prt_cd"));
+//		 
+//		
+//
+//			Map<String, Object> param= new HashMap<>();
+//			 param.put("prd_cd",prd_cd);
+//			 param.put("prt_cd",prt_cd);
+//			
+//			
+//		return null;
+//		 
+//		 
+//	 } 
+	 
+	 
+	 /*  	"prt_cd" : prt_cd,
+            	"tot_sal_amt" : tot_sal_amt,
+            	"tot_sal_qty" : tot_sal_qty,
+            	"tot_vos_amt" : tot_vos_amt,
+            	"tot_vat_amt" : tot_vat_amt,
+            	"csh_stlm_amt" : csh_stlm_amt,
+            	"crd_stlm_amt" : crd_stlm_amt,
+            	"crd_no1" : crd_no1,
+            	"crd_no2" : crd_no2,
+            	"crd_no3" : crd_no3,
+            	"crd_no4" : crd_no4,
+            	"vld_ym" : vld_ym,
+            	"crd_co_cd" : crd_co_cd
+
+	  * */
+	 
+//	 @ResponseBody
+//	 @RequestMapping(value="/salesRegisterEnroll", method = {RequestMethod.POST, RequestMethod.GET }, 
+//	 				produces ="application/text; charset=utf8")
+//	 public String salesRegisterEnroll(@RequestParam SalesMasterVO salesMasteVo
+//			 			) throws Exception{
+//		
+//		
+//			Map<String, Object> param= new HashMap<>();
+//			 param.put("prd_cd",prd_cd);
+//			 param.put("prt_cd",prt_cd);
+//			
+//			
+//		return null;
+//		 
+//		 
+//	 } 
 }

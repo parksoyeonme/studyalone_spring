@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class SalesMasterVO {
 	/*
-	 * 매장코드	VARCHAR2(8)	SHOP_CD
+	 * 매장코드	VARCHAR2(8)	prt_cd
 		판매일자	VARCHAR2(8)	SAL_DT
 		판매번호	NUMBER(10)	SAL_NO
 		판매구분코드	VARCHAR2(10)	SAL_TP_CD
@@ -55,8 +55,15 @@ public class SalesMasterVO {
 	private Date lst_upd_dt;
 	private String lst_upd_id;
 	
+	
 	private String prt_nm;
 	private String cust_nm;
 	private String user_nm;
 	private String lst_upd_dt_time;
+	
+	private String prd_cd;
+	private String prd_nm;
+	private String sal_qty;
+	private String sal_amt;
+	
 }

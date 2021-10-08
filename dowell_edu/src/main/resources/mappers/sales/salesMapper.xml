@@ -18,6 +18,12 @@
    		<result column="lst_upd_id" property="lst_upd_id"/>
    		<result column="user_nm" property="user_nm"/>
    		<result column="lst_upd_dt_time" property="lst_upd_dt_time"/>
+   		
+   		<result column="prd_cd" property="prd_cd"/>
+   		<result column="prd_nm" property="prd_nm"/>
+   		<result column="sal_qty" property="sal_qty"/>
+   		<result column="sal_amt" property="sal_amt"/>
+   		
 	</resultMap>
 	
 	<!-- 판매전체조회 -->
@@ -154,7 +160,61 @@
 	  	and prd_nm = #{prd_cd}
 	  	
 	</select>
+	
+	<select id="salesDetailList" resultMap="SalesMasterVO">
+	SELECT
+	   	 SALMT.CUST_NO,
+	   	 SALDT.SAL_NO,
+	   	 SALDT.PRD_CD,
+	   	 TO_CHAR(TO_DATE(SALDT.SAL_DT,'YYMMDD'),'YYYY-MM-DD') SAL_DT,
+	   	 SALDT.PRT_CD,
+	   	 PRDMT.PRD_NM,
+	   	 SALDT.SAL_QTY,
+	   	 SALDT.SAL_AMT,
+	   	 SALMT.SAL_TP_CD,
+	   	 SALMT.TOT_SAL_QTY,
+	   	 SALMT.TOT_VOS_AMT,
+	   	 SALMT.TOT_VAT_AMT,
+	   	 SALMT.TOT_SAL_AMT,
+	   	 SALMT.CSH_STLM_AMT,
+	   	 SALMT.CRD_STLM_AMT
+	FROM
+	   	 CS_SAL01_DT   SALDT
+	   	 LEFT JOIN CS_SAL01_MT   SALMT ON SALMT.PRT_CD = SALDT.PRT_CD
+	                                   AND SALMT.SAL_DT = SALDT.SAL_DT
+	                                   AND SALMT.SAL_NO = SALDT.SAL_NO
+	   	 LEFT JOIN MA_PRD01_MT PRDMT ON PRDMT.PRD_CD = SALDT.PRD_CD
+	WHERE
+	 	 	 SALMT.CUST_NO = #{cust_no} 
+		 AND SALDT.PRT_CD =#{prt_cd}
+		 AND SALDT.SAL_DT=#{sal_dt}
+		 AND SALDT.SAL_NO=#{sal_no}
+	</select>
 
+	<select id="selectSalesDetailHead" resultMap="SalesMasterVO">
+	SELECT
+		    SALMT.PRT_CD,
+		    PRTMT.PRT_NM,
+		    SALMT.CUST_NO,
+		    CUSTMT.CUST_NM,
+		    SALMT.TOT_SAL_QTY,
+		    SALMT.TOT_SAL_AMT,
+		    SALMT.CSH_STLM_AMT,
+		    SALMT.CRD_STLM_AMT,
+		    SALMT.SAL_TP_CD,
+		    SALMT.SAL_NO,
+		    SALMT.SAL_DT
+	FROM
+		    CS_SAL01_MT    SALMT
+		    LEFT JOIN CS_CUST01_MT   CUSTMT ON SALMT.CUST_NO = CUSTMT.CUST_NO
+		    LEFT JOIN MA_PRT_MT      PRTMT ON SALMT.PRT_CD = PRTMT.PRT_CD
+	WHERE
+		    CUSTMT.CUST_NO = #{cust_no}
+		    AND SALMT.PRT_CD =#{prt_cd}
+		    AND SALMT.SAL_DT=#{sal_dt} 
+		    AND SALMT.SAL_NO=#{sal_no}
+	
+	</select>
 
 
 </mapper>

@@ -7,7 +7,6 @@ body {
 	border: 2px solid silver;
 	background: rgb(192 205 243);
 	width: 700px;
-	width: 700px;
 	height: 60px;
 	margin-left: 20px;
 
@@ -68,19 +67,28 @@ body {
 }
 
 .closeDev {
-	border: 1px solid rgb(179, 171, 171);
+	/* border: 1px solid rgb(179, 171, 171);
 	width: 700px;
 	height: 50px;
 	margin-left: 20px;
 	margin-top: 72px;
-	background: #ecdcdc;
+	background: #ecdcdc; */
+	border: 1px solid rgb(179, 171, 171);
+     background-color: rgb(228 219 219);
+    width: 700px;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 50px;
 }
-
-.closeDev .closeBtn {
-	float: right;
-	width: 100px;
-	height: 29px;
-	margin-top: 11px;
+.submitBtn{
+	width: 90px;
+    height: 41px;
+}
+.closeBtn {
+	margin-left: 38%;
+    margin-top: 5px;
+    width: 90px;
+    height: 41px;
 }
 
 .tk {
@@ -88,6 +96,7 @@ body {
 	border-spacing: 0;
 	width: 700px;
 	margin-top: 7px;
+	font-size: 14px;
 }
 
 .tk td {
