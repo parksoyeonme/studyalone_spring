@@ -65,5 +65,6 @@ public class SalesMasterVO {
 	private String prd_nm;
 	private String sal_qty;
 	private String sal_amt;
+	private String user_id;
 	
 }

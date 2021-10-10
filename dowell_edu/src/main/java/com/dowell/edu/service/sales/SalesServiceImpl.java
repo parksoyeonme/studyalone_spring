@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dowell.edu.dao.sales.SalesDAO;
 import com.dowell.edu.vo.common.CodeDetailVO;
+import com.dowell.edu.vo.sales.SalesDetailVO;
 import com.dowell.edu.vo.sales.SalesIvcoMasterVO;
 import com.dowell.edu.vo.sales.SalesMasterVO;
 
@@ -58,6 +59,30 @@ public class SalesServiceImpl implements SalesService {
 	public List<SalesMasterVO> selectSalesDetailHead(Map<String, Object> param) throws Exception {
 		return salesDao.selectSalesDetailHead(param);
 	}
+
+	@Override
+	public List<SalesMasterVO> selectCustomerRtnList(Map<String, Object> param) throws Exception {
+		return salesDao.selectCustomerRtnList(param);
+	}
+
+	@Override
+	public int insertRtn(Map<String, Object> rtnParam) throws Exception {
+		return salesDao.insertRtn(rtnParam);
+	}
+
+	@Override
+	public List<SalesDetailVO> selectDetailRtnList(Map<String, Object> param) throws Exception {
+		return salesDao.selectDetailRtnList(param);
+	}
+
+	@Override
+	public int insertdetailRtn(Map<String, Object> detailParam) throws Exception {
+		return salesDao.insertdetailRtn(detailParam);
+	}
+
+
+
+	
 	
 	/*
 	 * @Override 

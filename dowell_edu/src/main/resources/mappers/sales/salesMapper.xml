@@ -171,13 +171,7 @@
 	   	 PRDMT.PRD_NM,
 	   	 SALDT.SAL_QTY,
 	   	 SALDT.SAL_AMT,
-	   	 SALMT.SAL_TP_CD,
-	   	 SALMT.TOT_SAL_QTY,
-	   	 SALMT.TOT_VOS_AMT,
-	   	 SALMT.TOT_VAT_AMT,
-	   	 SALMT.TOT_SAL_AMT,
-	   	 SALMT.CSH_STLM_AMT,
-	   	 SALMT.CRD_STLM_AMT
+	   	 SALMT.SAL_TP_CD
 	FROM
 	   	 CS_SAL01_DT   SALDT
 	   	 LEFT JOIN CS_SAL01_MT   SALMT ON SALMT.PRT_CD = SALDT.PRT_CD
@@ -216,5 +210,167 @@
 	
 	</select>
 
+	<select id="selectCustomerRtnList" resultType="com.dowell.edu.vo.sales.SalesMasterVO">
+	SELECT DISTINCT
+		    SALMT.PRT_CD,
+		    SALMT.SAL_DT,
+		    SALMT.SAL_NO,
+		    SALMT.SAL_TP_CD,
+		    SALMT.TOT_SAL_QTY,
+		    SALMT.TOT_SAL_AMT,
+		    SALMT.TOT_VOS_AMT,
+		    SALMT.TOT_VAT_AMT,
+		    SALMT.CSH_STLM_AMT,
+		    SALMT.CRD_STLM_AMT,
+		    SALMT.PNT_STLM_AMT,
+		    SALMT.CUST_NO,
+		    SALMT.CRD_NO,
+		    SALMT.VLD_YM,
+		    SALMT.CRD_CO_CD,
+		    SALMT.FST_REG_DT,
+		    SALMT.FST_USER_ID,
+		    SALMT.LST_UPD_DT,
+		    SALMT.LST_UPD_ID
+	FROM
+		    CS_SAL01_DT   SALDT
+		    LEFT JOIN CS_SAL01_MT   SALMT ON SALMT.PRT_CD = SALDT.PRT_CD
+		                                   AND SALMT.SAL_DT = SALDT.SAL_DT
+		                                   AND SALMT.SAL_NO = SALDT.SAL_NO
+	WHERE
+		    SALMT.CUST_NO = #{cust_no}
+		    AND SALDT.PRT_CD = #{prt_cd}
+		    AND SALDT.SAL_DT = #{sal_dt}
+		    AND SALDT.SAL_NO = #{sal_no}
+	</select>
+	
+	<insert id="insertRtn">
+	<foreach item="list" collection="listr" index="index" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+	 INTO CS_SAL01_MT (
+							    PRT_CD,
+							    SAL_DT,
+							    SAL_NO,
+							    SAL_TP_CD,
+							    TOT_SAL_QTY,
+							    TOT_SAL_AMT,
+							    TOT_VOS_AMT,
+							    TOT_VAT_AMT,
+							    CSH_STLM_AMT,
+							    CRD_STLM_AMT,
+							    PNT_STLM_AMT,
+							    CUST_NO,
+							    CRD_NO,
+							    VLD_YM,
+							    CRD_CO_CD,
+							    FST_REG_DT,
+							    FST_USER_ID,
+							    LST_UPD_DT,
+							    LST_UPD_ID
+							) VALUES (
+							    #{list.prt_cd},
+							    to_char(SYSDATE, 'YYYYMMDD'),
+							 	(
+							 		select nvl(max(sal_no),0) + 1
+							 		FROM CS_SAL01_MT
+							 			WHERE  
+											     PRT_CD = #{list.prt_cd}
+											    AND SAL_DT = #{list.sal_dt}
+											    AND SAL_NO = #{list.sal_no}
+							 	
+							 	),
+							 	
+							    'RTN',
+							    #{list.tot_sal_qty},
+							    #{list.tot_sal_amt},
+							    #{list.tot_vos_amt},
+							   	#{list.tot_vat_amt},
+							    #{list.csh_stlm_amt},
+							    #{list.crd_stlm_amt},
+							    #{list.pnt_stlm_amt},
+							    #{list.cust_no},
+							    #{list.crd_no, jdbcType=VARCHAR},
+							    #{list.vld_ym, jdbcType=VARCHAR},
+							    #{list.crd_co_cd, jdbcType=VARCHAR},
+							    #{list.fst_reg_dt},
+							    #{list.fst_user_id},
+							    SYSDATE,
+							    #{list.user_id}
+							)
+	</foreach>
+	</insert>
 
+	<select id="selectDetailRtnList" resultType="com.dowell.edu.vo.sales.SalesDetailVO">
+	
+	SELECT
+		    SALDT.PRT_CD,
+		    SALDT.SAL_DT,
+		    SALDT.SAL_NO,
+		    SALDT.SAL_SEQ,
+		    SALDT.PRD_CD,
+		    SALDT.PRD_CSMR_UPR,
+		    SALDT.SAL_QTY,
+		    SALDT.SAL_AMT,
+		    SALDT.SAL_VOS_AMT,
+		    SALDT.SAL_VAT_AMT,
+		    SALDT.FST_REG_DT,
+		    SALDT.FST_USER_ID,
+		    SALDT.LST_UPD_DT,
+		    SALDT.LST_UPD_ID
+	FROM
+		    CS_SAL01_DT   SALDT
+		    LEFT JOIN CS_SAL01_MT   SALMT ON SALMT.PRT_CD = SALDT.PRT_CD
+		                                   AND SALMT.SAL_DT = SALDT.SAL_DT
+		                                   AND SALMT.SAL_NO = SALDT.SAL_NO
+	WHERE
+		    SALMT.CUST_NO = #{cust_no}
+		    AND SALMT.PRT_CD = #{prt_cd}
+		    AND SALMT.SAL_DT = #{sal_dt}
+		    AND SALMT.SAL_NO = #{sal_no}
+	
+	</select>
+	
+	<update id="insertdetailRtn">
+	<foreach item="list" collection="listd" index="index" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		 INTO CS_SAL01_DT (
+								    PRT_CD,
+								    SAL_DT,
+								    SAL_NO,
+								    SAL_SEQ,
+								    PRD_CD,
+								    PRD_CSMR_UPR,
+								    SAL_QTY,
+								    SAL_AMT,
+								    SAL_VOS_AMT,
+								    SAL_VAT_AMT,
+								    FST_REG_DT,
+								    FST_USER_ID,
+								    LST_UPD_DT,
+								    LST_UPD_ID
+								) VALUES (
+								    #{list.prt_cd},
+								    to_char(SYSDATE, 'YYYYMMDD'),
+								    (
+							 		select nvl(max(sal_no),0) + 1
+							 		FROM CS_SAL01_DT
+							 			WHERE  
+											     PRT_CD = #{list.prt_cd}
+											    AND SAL_DT = #{list.sal_dt}
+											    AND SAL_NO = #{list.sal_no}
+							 	
+							 		),
+								    #{list.sal_seq},
+								    #{list.prd_cd},
+								    #{list.prd_csmr_upr},
+								    #{list.sal_qty},
+								    #{list.sal_amt},
+								   	#{list.sal_vos_amt},
+								    #{list.sal_vat_amt},
+								   	#{list.fst_reg_dt},
+								    #{list.fst_user_id},
+								    SYSDATE,
+								    #{list.user_id}
+								)
+	
+	
+	</foreach>
+	</update>
 </mapper>

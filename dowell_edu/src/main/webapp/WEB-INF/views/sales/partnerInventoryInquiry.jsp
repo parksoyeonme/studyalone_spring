@@ -147,7 +147,7 @@ var countNo = getParameter("countNo");
 			        		 tbodyHtml += '</tr>';
 		        	 	}
 		        		 if( data.list[i].prd_tp_cd == '20' ){
-			        		 tbodyHtml += ' <trstyle="display:none;">';
+			        		 tbodyHtml += ' <tr style="display:none;">';
 			        		 tbodyHtml += '<td class="tg-0lax"><input type="checkbox" disabled name="prdCheck" id="prdCheck" value="'+ data.list[i].prd_cd+'" onclick="checkOnly(this)"></td>';
 			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_cd + '<input type="hidden" id="prd_tp_cd" value="' + data.list[i].prd_tp_cd + '"></td>';
 			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_nm + '<input type="hidden" id="tax_cs_cd" value="' + data.list[i].tax_cs_cd + '"></td>';
@@ -263,11 +263,51 @@ var countNo = getParameter("countNo");
 				  return false;
 			  }  */
 			  //prd_ss_cd 상품상태코드 C: 해지 판매x
+			  
+			  //opener.document.getElementById("prd_cd"+countNo).value
+				var totalRowCnt  = opener.$('#salTable > tbody tr').length;
+// 					opener.document.getElementById("salTable > tbody tr").length;
+				console.log(totalRowCnt);
+			 // opener.$('#salTable > tbody tr').length;
+			    //현재 클릭  
+				var prd_cd_l = '';
+			    //1번부터 i번까지 검사할   
+			    var prd_cd_j = '';
+			    	   //alert("성공")
+			    	  //중복된게 있을때
+			    	  for(var j = 1; j <= totalRowCnt; j++){
+		 		    	  console.log('i = ' + i);
+		 		    	  console.log('j = ' + j);
+		 		    	  console.log('l = ' + countNo);
+				    	  //현재 클릭된 val
+
+				    	  //검사할 val ->1번부터 시작
+				    	  prd_cd_j = opener.$("#prd_cd" + j).val();
+				    	  //현재 클릭이 검사할꺼랑 다를때
+			    		  if(countNo != j){
+		 	    			  console.log(' 검사중! ');
+		 	    			 // console.log('현재 위치 입력한 값 = ' + prd_cd_l);
+		 	    			  console.log('검사할 위치 입력한 값 = ' + prd_cd_j);
+		 	    			  console.log('검사할 위치 입력한 값1 = ' + tdArr[0]);
+		 	    			  console.log('검사할 위치 입력한 값2 = ' + opener.$("#prd_nm" + j).val());
+			    			  //쿨릭이랑 검사한게 같고, 상품명이 공백이 아닐때 -> alert 하고 리턴
+			    			  if((tdArr[0] == prd_cd_j) && !(opener.$("#prd_nm" + j).val() == "")){
+			    				  console.log('여기 중복된곳');
+					    		  alert('중복된 정보입니다!');
+					    		  return;
+			    		  	  }
+			    	 	   }
+			    	   //console.log("나와아아아ㅏ" + prd_cd);
+			       }
+		    	   //중복된 정보가 없을때
+		   		  opener.document.getElementById("prd_cd"+countNo).value = tdArr[0];
+				  opener.document.getElementById("prd_nm"+countNo).value = tdArr[1];
+				  opener.document.getElementById("ivco_qty" + countNo).value = tdArr[2];
+			 	  opener.document.getElementById("prd_csmr_upr" + countNo).value = tdArr[3];			    	   
+			  
+			  
+			  
 				  //자식창의 체크값의 배열중 0, 1번째를 부모창으로 보낸다.
-			   		opener.document.getElementById("prd_cd"+countNo).value = tdArr[0]
-				  opener.document.getElementById("prd_nm"+countNo).innerText = tdArr[1]
-				  opener.document.getElementById("ivco_qty" + countNo).innerText = tdArr[2]
-			  opener.document.getElementById("prd_csmr_upr" + countNo).value = tdArr[3]
 			  
 				  /* for(int i= 0; i <=10; i++ ){
 					  opener.document.getElementById("prd_cd").value = tdArr[0]

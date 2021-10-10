@@ -32,19 +32,25 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 			<div class="infocontainer">
 				<table class="tk">
 					<tbody>
-						<c:forEach var="listHead" items="${listHead}">
+						
 							  <tr>
 								<th class="tk-0lax">매장 :</th>
 								<th class="tk-0lax">
-									<span>${listHead.prt_cd}</span>
-									<span>${listHead.prt_nm}</span>
+									<span>${listHead[0].prt_cd}</span>
+									<span>${listHead[0].prt_nm}</span>
 								</th>
 								<th class="tk-0lax">고객번호 :</th>
 								<th class="tk-0lax">
-									<span>${listHead.cust_no}</span>
-									<span>${listHead.cust_nm}</span>
+									<span>${listHead[0].cust_no}</span>
+									<span>${listHead[0].cust_nm}</span>
 								</th>
-								<th class="tk-0lax"></th>
+								<th class="tk-0lax">
+									<input type="hidden" id="cust_no" value="${listHead[0].cust_no}">
+									<input type="hidden" id="sal_dt" value="${listHead[0].sal_dt}">
+									<input type="hidden" id="prt_cd" value="${listHead[0].prt_cd}">
+									<input type="hidden" id="sal_no" value="${listHead[0].sal_no}">
+									<input type="hidden" id="user_id" value="${member.user_id}">
+								</th>
 								<th class="tk-0lax"></th>
 								<th class="tk-0lax"></th>
 								<th class="tk-0lax"></th>
@@ -52,16 +58,16 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 							  <tr>
 								<td class="tk-0lax">판매수량 :</td>
 								<td class="tk-0lax">
-									<span>${listHead.tot_sal_qty}</span>
+									<span>${listHead[0].tot_sal_qty}</span>
 								</td>
 								<td class="tk-0lax">판매금액 :</td>
-								<td class="tk-0lax">${listHead.tot_sal_amt}</td>
+								<td class="tk-0lax">${listHead[0].tot_sal_amt}</td>
 								<td class="tk-0lax">현금 :</td>
-								<td class="tk-0lax">${listHead.csh_stlm_amt}</td>
+								<td class="tk-0lax">${listHead[0].csh_stlm_amt}</td>
 								<td class="tk-0lax">카드 :</td>
-								<td class="tk-0lax">${listHead.crd_stlm_amt}</td>
+								<td class="tk-0lax">${listHead[0].crd_stlm_amt}</td>
 							  </tr>
-						 </c:forEach>
+						 
 					</tbody>
 					</table>
 			</div>
@@ -81,14 +87,27 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						<tbody id="salesHistoryListTBody">
 						 <c:forEach var="list" items="${list}">
 							<tr>
-								<td class="tg-0lax">${list.sal_no}
-								<input type="hidden" id="sal_tp_cd" value="${list.sal_tp_cd}">
+								<td class="tg-0lax">
+									<input type="text" name="sal_no" value="${list.sal_no}">
+									 <input type="hidden" name="sal_tp_cd" id="sal_tp_cd" value="${list.sal_tp_cd}"> 
 								</td>
-								<td class="tg-0lax">${list.sal_dt}</td>
-								<td class="tg-0lax">${list.prd_cd}</td>
-								<td class="tg-0lax">${list.prd_nm}</td>
-								<td class="tg-0lax">${list.sal_qty}</td>
-								<td class="tg-0lax">${list.sal_amt}</td>
+								<td class="tg-0lax">
+									<input type="text" name="sal_dt" value="${list.sal_dt}">
+									<%-- <input type="hidden" name="cust_no" id="cust_no" value="${list.cust_no}"> --%>
+								</td>
+								<td class="tg-0lax">
+									<input type="text" name="prd_cd" value="${list.prd_cd}">
+									<%-- <input type="hidden" name="prt_cd" id="prt_cd" value="${list.prt_cd}"> --%>
+								</td>
+								<td class="tg-0lax">
+								<input type="text" name="prd_nm" value="${list.prd_nm}">
+									
+								<td class="tg-0lax">
+								<input type="text" name="sal_qty" value="${list.sal_qty}">
+									
+								<td class="tg-0lax">
+								<input type="text" name="sal_amt" value="${list.sal_amt}">
+									
 							</tr>
 						 </c:forEach>
 						</tbody>
@@ -101,7 +120,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		
 		<div class="closeDev">
 	            <input type="button" class="closeBtn" value="닫기" onclick="window.close()">
-	            <input type="button" class="submitBtn" value="반품" id="goSalesReturn" onclick="goSalesReturn()">
+	            <input type="button" class="submitBtn" value="반품" id="goSalesReturn" >
        	 	</div>
 	</footer>
 </body>
@@ -110,23 +129,38 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	$("#goSalesReturn").on("click", function(){
 		var sal_tp_cd = $("#sal_tp_cd").val();
 		
+		var cust_no = $("#cust_no").val();
+		var sal_dt = $("#sal_dt").val();
+		var prt_cd = $("#prt_cd").val();
+		var sal_no = $("#sal_no").val();
+		var user_id = $("#user_id").val();
+		
 		if(sal_tp_cd != 'SAL'){
 			alert("이미 반품된 상품입니다.");
 			return false;
 		}
-		
-		var salesReturnFrm = $("form[name=salesReturnFrm]").serialize() ;
-		console.log("여깁니다 =" + salesReturnFrm);
+	
+		/* var salesReturnFrm = $("form[name=salesReturnFrm]").serialize(); */
+	//$("#salesReturnFrm").serialize()
+		console.log("여깁니다 =" ,salesReturnFrm);
 	     $.ajax({
 	        url : "${pageContext.request.contextPath}/sales/salesReturn",
 	        type :"POST",
 	        dataType : "json",
-	        data : salesReturnFrm,
+	        data : {
+	        	
+	        	"cust_no" : cust_no,
+	        	"sal_dt" : sal_dt,
+	        	"prt_cd" : prt_cd,
+	        	"sal_no" : sal_no,
+	        	"user_id" : user_id
+	        	
+	        },
 	        success : function(data){
 	       	 
 					alert("반품되었습니다.")
 				
-	            //window.close();
+	            window.close();
 	       	 
 	        },
 	        error: function(xhr, status, error){

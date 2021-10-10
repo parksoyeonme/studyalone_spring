@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dowell.edu.vo.common.CodeDetailVO;
+import com.dowell.edu.vo.sales.SalesDetailVO;
 import com.dowell.edu.vo.sales.SalesIvcoMasterVO;
 import com.dowell.edu.vo.sales.SalesMasterVO;
 
@@ -55,6 +56,28 @@ public class SalesDAOImpl implements SalesDAO {
 	public List<SalesMasterVO> selectSalesDetailHead(Map<String, Object> param) throws Exception {
 		return sqlsSession.selectList("sales.selectSalesDetailHead",param);
 	}
+
+	@Override
+	public List<SalesMasterVO> selectCustomerRtnList(Map<String, Object> param) throws Exception {
+		return sqlsSession.selectList("sales.selectCustomerRtnList",param);
+	}
+
+	@Override
+	public int insertRtn(Map<String, Object> rtnParam) throws Exception {
+		return sqlsSession.insert("sales.insertRtn",rtnParam);
+	}
+
+	@Override
+	public List<SalesDetailVO> selectDetailRtnList(Map<String, Object> param) throws Exception {
+		return sqlsSession.selectList("sales.selectDetailRtnList",param);
+	}
+
+	@Override
+	public int insertdetailRtn(Map<String, Object> detailParam) throws Exception {
+		return sqlsSession.update("sales.insertdetailRtn",detailParam);
+	}
+
+	
 	
 	/*
 	 * @Override

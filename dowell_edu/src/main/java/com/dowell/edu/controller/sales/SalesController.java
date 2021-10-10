@@ -1,8 +1,10 @@
 package com.dowell.edu.controller.sales;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,6 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dowell.edu.service.sales.SalesService;
 import com.dowell.edu.vo.common.CodeDetailVO;
+import com.dowell.edu.vo.customer.CustomerHistoryVO;
+import com.dowell.edu.vo.sales.SalesDetailVO;
 import com.dowell.edu.vo.sales.SalesIvcoMasterVO;
 import com.dowell.edu.vo.sales.SalesMasterVO;
 
@@ -233,19 +237,74 @@ public class SalesController {
 		 
 	 } 
 	// /sales/salesReturn
-//	 @ResponseBody
-//	 @RequestMapping(value="/salesReturn", method = { RequestMethod.POST, RequestMethod.GET },
-//			 produces = "application/text; charset=utf8")
-//		public String custRegister(ModelAndView mv
-//									,SalesMasterVO salesMasterVo) throws Exception{
-//			      
-//		 
-//		 System.out.println("뭐라 나오나요..? =" + salesMasterVo);
-//		 JSONObject json = new JSONObject();
-//		 return json.toString(); 
-//		 }
+	 @ResponseBody
+	 @RequestMapping(value="/salesReturn", method = { RequestMethod.POST, RequestMethod.GET },
+			 produces = "application/text; charset=utf8")
+		public String custRegister(ModelAndView mv
+								,@RequestParam(value="sal_no",required=false) String sal_no 
+		  						,@RequestParam(value="sal_dt",required=false) String sal_dt
+		  						,@RequestParam(value="prt_cd",required=false) String prt_cd
+		  						,@RequestParam(value="cust_no",required=false) String cust_no
+		  						,@RequestParam(value="user_id",required=false) String user_id
+								) throws Exception{
+	
+		 int result;
+		 
+		 System.out.println(cust_no);
+		 System.out.println(sal_dt);
+		 System.out.println(prt_cd);
+		 System.out.println(sal_no);
+		 System.out.println(user_id);
+		 
+		 
+			Map<String, Object> param= new HashMap<>();
+			param.put("cust_no",cust_no);
+			param.put("sal_dt",sal_dt);
+			param.put("prt_cd",prt_cd);
+			param.put("sal_no",sal_no);
+			
+		//원본데이터-mt
+		  List<SalesMasterVO> customerRtnlist = salesService.selectCustomerRtnList(param);
+	      System.out.println("완전한 리스트mt =" + customerRtnlist);
+	      System.out.println("사이즈mt =" + customerRtnlist.size());
+	      customerRtnlist.get(0).setUser_id(user_id);
+	      System.out.println("1");
+	      //mt
+	      Map<String, Object> rtnParam= new HashMap<>();
+	      rtnParam.put("listr",customerRtnlist);
+	      
+	      System.out.println("2");
+	      result = salesService.insertRtn(rtnParam);	
+	      System.out.println("3");
+	      if(result <= 0) {
+	    	  log.info("고객판매 테이블 insert 오류입니다.");
+	      }
+	      
+	      //dt
+	      List<SalesDetailVO> detailRtnlist = salesService.selectDetailRtnList(param);
+	      System.out.println("완전한 리스트dt =" + detailRtnlist);
+	      System.out.println("사이즈dt =" + detailRtnlist.size());
+	      for(int i = 0; i < detailRtnlist.size(); i++) {
+	    	  detailRtnlist.get(i).setUser_id(user_id);	    	  
+	      }
+	     
+	      //dt
+	      Map<String, Object> detailParam= new HashMap<>();
+	      detailParam.put("listd",detailRtnlist);
+	      
+	      int resultdetail = salesService.insertdetailRtn(detailParam);
+	      if(resultdetail <= 0) {
+	    	  log.info("고객판매상세 테이블 insert 오류입니다.");
+	      }
+		      JSONObject obj = new JSONObject();
+			    // obj.put("list", list);
+			     
+			     String resp = obj.toString();
+				
+				return resp;
+		 }
 
-//	 
+	 
 	 
 	 
 //	 @RequestMapping(value="/partnerInvenInqList", method = {RequestMethod.POST, RequestMethod.GET }, 
@@ -310,6 +369,7 @@ public class SalesController {
 
 	  * */
 	 
+	 //꽃페이지
 //	 @ResponseBody
 //	 @RequestMapping(value="/salesRegisterEnroll", method = {RequestMethod.POST, RequestMethod.GET }, 
 //	 				produces ="application/text; charset=utf8")
