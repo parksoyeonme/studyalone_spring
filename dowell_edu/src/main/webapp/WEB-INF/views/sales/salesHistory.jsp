@@ -88,25 +88,23 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						 <c:forEach var="list" items="${list}">
 							<tr>
 								<td class="tg-0lax">
-									<input type="text" name="sal_no" value="${list.sal_no}">
-									 <input type="hidden" name="sal_tp_cd" id="sal_tp_cd" value="${list.sal_tp_cd}"> 
+									<input type="text" class="history" name="sal_no" value="${list.sal_no}" style="text-align: right; width: 30px;" readonly>
+									<input type="hidden" name="sal_tp_cd" id="sal_tp_cd" value="${list.sal_tp_cd}"> 
 								</td>
 								<td class="tg-0lax">
-									<input type="text" name="sal_dt" value="${list.sal_dt}">
-									<%-- <input type="hidden" name="cust_no" id="cust_no" value="${list.cust_no}"> --%>
+									<input type="text"  class="history" name="sal_dt" value="${list.sal_dt}" readonly>
 								</td>
 								<td class="tg-0lax">
-									<input type="text" name="prd_cd" value="${list.prd_cd}">
-									<%-- <input type="hidden" name="prt_cd" id="prt_cd" value="${list.prt_cd}"> --%>
+									<input type="text"  class="history" name="prd_cd" value="${list.prd_cd}" readonly>
 								</td>
 								<td class="tg-0lax">
-								<input type="text" name="prd_nm" value="${list.prd_nm}">
+								<input type="text"   class="history"name="prd_nm" value="${list.prd_nm}"  style="width: 183px;" readonly>
 									
 								<td class="tg-0lax">
-								<input type="text" name="sal_qty" value="${list.sal_qty}">
+								<input type="text"   class="history"name="sal_qty" value="${list.sal_qty}" style="text-align: right;" readonly>
 									
 								<td class="tg-0lax">
-								<input type="text" name="sal_amt" value="${list.sal_amt}">
+								<input type="text"  class="history" name="sal_amt" value="${list.sal_amt}" style="text-align: right; width: 144px;" readonly>
 									
 							</tr>
 						 </c:forEach>
@@ -120,11 +118,26 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		
 		<div class="closeDev">
 	            <input type="button" class="closeBtn" value="닫기" onclick="window.close()">
-	            <input type="button" class="submitBtn" value="반품" id="goSalesReturn" >
+	            <c:if test="${(member.prt_cd eq listHead[0].prt_cd) or (list.sal_tp_cd eq 'SAL')}">
+	            	<input type="button" class="submitBtn" value="반품" id="goSalesReturn" >
+	            </c:if>
+	            <c:if test="${member.prt_cd ne listHead[0].prt_cd}">
+	            	<input type="button" class="submitBtn" value="반품" id="goSalesReturnNull" >
+	            </c:if>
        	 	</div>
 	</footer>
 </body>
 <script>
+//goSalesReturnNull
+	$(document).ready(function(){
+		$("#goSalesReturnNull").on("click", function(){
+			
+			location.href="/";
+			alert("해당매장 사용자만 반품이 가능합니다.");
+		})
+		
+	}) 
+
 
 	$("#goSalesReturn").on("click", function(){
 		var sal_tp_cd = $("#sal_tp_cd").val();
@@ -140,8 +153,6 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 			return false;
 		}
 	
-		/* var salesReturnFrm = $("form[name=salesReturnFrm]").serialize(); */
-	//$("#salesReturnFrm").serialize()
 		console.log("여깁니다 =" ,salesReturnFrm);
 	     $.ajax({
 	        url : "${pageContext.request.contextPath}/sales/salesReturn",

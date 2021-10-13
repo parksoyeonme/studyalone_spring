@@ -26,6 +26,10 @@ public class SalesDetailVO {
 		판매금액	NUMBER(10)	SAL_AMT
 		판매공급가액	NUMBER(10)	SAL_VOS_AMT
 		판매부가세액	NUMBER(10)	SAL_VAT_AMT
+		최초등록일자	DATE	FST_REG_DT
+		최초등록자	VARCHAR2(20)	FST_USER_ID
+		최종수정일자	DATE	LST_UPD_DT
+		최종수정자	VARCHAR2(20)	LST_UPD_ID
 	*/
 	
 	private String prt_cd;
@@ -36,12 +40,31 @@ public class SalesDetailVO {
 	private int prd_csmr_upr;
 	private int sal_qty;
 	private int sal_amt;
-	private int sal_vos_amt;
-	private int sal_vat_amt;
+	private double sal_vos_amt;
+	private double sal_vat_amt;
 	private Date fst_reg_dt;
 	private String fst_user_id;
 	private Date lst_upd_dt;
 	private String lst_upd_id;
 	
 	private String user_id;
+
+	public SalesDetailVO(String prt_cd, String sal_dt, int sal_no, int sal_seq, String prd_cd, int prd_csmr_upr,
+			int sal_qty, int sal_amt, double sal_vos_amt, double sal_vat_amt, String user_id) {
+		super();
+		this.prt_cd = prt_cd;
+		this.sal_dt = sal_dt;
+		this.sal_no = sal_no;
+		this.sal_seq = sal_seq;
+		this.prd_cd = prd_cd;
+		this.prd_csmr_upr = prd_csmr_upr;
+		this.sal_qty = sal_qty;
+		this.sal_amt = sal_amt;
+		this.sal_vos_amt = sal_vos_amt;
+		this.sal_vat_amt = sal_vat_amt;
+		this.user_id = user_id;
+	}
+
+	
+	
 }

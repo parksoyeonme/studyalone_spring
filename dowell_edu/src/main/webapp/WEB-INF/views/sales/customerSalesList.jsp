@@ -148,13 +148,13 @@ $(function () {
     $('#toDate').datepicker('setDate', 'today');
   });
   
-  //판매등록
+  //고객판매수금등록
 	function salesRegister(){
 	 	window.name = "salesRegisterForm";
 	 	var custInquiryUrl = "${pageContext.request.contextPath}/sales/customerSalesRegister"
 	 
 	 	window.open(custInquiryUrl,
-	        "childsalesRegisterForm", "width=1165, height=790, resizable = no, scrollbars = no");
+	        "childsalesRegisterForm", "width=1165, height=800, resizable = no, scrollbars = no");
 	
 	}
 	  

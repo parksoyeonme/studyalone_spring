@@ -95,8 +95,8 @@ body {
 	border-collapse: collapse;
 	border-spacing: 0;
 	width: 700px;
-	margin-top: 7px;
-	font-size: 14px;
+	margin-top: 12px;
+	font-size: 12px;
 }
 
 .tk td {
@@ -123,4 +123,11 @@ body {
 .tk .tk-0lax {
 	text-align: left;
 	vertical-align: top
+}
+.history{
+	border: none;
+	outline: none;
+	width: 86px;
+	text-align: left;
+	
 }

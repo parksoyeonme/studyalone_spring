@@ -77,6 +77,40 @@ public class SalesDAOImpl implements SalesDAO {
 		return sqlsSession.update("sales.insertdetailRtn",detailParam);
 	}
 
+	//고객판매수금등록 고객판매
+	@Override
+	public int insertsalesRegisterMt(SalesMasterVO salesMasterVO) throws Exception {
+		return sqlsSession.insert("sales.insertsalesRegisterMt",salesMasterVO);
+	}
+
+	//고객판매수금등록 고객판매상세
+	@Override
+	public int insertsalesRegisterDtList(Map<String, Object> dtParam) throws Exception {
+		return sqlsSession.update("sales.insertsalesRegisterDtList",dtParam);
+	}
+	//가장 최신의 sal_no
+	@Override
+	public int selectSalNo(String prt_cd) throws Exception {
+		return sqlsSession.selectOne("sales.selectSalNo",prt_cd);
+	}
+
+	//매장에 따른 매장현재고
+	@Override
+	public List<SalesIvcoMasterVO> selectDetailIvcoList(String prt_cd) throws Exception {
+		return sqlsSession.selectList("sales.selectDetailIvcoList",prt_cd);
+	}
+
+	@Override
+	public void updateSalesIvcoQty(SalesIvcoMasterVO salesIvcoMasterVO) {
+		sqlsSession.update("sales.updateSalesIvcoQty",salesIvcoMasterVO);
+		
+	}
+
+	
+	
+
+
+
 	
 	
 	/*

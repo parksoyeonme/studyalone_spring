@@ -41,8 +41,8 @@ public class SalesMasterVO {
 	private String sal_tp_cd;
 	private int tot_sal_qty;
 	private int tot_sal_amt;
-	private int tot_vos_amt;
-	private int tot_vat_amt;
+	private double tot_vos_amt;
+	private double tot_vat_amt;
 	private int csh_stlm_amt;
 	private int crd_stlm_amt;
 	private int pnt_stlm_amt;
@@ -66,5 +66,69 @@ public class SalesMasterVO {
 	private String sal_qty;
 	private String sal_amt;
 	private String user_id;
+	
+	public SalesMasterVO(String prt_cd, String sal_dt, int sal_no, String sal_tp_cd, int tot_sal_qty, int tot_sal_amt,
+			double tot_vos_amt, double tot_vat_amt, int csh_stlm_amt, int crd_stlm_amt, int pnt_stlm_amt,
+			String cust_no, String crd_no, String vld_ym, String crd_co_cd, String user_id) {
+		super();
+		this.prt_cd = prt_cd;
+		this.sal_dt = sal_dt;
+		this.sal_no = sal_no;
+		this.sal_tp_cd = sal_tp_cd;
+		this.tot_sal_qty = tot_sal_qty;
+		this.tot_sal_amt = tot_sal_amt;
+		this.tot_vos_amt = tot_vos_amt;
+		this.tot_vat_amt = tot_vat_amt;
+		this.csh_stlm_amt = csh_stlm_amt;
+		this.crd_stlm_amt = crd_stlm_amt;
+		this.pnt_stlm_amt = pnt_stlm_amt;
+		this.cust_no = cust_no;
+		this.crd_no = crd_no;
+		this.vld_ym = vld_ym;
+		this.crd_co_cd = crd_co_cd;
+		this.user_id = user_id;
+	}
+
+	//현금만
+	public SalesMasterVO(String prt_cd, String sal_dt, int sal_no, String sal_tp_cd, int tot_sal_qty, int tot_sal_amt,
+			double tot_vos_amt, double tot_vat_amt, int csh_stlm_amt, int pnt_stlm_amt, String cust_no,
+			 String user_id) {
+		this.prt_cd = prt_cd;
+		this.sal_dt = sal_dt;
+		this.sal_no = sal_no;
+		this.sal_tp_cd = sal_tp_cd;
+		this.tot_sal_qty = tot_sal_qty;
+		this.tot_sal_amt = tot_sal_amt;
+		this.tot_vos_amt = tot_vos_amt;
+		this.tot_vat_amt = tot_vat_amt;
+		this.csh_stlm_amt = csh_stlm_amt;
+		this.pnt_stlm_amt = pnt_stlm_amt;
+		this.cust_no = cust_no;
+		this.user_id = user_id;
+	}
+
+	//카드만
+	public SalesMasterVO(String prt_cd, String sal_dt, int sal_no, String sal_tp_cd, int tot_sal_qty, int tot_sal_amt,
+			double tot_vos_amt, double tot_vat_amt, int crd_stlm_amt, int pnt_stlm_amt, String cust_no, String crd_no,
+			String vld_ym, String crd_co_cd, String user_id) {
+		this.prt_cd = prt_cd;
+		this.sal_dt = sal_dt;
+		this.sal_no = sal_no;
+		this.sal_tp_cd = sal_tp_cd;
+		this.tot_sal_qty = tot_sal_qty;
+		this.tot_sal_amt = tot_sal_amt;
+		this.tot_vos_amt = tot_vos_amt;
+		this.tot_vat_amt = tot_vat_amt;
+		this.crd_stlm_amt = crd_stlm_amt;
+		this.pnt_stlm_amt = pnt_stlm_amt;
+		this.cust_no = cust_no;
+		this.crd_no = crd_no;
+		this.vld_ym = vld_ym;
+		this.crd_co_cd = crd_co_cd;
+		this.user_id = user_id;
+	}
+
+	
+	
 	
 }

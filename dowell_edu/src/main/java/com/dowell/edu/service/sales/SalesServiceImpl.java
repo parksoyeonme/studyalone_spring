@@ -80,6 +80,39 @@ public class SalesServiceImpl implements SalesService {
 		return salesDao.insertdetailRtn(detailParam);
 	}
 
+	//고객판매수금등록 고객판매
+	@Override
+	public int insertsalesRegisterMt(SalesMasterVO salesMasterVO) throws Exception {
+		return salesDao.insertsalesRegisterMt(salesMasterVO);
+	}
+	//고객판매수금등록 고객판매상세
+	@Override
+	public int insertsalesRegisterDtList(Map<String, Object> dtParam) throws Exception {
+		return salesDao.insertsalesRegisterDtList(dtParam);
+	}
+
+	//최신의 sal_no
+	@Override
+	public int selectSalNo(String prt_cd) throws Exception {
+		return salesDao.selectSalNo(prt_cd);
+	}
+
+	//매장에 따른 매장현재고
+	@Override
+	public List<SalesIvcoMasterVO> selectDetailIvcoList(String prt_cd) throws Exception {
+		return salesDao.selectDetailIvcoList(prt_cd);
+	}
+
+	@Override
+	public void updateSalesIvcoQty(SalesIvcoMasterVO salesIvcoMasterVO) {
+		salesDao.updateSalesIvcoQty(salesIvcoMasterVO);
+		
+	}
+
+	
+	
+	
+
 
 
 	

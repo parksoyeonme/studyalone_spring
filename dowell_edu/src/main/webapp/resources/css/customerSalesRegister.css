@@ -82,8 +82,12 @@ body {
 
     .tk .tk-0pky {
       border-color: inherit;
-      text-align: left;
-      vertical-align: top
+      text-align: center;
+      vertical-align: top;
+      font-size: 15px;
+    font-weight: bold;
+    background-color: #f6b966;
+    color: #ff5722;
     }
 
     .tk .tk-0lax {
@@ -96,7 +100,7 @@ body {
       border-style: solid;
       border-width: 1px;
       overflow: hidden;
-      padding: 10px 5px;
+      padding: 4px;
       word-break: normal;
     }
 
@@ -105,7 +109,7 @@ body {
       border-style: solid;
       border-width: 1px;
       overflow: hidden;
-      padding: 3px 5px;
+      padding: 3px;
       word-break: normal;
       background-color: #cfcdcd;
     }
@@ -182,16 +186,14 @@ body {
         margin-left: 89%;
         margin-top: 8px;  
     }
-    #addRow, #delRow{
-    width: 28px;
-    }
+
     .closeDev{
     border: 1px solid rgb(179, 171, 171);
      background-color: rgb(228 219 219);
     width: 92%;
     height: 50px;
     margin-left: 38px;
-    margin-top: 50px;
+   
     }
     .closeBtn{
     margin-left: 38%;
@@ -205,8 +207,39 @@ body {
     }
 #prd_nm1, #ivco_qty1{
 	border: none;
+	outline: none;
 }
 
 #partnerInventory{
     margin-left: -6px;
+}
+.hidecss{
+	border: none;
+	outline: none;
+	text-align: right;
+    margin-left: 63px;
+    width: 120px;
+}
+
+.buy_sal{
+	border: 1px solid gray;
+	
+}
+#ivco_qty1, #prd_nm1{
+	text-align: right;
+	margin-left: 63px;
+    width: 120px;
+}
+.total{
+	font-size: 15px;
+    font-weight: bold;
+	color: #ff5722;
+	
+}
+#tot_sal_qty, #tot_sal_amt{
+	background-color: #f6b966;
+	font-size: 15px;
+    font-weight: bold;
+	width: 112px;
+	color: #ff5722;
 }

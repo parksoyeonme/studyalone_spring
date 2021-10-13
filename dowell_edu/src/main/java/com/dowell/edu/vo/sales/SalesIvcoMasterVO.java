@@ -26,7 +26,7 @@ public class SalesIvcoMasterVO {
 	
 	private String prt_cd;
 	private String prd_cd;
-	private String Ivco_qty;
+	private int ivco_qty;
 	private Date fst_reg_dt;
 	private String fst_user_id;
 	private Date lst_upd_dt;
@@ -44,5 +44,15 @@ public class SalesIvcoMasterVO {
 	private String tax_cs_cd;
 	private String prd_ss_cd;
 	
+	private String user_id;
+
+	public SalesIvcoMasterVO(String prt_cd, String prd_cd, int ivco_qty, String user_id) {
+		super();
+		this.prt_cd = prt_cd;
+		this.prd_cd = prd_cd;
+		this.ivco_qty = ivco_qty;
+		this.user_id = user_id;
+	}
+    
 	
 }

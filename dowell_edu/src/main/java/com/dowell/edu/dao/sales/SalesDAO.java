@@ -33,6 +33,21 @@ public interface SalesDAO {
 
 	int insertdetailRtn(Map<String, Object> detailParam) throws Exception;
 
+	//고객판매수금등록 고객판매
+	int insertsalesRegisterMt(SalesMasterVO salesMasterVO) throws Exception;
+	//고객판매수금등록 고객판매상세
+	int insertsalesRegisterDtList(Map<String, Object> dtParam) throws Exception;
+
+	int selectSalNo(String prt_cd) throws Exception;
+	//매장에 따른 매장현재고
+	List<SalesIvcoMasterVO> selectDetailIvcoList(String prt_cd) throws Exception;
+
+	void updateSalesIvcoQty(SalesIvcoMasterVO salesIvcoMasterVO);
+
+	
+
+	
+
 	/*
 	 * 
 	 * List<CustomerVO> selectcustSearchList(Map<String, Object> param) throws Exception;
