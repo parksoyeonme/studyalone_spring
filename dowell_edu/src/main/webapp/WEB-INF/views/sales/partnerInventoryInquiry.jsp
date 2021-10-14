@@ -320,7 +320,7 @@ var countNo = getParameter("countNo");
 			  /* console.log(tdArr[1]);
 			  console.log(tdArr[0]);
 			  console.log(tdArr[2]); */
-			  //window.close()
+			  window.close()
 		   	}
 	   	}
 		   

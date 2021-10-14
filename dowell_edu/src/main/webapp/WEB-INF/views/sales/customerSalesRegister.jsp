@@ -32,9 +32,9 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
     <section>
         <div class="container" id="container">
             <span class="mainTitle">고객판매수금등록</span>
-          <!--   <button type="button" id="btn_reset" onclick="refreshPage()">
+            <button type="button" id="btn_reset" onclick="refreshPage()">
                 <i class="fas fa-redo fa-1x"></i>
-            </button> -->
+            </button> 
             <form id="salesRegisterFrm" name="salesRegisterFrm"> 
 	        	<div class="firtBox">
 		            <table class="th" style="margin-top: 3px;">
@@ -53,18 +53,11 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                            <option disabled value="${CommonCd[4].dtl_cd}">${CommonCd[4].dtl_cd_nm}</option>
 		                        </select>
 		                    </td>
-		                    <td class="th-0lax">
-		                    <c:if test="${member != null}">
-		                        <button type="button" id="allSearchBtn" onclick="custSearchAllListBtn()">
-		                        <i class="fas fa-search fa-3x"></i>
-		                        </button>
-		                    </c:if>
-		                    <c:if test="${member == null}">
-		                        <button type="button" id="allSearchBtnNull" tabindex="9">
-		                        <i class="fas fa-search fa-3x"></i>
-		                        </button>
-		                    </c:if>
-		                    </td>
+		                <tr style="height: 18px;">
+		                    <td class="th-0lax"></td>
+		                    <td class="th-0lax"></td>
+		                    <td class="th-0lax"></td>
+		                    <td class="th-0lax"></td>
 		                </tr>
 		                <tr>
 		                    <td class="th-0lax required"><span class="number">고객번호</span></td>
@@ -77,8 +70,8 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                    </td>
 		                    <td class="th-0lax"></td>
 		                    <td class="th-0lax"></td>
-		                    <td class="th-0lax"></td>
 		                </tr>
+		               
 		            </table>
 	       	 	</div>
 
@@ -393,7 +386,13 @@ $(function () {
 			
 		if(($("#crd_stlm_amt").val() != ''&& $("#csh_stlm_amt").val() != '')&& 
 		Number($("#tot_sal_amt").val().replace(/,/gi, "")) < Number($("#csh_stlm_amt").val())+Number($("#crd_stlm_amt").val()) ){
-			alert("현금+ 카드 금액이 총 판매금액을 넘었습니다.1");
+			alert("현금+ 카드 금액이 총 판매금액을 넘었습니다.");
+			$("#crd_stlm_amt").val('');
+			$("#csh_stlm_amt").focus();
+		}
+		if(($("#crd_stlm_amt").val() != ''&& $("#csh_stlm_amt").val() != '')&& 
+		Number($("#tot_sal_amt").val().replace(/,/gi, "")) > Number($("#csh_stlm_amt").val())+Number($("#crd_stlm_amt").val()) ){
+			alert("현금+ 카드 금액이 총 판매금액 보다 작습니다.");
 			$("#crd_stlm_amt").val('');
 			$("#csh_stlm_amt").focus();
 		}
@@ -888,7 +887,7 @@ $(function () {
            	 
 					alert("회원등록되었습니다.")
 				
-               // window.close();
+                window.close();
            	 
             },
             error: function(xhr, status, error){

@@ -50,6 +50,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 									<input type="hidden" id="prt_cd" value="${listHead[0].prt_cd}">
 									<input type="hidden" id="sal_no" value="${listHead[0].sal_no}">
 									<input type="hidden" id="user_id" value="${member.user_id}">
+									<input type="hidden" id="member_prt_cd" value="${member.prt_cd}">
 								</th>
 								<th class="tk-0lax"></th>
 								<th class="tk-0lax"></th>
@@ -89,7 +90,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 							<tr>
 								<td class="tg-0lax">
 									<input type="text" class="history" name="sal_no" value="${list.sal_no}" style="text-align: right; width: 30px;" readonly>
-									<input type="hidden" name="sal_tp_cd" id="sal_tp_cd" value="${list.sal_tp_cd}"> 
+									<input type="hidden" id="sal_tp_cd" value="${list.sal_tp_cd}"> 
 								</td>
 								<td class="tg-0lax">
 									<input type="text"  class="history" name="sal_dt" value="${list.sal_dt}" readonly>
@@ -117,26 +118,24 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 	<footer>
 		
 		<div class="closeDev">
-	            <input type="button" class="closeBtn" value="닫기" onclick="window.close()">
-	            <c:if test="${(member.prt_cd eq listHead[0].prt_cd) or (list.sal_tp_cd eq 'SAL')}">
-	            	<input type="button" class="submitBtn" value="반품" id="goSalesReturn" >
-	            </c:if>
-	            <c:if test="${member.prt_cd ne listHead[0].prt_cd}">
-	            	<input type="button" class="submitBtn" value="반품" id="goSalesReturnNull" >
-	            </c:if>
-       	 	</div>
+            <input type="button" class="closeBtn" value="닫기" onclick="window.close()">
+            <input type="button" class="submitBtn" value="반품" id="goSalesReturn" >
+       	</div>
 	</footer>
 </body>
 <script>
 //goSalesReturnNull
-	$(document).ready(function(){
+	/* $(document).ready(function(){
 		$("#goSalesReturnNull").on("click", function(){
 			
 			location.href="/";
 			alert("해당매장 사용자만 반품이 가능합니다.");
 		})
 		
-	}) 
+		//매장이 다르거나 sal_ip_cd가 RTN일떄 버튼 비활성화
+		
+		
+	})  */
 
 
 	$("#goSalesReturn").on("click", function(){
@@ -145,12 +144,20 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		var cust_no = $("#cust_no").val();
 		var sal_dt = $("#sal_dt").val();
 		var prt_cd = $("#prt_cd").val();
+		var memebr_prt_cd =$("#memebr_prt_cd").val();
 		var sal_no = $("#sal_no").val();
 		var user_id = $("#user_id").val();
 		
-		if(sal_tp_cd != 'SAL'){
+		
+		 if(sal_tp_cd != 'SAL'){
 			alert("이미 반품된 상품입니다.");
 			return false;
+		} 
+		 
+		 if(member_prt_cd != prt_cd){
+				//location.href="/";
+				alert("해당매장 사용자만 반품이 가능합니다.");
+				return false;
 		}
 	
 		console.log("여깁니다 =" ,salesReturnFrm);

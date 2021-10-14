@@ -14,197 +14,195 @@ body {
   color: #000;
 
 }
- 
 
+.mainTitle {
+  margin-left: 43px;
+  font-size: 19px;
+  font-weight: bold;
+}
 
-    .mainTitle {
-      margin-left: 43px;
-      font-size: 19px;
-      font-weight: bold;
-    }
+.firtBox {
+  border: 2px solid silver;
+  background: rgb(173, 190, 238);
+  width: 91%;
+  height: 75px;
+  margin-left: 38px;
+  margin-top: 20px;
+}
+.secondBox {
+  border: 2px solid silver;
+  
+  width: 91%;
+  height: 100px;
+  margin-left: 38px;
+  margin-top: 20px;
+}
 
-    .firtBox {
-      border: 2px solid silver;
-      background: rgb(173, 190, 238);
-      width: 91%;
-      height: 100px;
-      margin-left: 38px;
-      margin-top: 20px;
-    }
-    .secondBox {
-      border: 2px solid silver;
-      
-      width: 91%;
-      height: 100px;
-      margin-left: 38px;
-      margin-top: 20px;
-    }
+.tg {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-left: 44px;
+  width: 96%;
+  height: 100px;
+  margin-top: 14px;
 
-    .tg {
-      border-collapse: collapse;
-      border-spacing: 0;
-      margin-left: 44px;
-      width: 96%;
-      height: 100px;
-      margin-top: 14px;
+}
 
-    }
+.tk {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 97%;
+  margin-left: 43px;
+}
 
-    .tk {
-      border-collapse: collapse;
-      border-spacing: 0;
-      width: 97%;
-      margin-left: 43px;
-    }
+.tk td {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+  padding: 10px 5px;
+  word-break: normal;
+}
 
-    .tk td {
-      border-color: black;
-      border-style: solid;
-      border-width: 1px;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      overflow: hidden;
-      padding: 10px 5px;
-      word-break: normal;
-    }
+.tk th {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  overflow: hidden;
+  padding: 10px 5px;
+  word-break: normal;
+}
 
-    .tk th {
-      border-color: black;
-      border-style: solid;
-      border-width: 1px;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      font-weight: normal;
-      overflow: hidden;
-      padding: 10px 5px;
-      word-break: normal;
-    }
+.tk .tk-0pky {
+  border-color: inherit;
+  text-align: center;
+  vertical-align: top;
+  font-size: 15px;
+font-weight: bold;
+background-color: #f6b966;
+color: #ff5722;
+}
 
-    .tk .tk-0pky {
-      border-color: inherit;
-      text-align: center;
-      vertical-align: top;
-      font-size: 15px;
-    font-weight: bold;
-    background-color: #f6b966;
-    color: #ff5722;
-    }
+.tk .tk-0lax {
+  text-align: left;
+  vertical-align: top
+}
 
-    .tk .tk-0lax {
-      text-align: left;
-      vertical-align: top
-    }
+.tg td {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  padding: 4px;
+  word-break: normal;
+}
 
-    .tg td {
-      border-color: black;
-      border-style: solid;
-      border-width: 1px;
-      overflow: hidden;
-      padding: 4px;
-      word-break: normal;
-    }
+.tg th {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  overflow: hidden;
+  padding: 3px;
+  word-break: normal;
+  background-color: #cfcdcd;
+}
 
-    .tg th {
-      border-color: black;
-      border-style: solid;
-      border-width: 1px;
-      overflow: hidden;
-      padding: 3px;
-      word-break: normal;
-      background-color: #cfcdcd;
-    }
+.tg .tg-0pky {
+  border-color: inherit;
+  text-align: center;
+  /*vertical-align: top*/
+}
 
-    .tg .tg-0pky {
-      border-color: inherit;
-      text-align: center;
-      /*vertical-align: top*/
-    }
+#allSearchBtn {
+  width: 55px;
+  height: 50px;
+  float: right;
+  margin-top: 4px;
+  margin-right: 10px;
 
-    #allSearchBtn {
-      width: 55px;
-      height: 50px;
-      float: right;
-      margin-top: 4px;
-      margin-right: 10px;
+}
 
-    }
+#allSearchBtnNull {
+  width: 55px;
+  height: 50px;
+  float: right;
+  margin-top: 4px;
+  margin-right: 10px;
 
-    #allSearchBtnNull {
-      width: 55px;
-      height: 50px;
-      float: right;
-      margin-top: 4px;
-      margin-right: 10px;
+}
 
-    }
+.required:before {
+  content: "*";
+  display: inline-block;
+  color: red;
+  margin-left: -4px;
+}
 
-    .required:before {
-      content: "*";
-      display: inline-block;
-      color: red;
-      margin-left: -4px;
-    }
+#btn_reset {
+  border: none;
+  background: white;
+}
 
-    #btn_reset {
-      border: none;
-      background: white;
-    }
+#partnerSearchInputCd {
+  background: #dfdddd;
+}
 
-    #partnerSearchInputCd {
-      background: #dfdddd;
-    }
+#customSearchInputName {
+  background: #dfdddd;
+}
 
-    #customSearchInputName {
-      background: #dfdddd;
-    }
+.th {
+  margin-top: -8px;
+  width: 100%;
+  margin-left: 5px;
+  padding-left: 27px;
+}
 
-    .th {
-      margin-top: -8px;
-      width: 100%;
-      margin-left: 5px;
-      padding-left: 27px;
-    }
+#newCust {
+  float: right;
+  margin-top: 6px;
+  width: 171px;
+  height: 33px;
+  margin-right: 391px;
 
-    #newCust {
-      float: right;
-      margin-top: 6px;
-      width: 171px;
-      height: 33px;
-      margin-right: 391px;
+}
 
-    }
+aside {
+  float: right;
+  height: 204px;
+  margin-right: 75px;
+  margin-top: -843px;
+  width: 10%;
+}
+#adddeletBtn{
+    width: 103px;
+    margin-left: 89%;
+    margin-top: 8px;  
+}
 
-    aside {
-      float: right;
-      height: 204px;
-      margin-right: 75px;
-      margin-top: -843px;
-      width: 10%;
-    }
-    #adddeletBtn{
-        width: 103px;
-        margin-left: 89%;
-        margin-top: 8px;  
-    }
+.closeDev{
+border: 1px solid rgb(179, 171, 171);
+ background-color: rgb(228 219 219);
+width: 92%;
+height: 50px;
+margin-left: 38px;
 
-    .closeDev{
-    border: 1px solid rgb(179, 171, 171);
-     background-color: rgb(228 219 219);
-    width: 92%;
-    height: 50px;
-    margin-left: 38px;
-   
-    }
-    .closeBtn{
-    margin-left: 38%;
-        margin-top: 5px;
-        width: 90px;
-        height: 41px;
-    }
-    .submitBtn{
-        width: 90px;
-        height: 41px;
-    }
+}
+.closeBtn{
+margin-left: 38%;
+    margin-top: 5px;
+    width: 90px;
+    height: 41px;
+}
+.submitBtn{
+    width: 90px;
+    height: 41px;
+}
 #prd_nm1, #ivco_qty1{
 	border: none;
 	outline: none;

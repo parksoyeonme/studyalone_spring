@@ -454,8 +454,9 @@ public class SalesController {
 		 System.out.println("여기! : " + vld_ym);
 		 String vld_ym2 = "";
 		 if(vld_ym != "") {
-			 vld_ym2 = vld_ym.replaceAll("/", "").substring(2);			 
+			 vld_ym2 = vld_ym.replaceAll("/", "").substring(0,6);			 
 		 }
+		 System.out.println("vld_ym2 = " + vld_ym2);
 		 //String crd_no = "";
 		
 		 if(crd_no1 != "" && crd_no2 != "" && crd_no3 != "" && crd_no4 != "") {

@@ -485,7 +485,7 @@ public class CustomerController {
 			   customerHistoryVO.setChg_cd("CUST_NM");
 			   CustomerHistoryList.add(customerHistoryVO);
 		   }
-		   if(!CustomerList.get(0).getBrdy_dt().equals(brdy_dt2)) {
+		   if(!CustomerList.get(0).getBrdy_dt().equals(brdy_dt)) {
 			   customerHistoryVO = (CustomerHistoryVO) copyHistoryVO.clone();
 			   customerHistoryVO.setChg_bf_cnt(CustomerList.get(0).getBrdy_dt().replaceAll("-", ""));
 			   customerHistoryVO.setChg_aft_cnt(brdy_dt2);
