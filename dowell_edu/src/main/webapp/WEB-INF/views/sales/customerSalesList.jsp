@@ -50,7 +50,7 @@
 				    <td class="th-0lax"><span>고객번호</span></td>
              		<td class="th-0lax">
                			<input type="text" id="customSearchInputNo"  value= "">
-                 		<button type="button" style="margin-left: -7px; width: 21px;" onclick="openCustom()">
+                 		<button type="button" style="margin-left: -7px; width: 21px; " onclick="openCustom()">
                    			<i class="fas fa-search"></i>
                  		</button>
                			<input type="text" id="customSearchInputName" readonly>
@@ -62,8 +62,8 @@
 				</table>
 			</div>
 	        <button id="newCust" onclick="salesRegister();">판매등록</button>
-	        <div style="width: 82%; float:left;">
-				<table class="tg">
+	        <div style="width: 82%; float:left; height: 701px; overflow-y:auto;overflow-x:hidden;">
+				<table class="tg" id="salseListTtable">
               		<thead>
 	                	<tr>
 	                   		<th class="tg-0pky" rowspan="2">판매일자</th>
@@ -84,24 +84,11 @@
                  		</tr>
                		</thead>
                		<tbody id="salseListTBody" style="overflow-y:auto;overflow-x:hidden;">
-                 	
                		</tbody>
              	</table>
-            <!-- </div> -->
-             <!-- <div class="totaldiv" style="width:82%; height:58px;"> -->
+             	
 				<table class="tk" id="totalAmount">
 					<thead id="totalAmountThead">
-		            	<!-- <tr>
-		              		<td class="tk-0pky">
-		              			합계
-		              			<input type="text" value="0" id="sal">
-		              		</td>
-		              		<td class="tk-0pky">판매수량</td>
-		              		<td class="tk-0pky">판매금액</td>
-		              		<td class="tk-0pky">현금 </td>
-		              		<td class="tk-0pky">카드</td>
-		              		<td class="tk-0pky">포인트</td>
-		            	</tr> -->
 		          	</thead>
 		        </table>
 			 </div> 
@@ -112,43 +99,48 @@
     </aside>
 </body>
 <script type="text/javascript">
-//제이쿼리 달력  
-$(function () {
-    //시작일.
-    $('#fromDate').datepicker({
-      showOn: "both",
-      buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
-      dateFormat: "yy-mm-dd",
-      changeMonth: true,
-      changeYear: true,
-      yearRange: 'c-30:c+50',
-      //-30 현제 년도에서 30년전 +50 현재년도 50년후
-      onClose: function (selectedDate) {
-        if ($("#toDate").val() < selectedDate) {
-          $("#toDate").val(selectedDate);
-        }
-      }
-    });
-    //종료일
-    $('#toDate').datepicker({
-      showOn: "both",
-      buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
-      dateFormat: "yy-mm-dd",
-      changeMonth: true,
-      changeYear: true,
-      yearRange: 'c-100:c+10',
-      onClose: function (selectedDate) {
-        if ($("#fromDate").val() > selectedDate) {
-          $("#fromDate").val(selectedDate);
-        }
-      }
-    });
-    //초기값을 오늘 날짜로 설정
-    $('#fromDate').datepicker('setDate', '-7D');
-    $('#toDate').datepicker('setDate', 'today');
-  });
+	//초기화버튼
+	function refreshPage(){
+		location.href = "${pageContext.request.contextPath}/sales/customerSalesList";
+	} 
+	  
+	//제이쿼리 달력  
+	$(function () {
+	    //시작일.
+	    $('#fromDate').datepicker({
+	      showOn: "both",
+	      buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+	      dateFormat: "yy-mm-dd",
+	      changeMonth: true,
+	      changeYear: true,
+	      yearRange: 'c-30:c+50',
+	      //-30 현제 년도에서 30년전 +50 현재년도 50년후
+	      onClose: function (selectedDate) {
+	        if ($("#toDate").val() < selectedDate) {
+	          $("#toDate").val(selectedDate);
+	        }
+	      }
+	    });
+	    //종료일
+	    $('#toDate').datepicker({
+	      showOn: "both",
+	      buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+	      dateFormat: "yy-mm-dd",
+	      changeMonth: true,
+	      changeYear: true,
+	      yearRange: 'c-100:c+10',
+	      onClose: function (selectedDate) {
+	        if ($("#fromDate").val() > selectedDate) {
+	          $("#fromDate").val(selectedDate);
+	        }
+	      }
+	    });
+	    //초기값을 오늘 날짜로 설정
+	    $('#fromDate').datepicker('setDate', '-7D');
+	    $('#toDate').datepicker('setDate', 'today');
+	  });
   
-  //고객판매수금등록
+  	//고객판매수금등록
 	function salesRegister(){
 	 	window.name = "salesRegisterForm";
 	 	var custInquiryUrl = "${pageContext.request.contextPath}/sales/customerSalesRegister"
@@ -179,6 +171,18 @@ $(function () {
 	
 	}
 	
+	//고객번호 keyup
+	$("#customSearchInputNo").keyup(function(){
+		$("#customSearchInputName").val($(this).val());
+		$("#customSearchInputName").removeAttr("disabled");
+		
+	})
+	//매장 keyup
+	$("#partnerSearchInputName").keyup(function(){
+		$("#partnerSearchInputCd").val($(this).val());
+		$("#partnerSearchInputCd").removeAttr("disabled");
+		
+	})
 	
 	//전체조회
 	  function custSearchAllListBtn(){
@@ -223,20 +227,19 @@ $(function () {
 					 }else{
 			        	 for(var i =0; i < data.list.length; i++){
 			        		 console.log(i);
-			        		 //console.log("$$$$$$$$$$$ =" + data.list[i].prt_cd);
-			        		 tbodyHtml += ' <tr>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].sal_dt  +'<input type="hidden" id="sal_dt" value="'+data.list[i].sal_dt+'"></td>';
-			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].cust_no + '</td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: left;">'+ data.list[i].cust_nm + '<input type="hidden" id="prt_cd" value="'+data.list[i].prt_cd+'"></td>';
+			        		 tbodyHtml += ' <tr class="tableTr">';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: center;">' + data.list[i].sal_dt  +'<input type="hidden" id="sal_dt" value="'+data.list[i].sal_dt+'"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: center;">' + data.list[i].cust_no + '</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: left; ">'+ data.list[i].cust_nm + '<input type="hidden" id="prt_cd" value="'+data.list[i].prt_cd+'"></td>';
 			        		 tbodyHtml += '<td class="tg-0lax" style="border-right: 1px solid #ffffff; text-align: left;">' + data.list[i].sal_no + '<input type="hidden" id="sal_no" value="' + data.list[i].sal_no + '"></td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right; width: 5px;"><input type="button" style="width: 39px;" id="salesDetail"  value="상세" onclick="salesDetail('+ data.list[i].sal_no +','+'\''+ data.list[i].cust_no +'\''+','+'\''+ data.list[i].sal_dt +'\''+','+'\''+ data.list[i].prt_cd +'\''+')" /></td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].tot_sal_qty +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].tot_sal_amt +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].csh_stlm_amt +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].crd_stlm_amt +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].pnt_stlm_amt +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].user_nm +'</td>';
-			        		 tbodyHtml += '<td class="tg-0lax">'+ data.list[i].lst_upd_dt_time +'</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right; width: 5px;"><input type="button" style="width: 39px;" id="salesDetail"  value="상세" onclick="salesDetail('+ data.list[i].sal_no +','+'\''+ data.list[i].cust_no +'\''+','+'\''+ data.list[i].sal_dt +'\''+','+'\''+ data.list[i].prt_cd +'\''+','+'\''+ data.list[i].tot_sal_qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'\''+','+'\''+data.list[i].tot_sal_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'\''+','+'\''+ data.list[i].csh_stlm_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'\''+','+'\''+data.list[i].crd_stlm_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'\''+','+'\''+data.list[i].prt_nm+'\')" /></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].tot_sal_qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'<input type="hidden" id="ht_tot_sal_qty" value="data.list[i].tot_sal_qty"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].tot_sal_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'<input type="hidden" id="ht_tot_sal_amt" value="data.list[i].tot_sal_amt"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].csh_stlm_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'<input type="hidden" id="ht_csh_stlm_amt" value="data.list[i].csh_stlm_amt"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].crd_stlm_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'<input type="hidden" id="ht_crd_stlm_amt" value="data.list[i].crd_stlm_amt"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: right;">'+ data.list[i].pnt_stlm_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'<input type="hidden" id="ht_pnt_stlm_amt" value="data.list[i].pnt_stlm_amt"></td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: left;">'+ data.list[i].user_nm +'</td>';
+			        		 tbodyHtml += '<td class="tg-0lax" style="text-align: center;">'+ data.list[i].lst_upd_dt_time +'</td>';
 			        		 tbodyHtml += '</tr>';
 			        		 
 			        		 tot_sal_qty += data.list[i].tot_sal_qty;
@@ -254,11 +257,15 @@ $(function () {
 					 }
 		        	 tbody.append(tbodyHtml);
 		        	
-		        	 console.log("1111111111111 =" + tot_sal_qty);
-		        	// $amount.find($("#sal")).val(tot_sal_amt);
 		        	  amountHtml += ' <tr>';
-		        	  amountHtml += '<td class="tk-0pky" colspan="5">합계</td>';
-		        	  amountHtml += '<td class="tk-0pky" colspan="7">판매수량' + tot_sal_qty + '/판매금액' + tot_sal_amt + '/현금' + csh_stlm_amt + '/카드' + crd_stlm_amt + '/포인트' + pnt_stlm_amt + '</td>';
+		        	  amountHtml += '<td class="tk-0pky" style="width: 514px; text-align: center;">합계</td>';
+		        	  amountHtml += '<td class="tk-0pky" style="width: 65px;">' + tot_sal_qty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</td>';
+		        	  amountHtml += '<td class="tk-0pky" style="width: 134px;"> ' + tot_sal_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</td>';
+		        	  amountHtml += '<td class="tk-0pky" style="width: 135px;">' + csh_stlm_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</td>';
+		        	  amountHtml += '<td class="tk-0pky" style="width: 133px;">' + crd_stlm_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</td>';
+		        	  amountHtml += '<td class="tk-0pky" style="width: 90px;">' + pnt_stlm_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</td>';
+		        	  amountHtml += '<td class="tk-0pky"></td>';
+
 		        	  amountHtml += '</tr>'; 
 		        	  $amount.append(amountHtml);
 		         },
@@ -270,62 +277,18 @@ $(function () {
 	  	}
 	
 	
-	  /* window.name = "salesHistoryPopForm";   //salesHistory
-	  	 var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory?cust_no=" + cust_no;
-	  			 
-	  	 window.open(custHistoryUrl,
-	            "childForm", "width=780, height=702, resizable = no, scrollbars = no");
-	    */
-	
 	//salesDetail
 	//고객정보조회(상세버튼)
-   	function salesDetail(sal_no,cust_no,sal_dt,prt_cd){
+   	function salesDetail(sal_no,cust_no,sal_dt,prt_cd,tot_sal_qty,tot_sal_amt,csh_stlm_amt,crd_stlm_amt,prt_nm){
   		
-	    	
-	    	 console.log("셀넘버 =" + sal_no);
-	    	 console.log("날짜 =" + sal_dt);
-	    	 console.log("매장 =" + prt_cd);
-	    	 console.log("고객번호 =" + cust_no);
- 		
- 		
-  		/* var sal_no = $("#sal_no").val();
-  		 var prt_cd = $("#prt_cd").val();
-  		var sal_dt = $("#sal_dt").val(); */
   		 
   		 window.name = "salesHistoryPopForm";
-           var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory?sal_no="+sal_no+"&cust_no=" +cust_no+"&sal_dt="+sal_dt+"&prt_cd="+prt_cd;
+           var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory?sal_no="+sal_no+"&cust_no=" +cust_no+"&sal_dt="+sal_dt+"&prt_cd="+prt_cd+"&tot_sal_qty="+tot_sal_qty+"&tot_sal_amt="+tot_sal_amt+"&csh_stlm_amt="+csh_stlm_amt+"&crd_stlm_amt="+crd_stlm_amt+"&prt_nm="+prt_nm;
 	  	 window.open(custHistoryUrl,
 	             "childForm", "width=780, height=600, resizable = no, scrollbars = no");
-  		  
-  		
-   	 /*  var prt_cd = $("#prt_cd").val();
-  		var sal_dt = $("#sal_dt").val();
-  		
-	  	
-	  	  $.ajax({
-  	        
-  	        type:"post",
-  	        url:"${pageContext.request.contextPath}/sales/salesHistoryList",
-	  	    data : {
-		        "cust_no" : cust_no,
-		        "prt_cd" : prt_cd,
-		        "sal_dt" : sal_dt
-		       },
-  	        success:function(data){
-  	        	alert("#####성고오오옹");
-  	        	
-  	        	
-  	            //location.href = "${pageContext.request.contextPath}/sales/salesHistory";
-  	            
-  	            window.name = "salesHistoryPopForm";
-  	            var custHistoryUrl = "${pageContext.request.contextPath}/sales/salesHistory";
-  		  	 window.open(custHistoryUrl,
-  		             "childForm", "width=780, height=702, resizable = no, scrollbars = no");
-  		  	 
-  	        }                
-  	    });   */  
-	
 	}
+	
+	
 	
 </script>
 </html>

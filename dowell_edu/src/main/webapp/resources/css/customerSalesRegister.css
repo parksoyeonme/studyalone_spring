@@ -43,63 +43,63 @@ body {
   border-spacing: 0;
   margin-left: 44px;
   width: 96%;
-  height: 100px;
+  height: 60px;
   margin-top: 14px;
 
 }
 
 .tk {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 97%;
-  margin-left: 43px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 97%;
+	margin-left: 43px;
 }
 
 .tk td {
-  border-color: black;
-  border-style: solid;
-  border-width: 1px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  overflow: hidden;
-  padding: 10px 5px;
-  word-break: normal;
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	overflow: hidden;
+	padding: 10px 5px;
+	word-break: normal;
 }
 
 .tk th {
-  border-color: black;
-  border-style: solid;
-  border-width: 1px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  font-weight: normal;
-  overflow: hidden;
-  padding: 10px 5px;
-  word-break: normal;
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	overflow: hidden;
+	padding: 10px 5px;
+	word-break: normal;
 }
 
 .tk .tk-0pky {
-  border-color: inherit;
-  text-align: center;
-  vertical-align: top;
-  font-size: 15px;
-font-weight: bold;
-background-color: #f6b966;
-color: #ff5722;
+	border-color: inherit;
+	text-align: center;
+	vertical-align: top;
+	font-size: 15px;
+	font-weight: bold;
+	background-color: #f6b966;
+	color: #ff5722;
 }
 
 .tk .tk-0lax {
-  text-align: left;
-  vertical-align: top
+	text-align: left;
+	vertical-align: top
 }
 
 .tg td {
-  border-color: black;
-  border-style: solid;
-  border-width: 1px;
-  overflow: hidden;
-  padding: 4px;
-  word-break: normal;
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	overflow: hidden;
+	padding: 4px;
+	word-break: normal;
 }
 
 .tg th {
@@ -164,20 +164,20 @@ color: #ff5722;
 }
 
 #newCust {
-  float: right;
-  margin-top: 6px;
-  width: 171px;
-  height: 33px;
-  margin-right: 391px;
+	float: right;
+	margin-top: 6px;
+	width: 171px;
+	height: 33px;
+	margin-right: 391px;
 
 }
 
 aside {
-  float: right;
-  height: 204px;
-  margin-right: 75px;
-  margin-top: -843px;
-  width: 10%;
+	float: right;
+	height: 204px;
+	margin-right: 75px;
+	margin-top: -843px;
+	width: 10%;
 }
 #adddeletBtn{
     width: 103px;
@@ -186,15 +186,15 @@ aside {
 }
 
 .closeDev{
-border: 1px solid rgb(179, 171, 171);
- background-color: rgb(228 219 219);
-width: 92%;
-height: 50px;
-margin-left: 38px;
+	border: 1px solid rgb(179, 171, 171);
+	background-color: rgb(228 219 219);
+	width: 92%;
+	height: 50px;
+	margin-left: 38px;
 
 }
 .closeBtn{
-margin-left: 38%;
+	margin-left: 38%;
     margin-top: 5px;
     width: 90px;
     height: 41px;
@@ -219,10 +219,7 @@ margin-left: 38%;
     width: 120px;
 }
 
-.buy_sal{
-	border: 1px solid gray;
-	
-}
+
 #ivco_qty1, #prd_nm1{
 	text-align: right;
 	margin-left: 63px;
@@ -241,3 +238,20 @@ margin-left: 38%;
 	width: 112px;
 	color: #ff5722;
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.buy_sal{
+	border: 1px solid gray;
+	
+}
+

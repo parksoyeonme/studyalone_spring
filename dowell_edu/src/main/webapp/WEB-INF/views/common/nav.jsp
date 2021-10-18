@@ -155,7 +155,7 @@
 </style>
 <script type="text/javascript">
  $(document).ready(function(){
-	$("#detail, #list").on("click", function(){
+	$("#detail, #list, #sales").on("click", function(){
 		
 		location.href="/";
 		alert("로그인 후 사용가능합니다.");
@@ -199,28 +199,34 @@
 			<li >
 				<c:if test="${member == null}">
 					<a href= "/">
-						<i class="fa fa-gift"></i>
+						<i class="fas fa-info-circle"></i>
 						<strong id="detail">상세보기</strong>
 						<small >고객정보조회</small>
 					</a>
 				</c:if>
 				<c:if test="${member != null}">
 					<a href= "${pageContext.request.contextPath}/customer/CustomerDetail">
-						<i class="fa fa-gift"></i>
+						<i class="fas fa-info-circle"></i>
 						<strong>상세보기</strong>
 						<small >고객정보조회</small>
 					</a>
 				</c:if>
 			</li>
 			<li >
-				
-				
+				<c:if test="${member == null}">
+					<a href= "/">
+						<i class="fas fa-shopping-cart"></i>
+						<strong id="sales">고객판매관리</strong>
+						<small >판매조회</small>
+					</a>
+				</c:if>
+				<c:if test="${member != null}">
 					<a href= "${pageContext.request.contextPath}/sales/customerSalesList">
-						<i class="fa fa-gift"></i>
+						<i class="fas fa-shopping-cart"></i>
 						<strong>고객판매관리</strong>
 						<small >판매조회</small>
 					</a>
-				
+				</c:if>
 			</li>
 			<li>
 				<c:if test="${member != null}">

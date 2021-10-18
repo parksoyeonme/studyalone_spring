@@ -71,14 +71,14 @@ body {
 }
 
 .tk .tk-0pky {
-  border-color: inherit;
-  text-align: left;
-  vertical-align: top;
- padding-left: 223px;
+ 	 border-color: inherit;
+  	text-align: left;
+  	vertical-align: top;
     font-size: 15px;
     font-weight: bold;
     background-color: #f6b966;
-    color: #ff5722
+    color: #ff5722;
+    text-align: right;
 }
 
 .tk .tk-0lax {
@@ -170,6 +170,6 @@ aside {
   float: right;
   height: 204px;
   margin-right: 75px;
-  margin-top: -136px;
+  margin-top: -123px;
   width: 10%;
 }

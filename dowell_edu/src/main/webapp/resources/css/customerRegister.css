@@ -43,7 +43,7 @@
     overflow: hidden;
     padding: 10px 5px;
     word-break: normal;
-    text-align: center;
+    text-align: left;
     width: 50%;
 }
 .tg th {
@@ -94,7 +94,7 @@
 }
 #brdy_dt{
     width: 121px;
-    margin-left: 28px;
+    margin-left: 29px;
     background-color: #f3f3f3;
     border: 1px solid gray;
     
@@ -112,14 +112,14 @@
 }
 #mrrg_dt{
     width: 117px;
-    margin-left: 53px;
+    margin-left: 55px;
     background-color: #f3f3f3;
     border: 1px solid gray;
    
 }
 #zip_cd{
 	width: 63px;
-	margin-left: 52px;
+	margin-left: 71px;
 	background-color: #f3f3f3;
     border: 1px solid gray;
 }
@@ -130,7 +130,7 @@
 }
 #partnerSearchInputCd{
 	width: 56px;
-	margin-left: 53px;
+	margin-left: 76px;
 	background-color: #f3f3f3;
     border: 1px solid gray;
 }

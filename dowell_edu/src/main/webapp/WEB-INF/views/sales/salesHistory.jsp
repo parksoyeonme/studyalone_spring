@@ -36,19 +36,19 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 							  <tr>
 								<th class="tk-0lax">매장 :</th>
 								<th class="tk-0lax">
-									<span>${listHead[0].prt_cd}</span>
-									<span>${listHead[0].prt_nm}</span>
+									<span>${param.prt_cd}</span>
+									<span>${param.prt_nm}</span>
 								</th>
 								<th class="tk-0lax">고객번호 :</th>
 								<th class="tk-0lax">
-									<span>${listHead[0].cust_no}</span>
-									<span>${listHead[0].cust_nm}</span>
+									<span>${param.cust_no}</span>
+									<span>${param.cust_nm}</span>
 								</th>
 								<th class="tk-0lax">
-									<input type="hidden" id="cust_no" value="${listHead[0].cust_no}">
-									<input type="hidden" id="sal_dt" value="${listHead[0].sal_dt}">
-									<input type="hidden" id="prt_cd" value="${listHead[0].prt_cd}">
-									<input type="hidden" id="sal_no" value="${listHead[0].sal_no}">
+									<input type="hidden" id="cust_no" value="${param.cust_no}">
+									<input type="hidden" id="sal_dt" value="${param.sal_dt}">
+									<input type="hidden" id="prt_cd" value="${param.prt_cd}">
+									<input type="hidden" id="sal_no" value="${param.sal_no}">
 									<input type="hidden" id="user_id" value="${member.user_id}">
 									<input type="hidden" id="member_prt_cd" value="${member.prt_cd}">
 								</th>
@@ -59,14 +59,14 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 							  <tr>
 								<td class="tk-0lax">판매수량 :</td>
 								<td class="tk-0lax">
-									<span>${listHead[0].tot_sal_qty}</span>
+									<span>${param.tot_sal_qty}</span>
 								</td>
 								<td class="tk-0lax">판매금액 :</td>
-								<td class="tk-0lax">${listHead[0].tot_sal_amt}</td>
+								<td class="tk-0lax">${param.tot_sal_amt}</td>
 								<td class="tk-0lax">현금 :</td>
-								<td class="tk-0lax">${listHead[0].csh_stlm_amt}</td>
+								<td class="tk-0lax">${param.csh_stlm_amt}</td>
 								<td class="tk-0lax">카드 :</td>
-								<td class="tk-0lax">${listHead[0].crd_stlm_amt}</td>
+								<td class="tk-0lax">${param.crd_stlm_amt}</td>
 							  </tr>
 						 
 					</tbody>
@@ -89,7 +89,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 						 <c:forEach var="list" items="${list}">
 							<tr>
 								<td class="tg-0lax">
-									<input type="text" class="history" name="sal_no" value="${list.sal_no}" style="text-align: right; width: 30px;" readonly>
+									<input type="text" class="history" name="sal_no" value="${list.sal_seq}" style="width: 30px;" readonly>
 									<input type="hidden" id="sal_tp_cd" value="${list.sal_tp_cd}"> 
 								</td>
 								<td class="tg-0lax">
@@ -119,23 +119,28 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		
 		<div class="closeDev">
             <input type="button" class="closeBtn" value="닫기" onclick="window.close()">
-            <input type="button" class="submitBtn" value="반품" id="goSalesReturn" >
+            <c:if test="${(member.prt_cd == list[0].prt_cd) and (list[0].sal_tp_cd == 'SAL') }">
+            	<input type="button" class="submitBtn" value="반품" id="goSalesReturn" >
+            </c:if>
+            
        	</div>
 	</footer>
 </body>
 <script>
-//goSalesReturnNull
-	/* $(document).ready(function(){
-		$("#goSalesReturnNull").on("click", function(){
-			
-			location.href="/";
-			alert("해당매장 사용자만 반품이 가능합니다.");
-		})
-		
-		//매장이 다르거나 sal_ip_cd가 RTN일떄 버튼 비활성화
-		
-		
-	})  */
+function getParameter(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+var prt_cd = getParameter("prt_cd");
+var prt_nm = getParameter("prt_nm");
+var cust_no = getParameter("cust_no");
+var cust_nm = getParameter("cust_nm");
+var tot_sal_qty = getParameter("tot_sal_qty");
+var tot_sal_amt = getParameter("tot_sal_amt");
+var csh_stlm_amt = getParameter("csh_stlm_amt");
+var crd_stlm_amt = getParameter("crd_stlm_amt");
 
 
 	$("#goSalesReturn").on("click", function(){
@@ -144,49 +149,49 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		var cust_no = $("#cust_no").val();
 		var sal_dt = $("#sal_dt").val();
 		var prt_cd = $("#prt_cd").val();
-		var memebr_prt_cd =$("#memebr_prt_cd").val();
+		var member_prt_cd =$("#member_prt_cd").val();
 		var sal_no = $("#sal_no").val();
 		var user_id = $("#user_id").val();
-		
-		
+		console.log("member_prt_cd = " + member_prt_cd);
+		console.log("prt_cd = " + prt_cd);
 		 if(sal_tp_cd != 'SAL'){
 			alert("이미 반품된 상품입니다.");
 			return false;
 		} 
 		 
 		 if(member_prt_cd != prt_cd){
-				//location.href="/";
 				alert("해당매장 사용자만 반품이 가능합니다.");
 				return false;
 		}
 	
-		console.log("여깁니다 =" ,salesReturnFrm);
-	     $.ajax({
-	        url : "${pageContext.request.contextPath}/sales/salesReturn",
-	        type :"POST",
-	        dataType : "json",
-	        data : {
-	        	
-	        	"cust_no" : cust_no,
-	        	"sal_dt" : sal_dt,
-	        	"prt_cd" : prt_cd,
-	        	"sal_no" : sal_no,
-	        	"user_id" : user_id
-	        	
-	        },
-	        success : function(data){
-	       	 
-					alert("반품되었습니다.")
-				
-	            window.close();
-	       	 
-	        },
-	        error: function(xhr, status, error){
-	            alert("반품실패했습니다." + error);
-	        }
-	       
-	    }); 
-	    
+		 if(confirm("반품 하시겠습니까?")){
+		     $.ajax({
+		        url : "${pageContext.request.contextPath}/sales/salesReturn",
+		        type :"POST",
+		        dataType : "json",
+		        data : {
+		        	
+		        	"cust_no" : cust_no,
+		        	"sal_dt" : sal_dt,
+		        	"prt_cd" : prt_cd,
+		        	"sal_no" : sal_no,
+		        	"user_id" : user_id
+		        	
+		        },
+		        success : function(data){
+		       	 	alert("반품을 성공적으로 완료하였습니다.");
+		            window.close();
+		       	 
+		        },
+		        error: function(xhr, status, error){
+		            alert("반품실패했습니다." + error);
+		        }
+		       
+		    }); 
+		 }
+	     else { 
+	 			return false; 
+	 		}
 	});
 </script>
 

@@ -45,12 +45,15 @@ public class SalesIvcoMasterVO {
 	private String prd_ss_cd;
 	
 	private String user_id;
+	private int sal_qty;
 
-	public SalesIvcoMasterVO(String prt_cd, String prd_cd, int ivco_qty, String user_id) {
+	public SalesIvcoMasterVO(String prt_cd, String prd_cd, int ivco_qty, int sal_qty,String user_id) {
 		super();
+		
 		this.prt_cd = prt_cd;
 		this.prd_cd = prd_cd;
 		this.ivco_qty = ivco_qty;
+		this.sal_qty = sal_qty;
 		this.user_id = user_id;
 	}
     

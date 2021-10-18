@@ -60,12 +60,15 @@ public class SalesMasterVO {
 	private String cust_nm;
 	private String user_nm;
 	private String lst_upd_dt_time;
+	private int sal_seq;
 	
 	private String prd_cd;
 	private String prd_nm;
 	private String sal_qty;
 	private String sal_amt;
 	private String user_id;
+	
+
 	
 	public SalesMasterVO(String prt_cd, String sal_dt, int sal_no, String sal_tp_cd, int tot_sal_qty, int tot_sal_amt,
 			double tot_vos_amt, double tot_vat_amt, int csh_stlm_amt, int crd_stlm_amt, int pnt_stlm_amt,

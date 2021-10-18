@@ -69,9 +69,9 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                       </tr>
 		                       <tr>
 		                           <td class="tg-0lax" style="padding-top: 20px;">
-		                               <span class="required" style="padding-left: 30px; margin-right: 12px;">휴대폰번호</span>
+		                               <span class="required" style=" margin-right: 12px;">휴대폰번호</span>
 		                                   <input type="hidden" name="mbl_no" id="mbl_no">
-		                                   <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 10px;" required>
+		                                   <input type="text" name="mbl_no_first" id="mbl_no_first" maxlength="3" onKeyup="SetNum(this)" style="width: 47px; margin-left: 13px;" required>
 		                                   <input type="text" name="mbl_no_middle" id="mbl_no_middle" maxlength="4" onKeyup="SetNum(this)" style="width: 59px;" required>
 		                                   <input type="text" name="mbl_no_end" id="mbl_no_end" maxlength="4" onKeyup="SetNum(this)" style="width: 50px;" required>
 		                               <br/>
@@ -85,13 +85,13 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                       </tr>
 		                       <tr>
 		                           <td class="tg-0lax">
-		                               <span class="required" style="margin-left: -11px;">우편물수령</span>
+		                               <span class="required">우편물수령</span>
 		                               <input type="radio" name="psmt_grc_cd" style="margin-left: 40px;" value="H" checked required>자택
 		                               <input type="radio" name="psmt_grc_cd" style="margin-left: 36px;" value="O" required> 직장
 		                           </td>
 		                           <td class="tg-0lax">
-		                               <p style="padding-left: 49px; float:left; margin-top: 1px;">이메일</p>
-		                               <input type="text" id="email_first" name="email_first" style="margin-left: 51px; width: 45px;">@ 
+		                               <p style="float:left; margin-top: 1px;">이메일</p>
+		                               <input type="text" id="email_first" name="email_first" style="margin-left: 63px; width: 45px;">@ 
 		                               <input type="text" id="email_end" name="email_end" style="width: 112px;">
 		                               <br/>
 		                               <p id = "emailcheck" value="0" style="margin-top: 2px; height: 1px;"></p>
@@ -99,7 +99,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                       </tr>
 		                       <tr>
 									<td class="tg-0lax" colspan='2'>
-		                               <p style="float:left; margin-top: 6px; margin-left: 46px;">주소</p>
+		                               <p style="float:left; margin-top: 6px;">주소</p>
 		                               <input type="text" id="zip_cd" name="zip_cd">
 		                               <button type="button" style="width: 33px;">
 		                               		<i class="fas fa-search"></i>
@@ -115,7 +115,7 @@ MemberVO member = (MemberVO)session.getAttribute("member"); //session에 있는 
 		                               <input type="text" id="mrrg_dt" name="mrrg_dt">
 		                            </td>
 		                           <td class="tg-0lax">
-		                               <p class="required" style="float: left; margin-left: 58px; margin-top: 4px;">매장</p>
+		                               <p class="required" style="float: left; margin-top: 4px;">매장</p>
 		                               <input type="text"  id="partnerSearchInputCd" name="partnerSearchInputCd">
 		                               <button type="button" style="width: 33px;" onclick="prtBtn()">
 		                               		<i class="fas fa-search"></i>

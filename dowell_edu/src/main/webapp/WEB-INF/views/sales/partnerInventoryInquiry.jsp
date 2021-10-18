@@ -94,12 +94,10 @@ function getParameter(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 var countNo = getParameter("countNo");
-<%-- 위에 이거 선언해있어서 아래에서
- <% String countNo = request.getParameter("countNo"); %>
- <%=countNo%>이런식으로 쓰면된다. 
- https://bumcrush.tistory.com/122
- --%>
+<%-- 위에 이거 선언해있어서 아래에서 <% String countNo = request.getParameter("countNo"); %>
+ <%=countNo%>이런식으로 쓰면된다.  --%>
 	//엔터이벤트 -  작성 후 엔터 누르면 custSearch()작동
+	
 	 function show_enter(e){
 		 var prt_nm = document.getElementById("prd_cd").value;
 		 var prt_nm = document.getElementById("prt_cd").value;
@@ -113,11 +111,8 @@ var countNo = getParameter("countNo");
 	 function partnerInventorySearch(){
 	
 		var prt_cd = $("#prt_cd").val();
-		//prd_cd
 		var prd_cd= $("#prd_cd").val();
 		
-		console.log(prt_cd);
-		console.log(prd_cd);
 		$.ajax({
 			url: "<c:url value='/sales/partnerInvenInqList'/>",
 			 type: 'POST',
@@ -155,7 +150,7 @@ var countNo = getParameter("countNo");
 			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_csmr_upr + '</td>';
 			        		 tbodyHtml += '</tr>';
 		        	 	}
-		        		 if(data.list[i].ivco_qty == '0'){
+		        		 if(data.list[i].ivco_qty == '0' || data.list[i].prd_csmr_upr == '0'){
 			        		 tbodyHtml += ' <tr>';
 			        		 tbodyHtml += '<td class="tg-0lax"><input type="checkbox" disabled name="prdCheck" id="prdCheck" value="'+ data.list[i].prd_cd+'" onclick="checkOnly(this)"></td>';
 			        		 tbodyHtml += '<td class="tg-0lax">' + data.list[i].prd_cd + '<input type="hidden" id="prd_tp_cd" value="' + data.list[i].prd_tp_cd + '"></td>';
@@ -196,6 +191,7 @@ var countNo = getParameter("countNo");
 		   
 		}
 		$('#hide').attr('style', "display:none;");
+		
 	   <!-- 전달하기 버튼-->
 	   function goSalesRegisText(){
 		   var i = 0;
@@ -222,22 +218,17 @@ var countNo = getParameter("countNo");
 				  var td = tr.children();
 				  var prd_tp_cd = tr.children().children("#prd_tp_cd").val();
 				  var prd_ss_cd = tr.children().children("#prd_ss_cd").val();
-				  console.log(prd_tp_cd);
-				  console.log(prd_ss_cd);
+
 				  //체크된 row의 모든 값을 배열에 담는다
 				  rowData.push(tr.text());
 				  rowData.push(prd_tp_cd);
 				  rowData.push(prd_ss_cd);
-				  console.log("dddddd",rowData);
+
 				  //td.eq(0)은 체크박스이므로 rd.eq(1)의 값부터 가져온다.
 				  var prdCd = td.eq(1).text();
 				  var prdNm = td.eq(2).text();
 				  var ivcoQty = td.eq(3).text();
 				  var prdCsmrUpr = td.eq(4).text();
-				  console.log("나와줘4 = " + prdCd);
-	        		 console.log("나와줘5 = " + prdNm);
-	         		console.log("나와줘7 = " + ivcoQty);
-	         		console.log("나와줘8 = " + prdCsmrUpr);
 				 
 				  //가저온 값을 배열에 넣는다.
 				  tdArr.push(prdCd);
@@ -248,78 +239,36 @@ var countNo = getParameter("countNo");
 				 
 	
 			  })
-			  //console.log("느아아아아ㅏㅇ + " + rowData[1]);
-			  //prd_tp_cd상품유형코드 20: 견본품은 판매x
-			 /*  if(rowData[1] == '20'){
-				  alert("해당 상품은 구매하실 수 없습니다.(견본품)");
-				  return false;
-			  }
-			  if(rowData[2] == 'C'){
-				  alert("해당 상품은 구매하실 수 없습니다.(해지)");
-				  return false;
-			  }
-			  if(tdArr[2]  == '0'){
-				  alert("해당 상품은 구매하실 수 없습니다.(재고부족)");
-				  return false;
-			  }  */
-			  //prd_ss_cd 상품상태코드 C: 해지 판매x
-			  
-			  //opener.document.getElementById("prd_cd"+countNo).value
+			
+			  <!-- 고객판매수금등록 팝업창으로 정보 보내기 -->
+			  //고객판매수금등록의 table 길이
 				var totalRowCnt  = opener.$('#salTable > tbody tr').length;
-// 					opener.document.getElementById("salTable > tbody tr").length;
-				console.log(totalRowCnt);
-			 // opener.$('#salTable > tbody tr').length;
-			    //현재 클릭  
+
+			  	//현재 클릭  
 				var prd_cd_l = '';
+			  	
 			    //1번부터 i번까지 검사할   
 			    var prd_cd_j = '';
-			    	   //alert("성공")
-			    	  //중복된게 있을때
-			    	  for(var j = 1; j <= totalRowCnt; j++){
-		 		    	  console.log('i = ' + i);
-		 		    	  console.log('j = ' + j);
-		 		    	  console.log('l = ' + countNo);
-				    	  //현재 클릭된 val
+			    
+			    //중복된게 있을때
+			    for(var j = 1; j <= totalRowCnt; j++){
 
-				    	  //검사할 val ->1번부터 시작
-				    	  prd_cd_j = opener.$("#prd_cd" + j).val();
-				    	  //현재 클릭이 검사할꺼랑 다를때
-			    		  if(countNo != j){
-		 	    			  console.log(' 검사중! ');
-		 	    			 // console.log('현재 위치 입력한 값 = ' + prd_cd_l);
-		 	    			  console.log('검사할 위치 입력한 값 = ' + prd_cd_j);
-		 	    			  console.log('검사할 위치 입력한 값1 = ' + tdArr[0]);
-		 	    			  console.log('검사할 위치 입력한 값2 = ' + opener.$("#prd_nm" + j).val());
-			    			  //쿨릭이랑 검사한게 같고, 상품명이 공백이 아닐때 -> alert 하고 리턴
-			    			  if((tdArr[0] == prd_cd_j) && !(opener.$("#prd_nm" + j).val() == "")){
-			    				  console.log('여기 중복된곳');
-					    		  alert('중복된 정보입니다!');
-					    		  return;
-			    		  	  }
-			    	 	   }
-			    	   //console.log("나와아아아ㅏ" + prd_cd);
-			       }
+		    	  //검사할 val ->1번부터 시작
+		    	  prd_cd_j = opener.$("#prd_cd" + j).val();
+		    	  //현재 클릭이 검사할꺼랑 다를때
+	    		  if(countNo != j){
+	    			  //쿨릭이랑 검사한게 같고, 상품명이 공백이 아닐때 -> alert 하고 리턴
+	    			  if((tdArr[0] == prd_cd_j) && !(opener.$("#prd_nm" + j).val() == "")){
+	    				  alert('중복된 정보입니다!');
+			    		  return;
+	    		  	  }
+	    	 	   }
+			     }
 		    	   //중복된 정보가 없을때
 		   		  opener.document.getElementById("prd_cd"+countNo).value = tdArr[0];
 				  opener.document.getElementById("prd_nm"+countNo).value = tdArr[1];
 				  opener.document.getElementById("ivco_qty" + countNo).value = tdArr[2];
 			 	  opener.document.getElementById("prd_csmr_upr" + countNo).value = tdArr[3];			    	   
-			  
-			  
-			  
-				  //자식창의 체크값의 배열중 0, 1번째를 부모창으로 보낸다.
-			  
-				  /* for(int i= 0; i <=10; i++ ){
-					  opener.document.getElementById("prd_cd").value = tdArr[0]
-					  opener.document.getElementById("prd_nm").value = tdArr[1]
-					  opener.document.getElementById("ivco_qty").value = tdArr[2]
-					  
-				  } */
-				  
-				  
-			  /* console.log(tdArr[1]);
-			  console.log(tdArr[0]);
-			  console.log(tdArr[2]); */
 			  window.close()
 		   	}
 	   	}
